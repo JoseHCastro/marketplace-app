@@ -8,6 +8,9 @@ Instrucciones para instalar y configurar el proyecto.
 #Composer
 composer update
 
+#key
+php artisan key:generate
+
 # Migrar tablas y seeders
 php artisan migrate:fresh --seed
 
