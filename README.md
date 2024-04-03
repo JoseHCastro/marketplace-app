@@ -2,7 +2,7 @@
 
 ### 1. Instalación
 Instrucciones para instalar y configurar el proyecto.
-
+Primero configuren su archivo .env
 ```bash
 
 #Composer
