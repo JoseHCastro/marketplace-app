@@ -4,8 +4,7 @@
 Instrucciones para instalar y configurar el proyecto.
 
 ```bash
-# Clona el repositorio
-git clone https://github.com/tu-usuario/tu-repositorio.git
+
 #Composer
 composer update
 
