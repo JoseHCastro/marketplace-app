@@ -17,8 +17,8 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    //return view('welcome');
-    return view('homepage.404');
+    return view('welcome');
+    //return view('homepage.404');
 });
 
 Auth::routes();
