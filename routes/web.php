@@ -17,8 +17,8 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-    //return view('homepage.404');
+  //return view('welcome');
+  return view('homepage.index');
 });
 
 Auth::routes();
@@ -27,12 +27,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::view('test', 'test');
 Auth::routes();
 
-// Route::get('/home', function () {
-//     return view('home');
-// })->name('home')->middleware('auth');
+Route::get('/home', function () {
+  return view('home');
+})->name('home')->middleware('auth');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('users', UserController::class);
+  Route::resource('users', UserController::class);
 
-    //Poner aqui sus rutas Protegidas
+  //Poner aqui sus rutas Protegidas
 });
