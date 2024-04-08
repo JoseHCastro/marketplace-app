@@ -109,6 +109,7 @@
                     <li><a href="#">Productos</a></li>
                     <li><a href="#">Categorías</a></li>
                     <li><a href="#">Mi Cuenta</a></li>
+                    <li><a href="users">Panel Administrativo</a></li>
                 </ul>
             </nav>
         </div>

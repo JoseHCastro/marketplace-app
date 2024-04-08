@@ -393,6 +393,11 @@ return [
                 ]
             ],
         ],
+        [
+            'text' => 'Test',
+            'url' => 'test',
+            'icon' => 'fas fa-window-maximize',
+        ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
