@@ -23,16 +23,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::view('test', 'test');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::view('homepage', 'homepage');
 Auth::routes();
 
-// Route::get('/home', function () {
-//     return view('home');
-// })->name('home')->middleware('auth');
+Route::get('/home', function () {
+    return view('home');
+})->name('home')->middleware('auth');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', UserController::class);
-
+    
     //Poner aqui sus rutas Protegidas
 });
