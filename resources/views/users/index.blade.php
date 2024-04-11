@@ -1,69 +1,76 @@
-
 @extends('adminlte::page')
 
-@section('title', 'Index')
+@section('title', 'Usuarios')
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.1/css/responsive.bootstrap4.css">
+@endsection
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Gestionar Usuarios</h1>
+    <h1 class="m-0 text-dark">Usuarios</h1>
 @stop
 
 @section('content')
-    <div class="row">
-        <div class="col-12">
-            <a class="btn btn-dark ml-auto" href="{{ route('users.create') }}">Nuevo</a>
-            <div class="card">
-                @php
-                    $heads = [
-                        'ID',
-                        'Name',
-                        ['label' => 'E-mail', 'width' => 40],
-                        ['label' => 'Actions', 'no-export' => true, 'width' => 5],
-                    ];
+    <a class="btn btn-dark ml-auto" href="{{ route('users.create') }}">Nuevo</a>
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped" id="usersTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
 
-                    $config = [
-                        'data' => [],
-                        'order' => [[1, 'asc']],
-                        'columns' => [null, null, null, ['orderable' => false]],
-                    ];
-
-                    foreach ($users as $user) {
-                        $btnEdit =
-                            '<a href="' .
-                            route('users.edit', ['user' => $user->id]) .
-                            '" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
-                            <i class="fa fa-lg fa-fw fa-pen"></i>
-                        </a>';
-                        $btnDelete =
-                            '<form action="' .
-                            route('users.destroy', ['user' => $user->id]) .
-                            '" method="POST" class="d-inline">' .
-                            csrf_field() .
-                            method_field('DELETE') .
-                            '<button type="submit" class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
-                                    <i class="fa fa-lg fa-fw fa-trash"></i>
-                                </button>
-                            </form>';
-
-                        $config['data'][] = [
-                            $user->id,
-                            $user->name,
-                            $user->email,
-                            '<nobr>' . $btnEdit . $btnDelete . '</nobr>',
-                        ];
-                    }
-                @endphp
-
-                {{-- Minimal example / fill data using the component slot --}}
-                <x-adminlte-datatable id="table1" :heads="$heads">
-                    @foreach ($config['data'] as $row)
+                <tbody>
+                    @foreach ($users as $user)
                         <tr>
-                            @foreach ($row as $cell)
-                                <td>{!! $cell !!}</td>
-                            @endforeach
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>
+                                <a class="btn btn-warning" href="{{ route('users.edit', $user->id) }}">Editar</a>
+                                {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
+                                {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
+                                {!! Form::close() !!}
+                            </td>
                         </tr>
                     @endforeach
-                </x-adminlte-datatable>
-            </div>
+                </tbody>
+            </table>
         </div>
     </div>
-@stop
+@endsection
+
+@section('js')
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap4.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.1/js/dataTables.responsive.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.1/js/responsive.bootstrap4.js"></script>
+    <script>
+        new DataTable('#usersTable', {
+            responsive: true,
+            autoWidth: false,
+
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "Nada encontrado - disculpa",
+                "info": "Mostrando la página _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay registros disponibles",
+                "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                "search": "Buscar:",
+                "paginate": {
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            }
+        });
+    </script>
+
+@endsection
