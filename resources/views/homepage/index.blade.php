@@ -99,7 +99,7 @@
                                                 </div>
                                                 <div class="col-lg-3 single-mega-item">
                                                     <ul class="mega-menu-item">
-                                                        <li><a href="login.html">Log In <i data-feather="log-in"></i></a></li>
+                                                        <li><a href={{route('login')}}>Log In <i data-feather="log-in"></i></a></li>
                                                         <li><a href="sign-up.html">Registration <i data-feather="user-plus"></i></a></li>
                                                         <li><a href="forget.html">Forget Password <i data-feather="key"></i></a></li>
                                                         <li>
