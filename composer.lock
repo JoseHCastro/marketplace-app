@@ -1154,9 +1154,12 @@
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
                 "reference": "118c686992f4b90d4da6deaf0901315c337bbaf9"
+                "reference": "118c686992f4b90d4da6deaf0901315c337bbaf9"
             },
             "dist": {
                 "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/118c686992f4b90d4da6deaf0901315c337bbaf9",
+                "reference": "118c686992f4b90d4da6deaf0901315c337bbaf9",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/118c686992f4b90d4da6deaf0901315c337bbaf9",
                 "reference": "118c686992f4b90d4da6deaf0901315c337bbaf9",
                 "shasum": ""

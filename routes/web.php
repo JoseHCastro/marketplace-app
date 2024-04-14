@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EtiquetaController;
 use App\Http\Controllers\AnuncioController;
 
 /*
@@ -38,6 +39,11 @@ Route::group(['middleware' => ['auth']], function () {
 
   //Poner aqui sus rutas Protegidas
 
-  //--------------------anuncio-----------------------by alejandro
+  //--------------------anuncio-----------------------
   Route::resource('anuncios', AnuncioController::class);
+  Route::resource('users', UserController::class);
+
+  Route::resource('etiquetas', EtiquetaController::class);
+
+  //Poner aqui sus rutas Protegidas
 });

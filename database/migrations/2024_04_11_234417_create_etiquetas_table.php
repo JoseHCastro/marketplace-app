@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('etiquetas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->double('precio');            
+            $table->string('name');
+            $table->decimal('precio', 10, 2);
 
             $table->timestamps();
         });

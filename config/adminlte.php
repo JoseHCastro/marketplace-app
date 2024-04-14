@@ -363,7 +363,7 @@ return [
         [
           'text' => 'Gestionar Etiquetas',
           'icon' => 'fas fa-tags',
-          'url' => '#',
+          'url' => '/etiquetas',
         ]
       ],
     ],
