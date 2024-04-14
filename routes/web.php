@@ -1,10 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\EtiquetaController;
+use App\Http\Controllers\AnuncioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,24 +20,33 @@ use App\Http\Controllers\CategoryController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-    //return view('homepage.404');
+  //return view('welcome');
+  return view('homepage');
 });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::view('homepage', 'homepage');
 
 Auth::routes();
 
 Route::get('/home', function () {
-    return view('home');
+  return view('home');
 })->name('home')->middleware('auth');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('users', UserController::class);
+  Route::resource('users', UserController::class);
 
-    //Poner aqui sus rutas Protegidas
+  //Poner aqui sus rutas Protegidas
+
+  //--------------------anuncio-----------------------
+  Route::resource('anuncios', AnuncioController::class);
+  Route::resource('users', UserController::class);
+
+  Route::resource('etiquetas', EtiquetaController::class);
+
+  //Poner aqui sus rutas Protegidas
 });
 
 Route::group(['middleware' => ['web']], function () {
