@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AnuncioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,14 +26,18 @@ Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::view('homepage', 'homepage');
+
 Auth::routes();
 
 Route::get('/home', function () {
-    return view('home');
+  return view('home');
 })->name('home')->middleware('auth');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('users', UserController::class);
-    
-    //Poner aqui sus rutas Protegidas
+  Route::resource('users', UserController::class);
+
+  //Poner aqui sus rutas Protegidas
+
+  //--------------------anuncio-----------------------by alejandro
+  Route::resource('anuncios', AnuncioController::class);
 });

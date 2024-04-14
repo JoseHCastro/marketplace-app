@@ -353,7 +353,7 @@ return [
         [
           'text' => 'Gestionar Anuncios',
           'icon' => 'fas fa-window-maximize',
-          'url' => '#',
+          'url' => '/anuncios',
         ],
         [
           'text' => 'Gestionar Categorías',

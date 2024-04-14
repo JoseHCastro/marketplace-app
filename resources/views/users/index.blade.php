@@ -13,6 +13,7 @@
 
 @section('content')
     <a class="btn btn-dark ml-auto" href="{{ route('users.create') }}">Nuevo</a>
+    
     <div class="card">
         <div class="card-body">
             <table class="table table-striped" id="usersTable">
