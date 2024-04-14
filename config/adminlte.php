@@ -373,13 +373,15 @@ return [
       'submenu' => [
         [
           'text' => 'Gestionar apariencia de Anuncios',
+          'route' => 'servicios.index',
           'icon' => 'fas fa-cogs',
           'url' => '#',
         ],
         [
           'text' => 'Gestionar Notificaciones',
+          'route' => 'servicios.index',
           'icon' => 'fas fa-bell',
-          'url' => '#',
+          
         ],
         [
           'text' => 'Gestionar Banners',

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\ServiciosController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -17,22 +17,24 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-  //return view('welcome');
-  return view('homepage');
+    return view('homepage');
 });
 
 Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::view('homepage', 'homepage');
-Auth::routes();
-
+// Ruta para el inicio de sesión
 Route::get('/home', function () {
     return view('home');
 })->name('home')->middleware('auth');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', UserController::class);
-    
-    //Poner aqui sus rutas Protegidas
+
+    // Rutas para Servicios
+    Route::get('/servicios', [ServiciosController::class, 'index'])->name('servicios.index');
+    Route::get('/servicios/create', [ServiciosController::class, 'create'])->name('servicios.create');
+    Route::post('/servicios', [ServiciosController::class, 'store'])->name('servicios.store');
+    Route::get('/servicios/{servicio}/edit', [ServiciosController::class, 'edit'])->name('servicios.edit'); // Cambié {servicios} a {servicio}
+    Route::put('/servicios/{servicio}', [ServiciosController::class, 'update'])->name('servicios.update');
+    Route::delete('/servicios/{servicio}', [ServiciosController::class, 'destroy'])->name('servicios.destroy');
 });
