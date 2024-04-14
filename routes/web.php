@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +37,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Poner aqui sus rutas Protegidas
 });
+
+Route::group(['middleware' => ['web']], function () {
+    Route::resource('categoria', CategoryController::class)->parameters(['categoria' => 'categoria']);
+});
+
