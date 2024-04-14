@@ -358,7 +358,7 @@ return [
         [
           'text' => 'Gestionar Categorías',
           'icon' => 'fas fa-calculator',
-          'url' => '#',
+          'url' => '/categoria',
         ],
         [
           'text' => 'Gestionar Etiquetas',
