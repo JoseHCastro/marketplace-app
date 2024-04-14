@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EtiquetaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,8 @@ Route::get('/home', function () {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', UserController::class);
-    
+
+    Route::resource('etiquetas', EtiquetaController::class);
+
     //Poner aqui sus rutas Protegidas
 });
