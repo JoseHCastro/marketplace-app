@@ -41,7 +41,7 @@
                                 alt="nft-logo"></a>
                     </div>
                     <div class="mainmenu-wrapper">
-                       
+
                     </div>
                 </div>
                 <div class="header-right">
@@ -146,11 +146,11 @@
                     <p class="slide-disc" data-sal-delay="300" data-sal="slide-up" data-sal-duration="800">Descubre
                         nuevos productos</p>
                     <div class="button-group">
-                        <a class="btn btn-large btn-primary" href="#" data-sal-delay="400" data-sal="slide-up"
+                        <a class="btn btn-large btn-primary" href="login" data-sal-delay="400" data-sal="slide-up"
                             data-sal-duration="800">Iniciar sesion</a>
                         <a class="btn btn-large btn-primary-alta" href="create.html" data-sal-delay="500"
                             data-sal="slide-up" data-sal-duration="800">Crear</a>
-                    </div>  
+                    </div>
                 </div>
                 <div class="col-lg-5 col-md-6 col-sm-12 offset-lg-1">
                     <div class="slider-thumbnail">
@@ -961,8 +961,8 @@
                                 </button>
 
                                 <div class="share-btn-setting dropdown-menu dropdown-menu-end">
-                                    <button type="button" class="btn-setting-text share-text"
-                                        data-bs-toggle="modal" data-bs-target="#shareModal">
+                                    <button type="button" class="btn-setting-text share-text" data-bs-toggle="modal"
+                                        data-bs-target="#shareModal">
                                         Share
                                     </button>
                                     <button type="button" class="btn-setting-text report-text"

@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('etiquetas', function (Blueprint $table) {
+        Schema::create('categoria', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->decimal('precio', 10, 2);
-
+            $table->string('nombre');
+            $table->unsignedBigInteger('padre_id')->nullable();
+            $table->foreign('padre_id')->references('id')->on('categoria')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('etiquetas');
+        Schema::dropIfExists('categoria');
     }
 };

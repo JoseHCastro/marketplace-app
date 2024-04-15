@@ -353,17 +353,17 @@ return [
         [
           'text' => 'Gestionar Anuncios',
           'icon' => 'fas fa-window-maximize',
-          'url' => '#',
+          'url' => '/anuncios',
         ],
         [
           'text' => 'Gestionar Categorías',
           'icon' => 'fas fa-calculator',
-          'url' => '#',
+          'url' => '/categoria',
         ],
         [
           'text' => 'Gestionar Etiquetas',
           'icon' => 'fas fa-tags',
-          'url' => '#',
+          'url' => '/etiquetas',
         ]
       ],
     ],
