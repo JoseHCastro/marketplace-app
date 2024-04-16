@@ -35,16 +35,18 @@
             <div class="header-inner">
                 <div class="header-left">
                     <div class="logo-thumbnail logo-custom-css">
-                        <a class="logo-light" href="homepage"><img
+                        <a class="logo-light" href="/"><img
                                 src="{{ asset('assets/images/logo/logo-white.png') }}" alt="nft-logo"></a>
-                        <a class="logo-dark" href="homepage"><img src="{{ asset('assets/images/logo/logo-dark.png') }}"
+                        <a class="logo-dark" href="/"><img src="{{ asset('assets/images/logo/logo-dark.png') }}"
                                 alt="nft-logo"></a>
-                    </div>
-                    <div class="mainmenu-wrapper">
-
                     </div>
                 </div>
                 <div class="header-right">
+                    @guest
+                        <div class="setting-option">
+                            <a href="{{ route('login') }}" class="btn btn-primary">Iniciar sesión</a>
+                        </div>
+                    @endguest
                     <div class="setting-option d-none d-lg-block">
                         <form class="search-form-wrapper" action="#">
                             <input type="search" placeholder="Search Here" aria-label="Search">
@@ -64,28 +66,35 @@
                             </div>
                         </form>
                     </div>
-                    <div class="setting-option rn-icon-list notification-badge" id="header_admin">
-                        <div class="setting-option rn-icon-list user-account">
-                            <div class="icon-box">
-                                <a href="home"><img src="{{ asset('assets/images/icons/boy-avater.png') }}"
-                                        alt="Images"></a>
-                                <div class="rn-dropdown">
-                                    <div class="rn-inner-top">
-                                        <h4 class="title"><a href="product-details.html">Nombre de usuario</a></h4>
-                                        <span><a href="#">Nombre</a></span>
+                    @auth
+                        <div class="setting-option rn-icon-list notification-badge" id="header_admin">
+                            <div class="setting-option rn-icon-list user-account">
+                                <div class="icon-box">
+                                    <a href="#"><img src="{{ asset('assets/images/icons/boy-avater.png') }}"
+                                            alt="Images"></a>
+                                    <div class="rn-dropdown">
+                                        <div class="rn-inner-top">
+                                            <h4 class="title"><a href="product-details.html">Nombre de usuario</a></h4>
+                                            <span><a href="#">Nombre</a></span>
+                                        </div>
+                                        <ul class="list-inner">
+                                            <li><a href="author.html">Mi perfil</a></li>
+                                            <li><a href="home">Panel Admin</a></li>
+                                            <li><a href="edit-profile.html">Editar perfil</a></li>
+                                            <li><a href="connect.html">Mis publicaciones</a></li>
+                                            <li><a href="{{ route('logout') }}"
+                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar
+                                                    sesión</a></li>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                            </form>
+                                        </ul>
                                     </div>
-                                    <ul class="list-inner">
-                                        <li><a href="author.html">Mi perfil</a></li>
-                                        <li><a href="edit-profile.html">Edit Profile</a></li>
-                                        <li><a href="connect.html">Mis publicaciones</a></li>
-                                        <li><a href="login.html">Sign Out</a></li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
+                    @endauth
                     <div class="setting-option mobile-menu-bar d-block d-xl-none">
                         <div class="hamberger">
                             <button class="hamberger-button">
@@ -110,20 +119,19 @@
                             </li>
                         </ul>
                     </div>
-
-
                 </div>
             </div>
         </div>
     </header>
+
     <!-- End Header Area -->
     <div class="popup-mobile-menu">
         <div class="inner">
             <div class="header-top">
                 <div class="logo logo-custom-css">
-                    <a class="logo-light" href="homepage"><img
+                    <a class="logo-light" href="/"><img
                             src="{{ asset('assets/images/logo/logo-white.png') }}" alt="nft-logo"></a>
-                    <a class="logo-dark" href="homepage"><img src="{{ asset('assets/images/logo/logo-dark.png') }}"
+                    <a class="logo-dark" href="/"><img src="{{ asset('assets/images/logo/logo-dark.png') }}"
                             alt="nft-logo"></a>
                 </div>
                 <div class="close-menu">
@@ -146,8 +154,12 @@
                     <p class="slide-disc" data-sal-delay="300" data-sal="slide-up" data-sal-duration="800">Descubre
                         nuevos productos</p>
                     <div class="button-group">
-                        <a class="btn btn-large btn-primary" href="login" data-sal-delay="400" data-sal="slide-up"
-                            data-sal-duration="800">Iniciar sesion</a>
+                        @guest
+
+
+                            <a class="btn btn-large btn-primary" href="login" data-sal-delay="400" data-sal="slide-up"
+                                data-sal-duration="800">Iniciar sesion</a>
+                        @endguest
                         <a class="btn btn-large btn-primary-alta" href="create.html" data-sal-delay="500"
                             data-sal="slide-up" data-sal-duration="800">Crear</a>
                     </div>
@@ -173,197 +185,73 @@
             <div class="row mb--50 align-items-center">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                     <h3 class="title mb--0" data-sal-delay="150" data-sal="slide-up" data-sal-duration="800">
-                        Categorias</h3>
+                        Categorías</h3>
                 </div>
-
             </div>
             <div class="row g-5">
-                <!-- start single product -->
-                <div data-sal="slide-up" data-sal-delay="150" data-sal-duration="800"
-                    class="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="product-style-one no-overlay">
-                        <div class="card-thumbnail">
-                            <a href="product-details.html"><img
-                                    src="{{ asset('assets/images/portfolio/portfolio-01.jpg') }}"
-                                    alt="NFT_portfolio"></a>
-                        </div>
-                        <div class="product-share-wrapper">
-                            <div class="profile-share">
-                                <a href="author.html" class="avatar" data-tooltip="Jone lee"><img
-                                        src="{{ asset('assets/images/client/client-1.png') }}" alt="Nft_Profile"></a>
-                                <a href="author.html" class="avatar" data-tooltip="Jone Due"><img
-                                        src="{{ asset('assets/images/client/client-2.png') }}" alt="Nft_Profile"></a>
-                                <a href="author.html" class="avatar" data-tooltip="Nisat Tara"><img
-                                        src="{{ asset('assets/images/client/client-3.png') }}" alt="Nft_Profile"></a>
-                                <a class="more-author-text" href="#">9+ Place Bit.</a>
+                @foreach($categorias as $categoria)
+                    <!-- start single product -->
+                    <div data-sal="slide-up" data-sal-delay="150" data-sal-duration="800"
+                         class="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="product-style-one no-overlay">
+                            <div class="card-thumbnail">
+                                <a href="product-details.html"><img
+                                        src="{{ asset('assets/images/portfolio/portfolio-01.jpg') }}"
+                                        alt="NFT_portfolio"></a>
                             </div>
-                            <div class="share-btn share-btn-activation dropdown">
-                                <button class="icon" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <svg viewBox="0 0 14 4" fill="none" width="16" height="16"
-                                        class="sc-bdnxRM sc-hKFxyN hOiKLt">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M3.5 2C3.5 2.82843 2.82843 3.5 2 3.5C1.17157 3.5 0.5 2.82843 0.5 2C0.5 1.17157 1.17157 0.5 2 0.5C2.82843 0.5 3.5 1.17157 3.5 2ZM8.5 2C8.5 2.82843 7.82843 3.5 7 3.5C6.17157 3.5 5.5 2.82843 5.5 2C5.5 1.17157 6.17157 0.5 7 0.5C7.82843 0.5 8.5 1.17157 8.5 2ZM11.999 3.5C12.8274 3.5 13.499 2.82843 13.499 2C13.499 1.17157 12.8274 0.5 11.999 0.5C11.1706 0.5 10.499 1.17157 10.499 2C10.499 2.82843 11.1706 3.5 11.999 3.5Z"
-                                            fill="currentColor"></path>
-                                    </svg>
-                                </button>
-
-                                <div class="share-btn-setting dropdown-menu dropdown-menu-end">
-                                    <button type="button" class="btn-setting-text share-text" data-bs-toggle="modal"
-                                        data-bs-target="#shareModal">
-                                        Share
-                                    </button>
-                                    <button type="button" class="btn-setting-text report-text"
-                                        data-bs-toggle="modal" data-bs-target="#reportModal">
-                                        Report
-                                    </button>
+                            <div class="product-share-wrapper">
+                                <div class="profile-share">
+                                    <a href="author.html" class="avatar" data-tooltip="Jone lee"><img
+                                            src="{{ asset('assets/images/client/client-1.png') }}" alt="Nft_Profile"></a>
+                                    <a href="author.html" class="avatar" data-tooltip="Jone Due"><img
+                                            src="{{ asset('assets/images/client/client-2.png') }}" alt="Nft_Profile"></a>
+                                    <a href="author.html" class="avatar" data-tooltip="Nisat Tara"><img
+                                            src="{{ asset('assets/images/client/client-3.png') }}" alt="Nft_Profile"></a>
+                                    <a class="more-author-text" href="#">9+ Place Bit.</a>
                                 </div>
-
+                                <div class="share-btn share-btn-activation dropdown">
+                                    <button class="icon" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg viewBox="0 0 14 4" fill="none" width="16" height="16"
+                                            class="sc-bdnxRM sc-hKFxyN hOiKLt">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M3.5 2C3.5 2.82843 2.82843 3.5 2 3.5C1.17157 3.5 0.5 2.82843 0.5 2C0.5 1.17157 1.17157 0.5 2 0.5C2.82843 0.5 3.5 1.17157 3.5 2ZM8.5 2C8.5 2.82843 7.82843 3.5 7 3.5C6.17157 3.5 5.5 2.82843 5.5 2C5.5 1.17157 6.17157 0.5 7 0.5C7.82843 0.5 8.5 1.17157 8.5 2ZM11.999 3.5C12.8274 3.5 13.499 2.82843 13.499 2C13.499 1.17157 12.8274 0.5 11.999 0.5C11.1706 0.5 10.499 1.17157 10.499 2C10.499 2.82843 11.1706 3.5 11.999 3.5Z"
+                                                fill="currentColor"></path>
+                                        </svg>
+                                    </button>
+                                    <div class="share-btn-setting dropdown-menu dropdown-menu-end">
+                                        <button type="button" class="btn-setting-text share-text" data-bs-toggle="modal"
+                                                data-bs-target="#shareModal">
+                                            Share
+                                        </button>
+                                        <button type="button" class="btn-setting-text report-text"
+                                                data-bs-toggle="modal" data-bs-target="#reportModal">
+                                            Report
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <a href="product-details.html"><span class="product-name">Categoria 1</span></a>
-                        <span class="latest-bid">Descripcion</span>
-                        <div class="bid-react-area">
-                            <div class="last-bid">Precio :</div>
-                            <div class="react-area">
-                                <svg viewBox="0 0 17 16" fill="none" width="16" height="16"
-                                    class="sc-bdnxRM sc-hKFxyN kBvkOu">
-                                    <path
-                                        d="M8.2112 14L12.1056 9.69231L14.1853 7.39185C15.2497 6.21455 15.3683 4.46116 14.4723 3.15121V3.15121C13.3207 1.46757 10.9637 1.15351 9.41139 2.47685L8.2112 3.5L6.95566 2.42966C5.40738 1.10976 3.06841 1.3603 1.83482 2.97819V2.97819C0.777858 4.36443 0.885104 6.31329 2.08779 7.57518L8.2112 14Z"
-                                        stroke="currentColor" stroke-width="2"></path>
-                                </svg>
-                                {{-- <span class="number">322</span> --}}
+                            <a href="product-details.html"><span class="product-name">{{ $categoria->nombre }}</span></a>
+                            <span class="latest-bid">{{ $categoria->descripcion }}</span>
+                            <div class="bid-react-area">
+                                <div class="last-bid">Precio: {{ $categoria->precio }}</div>
+                                <div class="react-area">
+                                    <svg viewBox="0 0 17 16" fill="none" width="16" height="16"
+                                        class="sc-bdnxRM sc-hKFxyN kBvkOu">
+                                        <path
+                                            d="M8.2112 14L12.1056 9.69231L14.1853 7.39185C15.2497 6.21455 15.3683 4.46116 14.4723 3.15121V3.15121C13.3207 1.46757 10.9637 1.15351 9.41139 2.47685L8.2112 3.5L6.95566 2.42966C5.40738 1.10976 3.06841 1.3603 1.83482 2.97819V2.97819C0.777858 4.36443 0.885104 6.31329 2.08779 7.57518L8.2112 14Z"
+                                            stroke="currentColor" stroke-width="2"></path>
+                                    </svg>
+                                    <!-- <span class="number">322</span> -->
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- end single product -->
-                <!-- start single product -->
-                <div data-sal="slide-up" data-sal-delay="300" data-sal-duration="800"
-                    class="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="product-style-one no-overlay">
-                        <div class="card-thumbnail">
-                            <a href="product-details.html"><img
-                                    src="{{ asset('assets/images/portfolio/portfolio-04.jpg') }}"
-                                    alt="NFT_portfolio"></a>
-                        </div>
-                        <div class="product-share-wrapper">
-                            <div class="profile-share">
-                                <a href="author.html" class="avatar" data-tooltip="Jone lee"><img
-                                        src="{{ asset('assets/images/client/client-1.png') }}" alt="Nft_Profile"></a>
-                                <a href="author.html" class="avatar" data-tooltip="Jone lee"><img
-                                        src="{{ asset('assets/images/client/client-3.png') }}" alt="Nft_Profile"></a>
-                                <a href="author.html" class="avatar" data-tooltip="Jone lee"><img
-                                        src="{{ asset('assets/images/client/client-5.png') }}" alt="Nft_Profile"></a>
-                                <a class="more-author-text" href="#">8+ Place Bit.</a>
-                            </div>
-                            <div class="share-btn share-btn-activation dropdown">
-                                <button class="icon" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <svg viewBox="0 0 14 4" fill="none" width="16" height="16"
-                                        class="sc-bdnxRM sc-hKFxyN hOiKLt">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M3.5 2C3.5 2.82843 2.82843 3.5 2 3.5C1.17157 3.5 0.5 2.82843 0.5 2C0.5 1.17157 1.17157 0.5 2 0.5C2.82843 0.5 3.5 1.17157 3.5 2ZM8.5 2C8.5 2.82843 7.82843 3.5 7 3.5C6.17157 3.5 5.5 2.82843 5.5 2C5.5 1.17157 6.17157 0.5 7 0.5C7.82843 0.5 8.5 1.17157 8.5 2ZM11.999 3.5C12.8274 3.5 13.499 2.82843 13.499 2C13.499 1.17157 12.8274 0.5 11.999 0.5C11.1706 0.5 10.499 1.17157 10.499 2C10.499 2.82843 11.1706 3.5 11.999 3.5Z"
-                                            fill="currentColor"></path>
-                                    </svg>
-                                </button>
-
-                                <div class="share-btn-setting dropdown-menu dropdown-menu-end">
-                                    <button type="button" class="btn-setting-text share-text" data-bs-toggle="modal"
-                                        data-bs-target="#shareModal">
-                                        Share
-                                    </button>
-                                    <button type="button" class="btn-setting-text report-text"
-                                        data-bs-toggle="modal" data-bs-target="#reportModal">
-                                        Report
-                                    </button>
-                                </div>
-
-                            </div>
-                        </div>
-                        <a href="product-details.html"><span class="product-name">Categoria 2</span></a>
-                        <span class="latest-bid">Descripcion</span>
-                        <div class="bid-react-area">
-                            <div class="last-bid">Precio: 00</div>
-                            <div class="react-area">
-                                <svg viewBox="0 0 17 16" fill="none" width="16" height="16"
-                                    class="sc-bdnxRM sc-hKFxyN kBvkOu">
-                                    <path
-                                        d="M8.2112 14L12.1056 9.69231L14.1853 7.39185C15.2497 6.21455 15.3683 4.46116 14.4723 3.15121V3.15121C13.3207 1.46757 10.9637 1.15351 9.41139 2.47685L8.2112 3.5L6.95566 2.42966C5.40738 1.10976 3.06841 1.3603 1.83482 2.97819V2.97819C0.777858 4.36443 0.885104 6.31329 2.08779 7.57518L8.2112 14Z"
-                                        stroke="currentColor" stroke-width="2"></path>
-                                </svg>
-                                {{-- <span class="number">20</span> --}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- end single product -->
-
-
-
-
-                <!-- start single product -->
-                <div data-sal="slide-up" data-sal-delay="300" data-sal-duration="800"
-                    class="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="product-style-one no-overlay">
-                        <div class="card-thumbnail">
-                            <a href="product-details.html"><img
-                                    src="{{ asset('assets/images/portfolio/portfolio-04.jpg') }}"
-                                    alt="NFT_portfolio"></a>
-                        </div>
-                        <div class="product-share-wrapper">
-                            <div class="profile-share">
-                                <a href="author.html" class="avatar" data-tooltip="Jone lee"><img
-                                        src="{{ asset('assets/images/client/client-1.png') }}" alt="Nft_Profile"></a>
-                                <a href="author.html" class="avatar" data-tooltip="Jone lee"><img
-                                        src="{{ asset('assets/images/client/client-3.png') }}" alt="Nft_Profile"></a>
-                                <a href="author.html" class="avatar" data-tooltip="Jone lee"><img
-                                        src="{{ asset('assets/images/client/client-5.png') }}" alt="Nft_Profile"></a>
-                                <a class="more-author-text" href="#">8+ Place Bit.</a>
-                            </div>
-                            <div class="share-btn share-btn-activation dropdown">
-                                <button class="icon" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <svg viewBox="0 0 14 4" fill="none" width="16" height="16"
-                                        class="sc-bdnxRM sc-hKFxyN hOiKLt">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M3.5 2C3.5 2.82843 2.82843 3.5 2 3.5C1.17157 3.5 0.5 2.82843 0.5 2C0.5 1.17157 1.17157 0.5 2 0.5C2.82843 0.5 3.5 1.17157 3.5 2ZM8.5 2C8.5 2.82843 7.82843 3.5 7 3.5C6.17157 3.5 5.5 2.82843 5.5 2C5.5 1.17157 6.17157 0.5 7 0.5C7.82843 0.5 8.5 1.17157 8.5 2ZM11.999 3.5C12.8274 3.5 13.499 2.82843 13.499 2C13.499 1.17157 12.8274 0.5 11.999 0.5C11.1706 0.5 10.499 1.17157 10.499 2C10.499 2.82843 11.1706 3.5 11.999 3.5Z"
-                                            fill="currentColor"></path>
-                                    </svg>
-                                </button>
-
-                                <div class="share-btn-setting dropdown-menu dropdown-menu-end">
-                                    <button type="button" class="btn-setting-text share-text" data-bs-toggle="modal"
-                                        data-bs-target="#shareModal">
-                                        Share
-                                    </button>
-                                    <button type="button" class="btn-setting-text report-text"
-                                        data-bs-toggle="modal" data-bs-target="#reportModal">
-                                        Report
-                                    </button>
-                                </div>
-
-                            </div>
-                        </div>
-                        <a href="product-details.html"><span class="product-name">Categoria 3</span></a>
-                        <span class="latest-bid">Descripcion</span>
-                        <div class="bid-react-area">
-                            <div class="last-bid">Precio</div>
-                            <div class="react-area">
-                                <svg viewBox="0 0 17 16" fill="none" width="16" height="16"
-                                    class="sc-bdnxRM sc-hKFxyN kBvkOu">
-                                    <path
-                                        d="M8.2112 14L12.1056 9.69231L14.1853 7.39185C15.2497 6.21455 15.3683 4.46116 14.4723 3.15121V3.15121C13.3207 1.46757 10.9637 1.15351 9.41139 2.47685L8.2112 3.5L6.95566 2.42966C5.40738 1.10976 3.06841 1.3603 1.83482 2.97819V2.97819C0.777858 4.36443 0.885104 6.31329 2.08779 7.57518L8.2112 14Z"
-                                        stroke="currentColor" stroke-width="2"></path>
-                                </svg>
-                                {{-- <span class="number">20</span> --}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- end single product -->
-
-
+                    <!-- end single product -->
+                @endforeach
             </div>
         </div>
     </div>
+    
     <!-- New items End -->
     <!-- top top-seller start -->
 

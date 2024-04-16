@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "content-hash": "1f37471f3048483f602c470908589144",
-=======
     "content-hash": "6d7445ddc8a6b40c808db58f5262109c",
->>>>>>> 368dd36f36f1a6c5b07f2a8b81d96d7150176640
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -7231,18 +7227,6 @@
         },
         {
             "name": "phpunit/phpunit",
-<<<<<<< HEAD
-            "version": "10.5.17",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c1f736a473d21957ead7e94fcc029f571895abf5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c1f736a473d21957ead7e94fcc029f571895abf5",
-                "reference": "c1f736a473d21957ead7e94fcc029f571895abf5",
-=======
             "version": "10.5.18",
             "source": {
                 "type": "git",
@@ -7253,7 +7237,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/835df1709ac6c968ba34bf23f3c30e5d5a266de8",
                 "reference": "835df1709ac6c968ba34bf23f3c30e5d5a266de8",
->>>>>>> 368dd36f36f1a6c5b07f2a8b81d96d7150176640
                 "shasum": ""
             },
             "require": {
@@ -7325,11 +7308,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-<<<<<<< HEAD
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.17"
-=======
                 "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.18"
->>>>>>> 368dd36f36f1a6c5b07f2a8b81d96d7150176640
             },
             "funding": [
                 {
@@ -7345,11 +7324,7 @@
                     "type": "tidelift"
                 }
             ],
-<<<<<<< HEAD
-            "time": "2024-04-05T04:39:01+00:00"
-=======
             "time": "2024-04-14T07:05:31+00:00"
->>>>>>> 368dd36f36f1a6c5b07f2a8b81d96d7150176640
         },
         {
             "name": "sebastian/cli-parser",
@@ -8705,5 +8680,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }

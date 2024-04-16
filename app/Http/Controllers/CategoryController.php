@@ -8,6 +8,8 @@ use App\Models\Categoria;
 class CategoryController extends Controller
 {
     // Listar categorías
+
+
     public function index() {
         $categorias = Categoria::with('subcategoria')->whereNull('padre_id')->get();
         return view('categoria.index', compact('categorias'));

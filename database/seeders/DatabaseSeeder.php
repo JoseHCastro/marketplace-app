@@ -21,14 +21,9 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-<<<<<<< HEAD
-        $this->call(UserSeeder::class);
-        servicios::Factory(8)->create();
-=======
         $this->call([
             UserSeeder::class,
             EtiquetaSeeder::class,
         ]);
->>>>>>> 8fd95c8b5faf3ce5edd3ef8875e6f4a891123bfc
     }
 }
