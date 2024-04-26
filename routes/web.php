@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AnuncioController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EtiquetaController;
+use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\ServiciosController;
 
 /*
@@ -21,16 +22,9 @@ use App\Http\Controllers\ServiciosController;
 |
 */
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-/* 
-Route::get('/home', function () {
-  return view('home');
-})->name('home')->middleware('auth'); */
-
-Route::get('/', function () {
-  return view('homepage');
-});
+//Ruta para la HomePage
+Route::get('/', [HomePageController::class, 'HomePage'])->name('HomePage');
 
 Auth::routes(); //genera rutas login, logout,register, etc
 

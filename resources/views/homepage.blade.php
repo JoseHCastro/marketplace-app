@@ -78,8 +78,8 @@
                                             <span><a href="#">Nombre</a></span>
                                         </div>
                                         <ul class="list-inner">
-                                            <li><a href="author.html">Mi perfil</a></li>
                                             <li><a href="home">Panel Admin</a></li>
+                                            <li><a href="author.html">Mi perfil</a></li>
                                             <li><a href="edit-profile.html">Editar perfil</a></li>
                                             <li><a href="connect.html">Mis publicaciones</a></li>
                                             <li><a href="{{ route('logout') }}"
