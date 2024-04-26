@@ -32,7 +32,7 @@ Route::get('/', function () {
   return view('homepage');
 });
 
-Auth::routes();//genera rutas login, logout,register, etc
+Auth::routes(); //genera rutas login, logout,register, etc
 
 Route::group(['middleware' => ['auth']], function () {
   //Poner aqui sus rutas Protegidas--------------------------------------------------------------------
@@ -57,5 +57,5 @@ Route::group(['middleware' => ['auth']], function () {
   // Rutas para categorias-----------------------------------------------------------------------------
   Route::resource('categoria', CategoryController::class)->parameters(['categoria' => 'categoria']);
   //Poner aqui sus rutas Protegidas--------------------------------------------------------------------
-  
+
 });

@@ -395,6 +395,11 @@ return [
         ]
       ],
     ],
+    [
+      'text' => 'Ir al Marketplace',
+      'icon' => 'fas fa-shopping-basket',
+      'url'  => '/'
+    ],
 
     ['header' => 'account_settings'],
     [
