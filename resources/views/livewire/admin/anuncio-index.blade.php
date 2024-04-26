@@ -15,7 +15,7 @@
                             <th>Descripcion</th>
 
                             {{-- <th>Categoria</th> --}}
-                            <th>Precio</th>
+                            <th>Precio(Bs)</th>
                             {{-- <th>Fecha Publicacion</th> --}}
                             <th>Acciones</th>
                         </tr>

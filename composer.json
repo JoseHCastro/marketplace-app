@@ -13,10 +13,7 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.5",
         "laravelcollective/html": "^6.4",
-<<<<<<< HEAD
-=======
         "livewire/livewire": "^3.4",
->>>>>>> 368dd36f36f1a6c5b07f2a8b81d96d7150176640
         "spatie/laravel-activitylog": "^4.8",
         "spatie/laravel-permission": "^6.4"
     },
