@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Estado;
+use App\Models\Moneda;
 use App\Models\Anuncio;
-use Illuminate\Http\Request;
 use App\Models\Categoria;
-use App\Http\Requests\StoreAnuncioRequest;
+use App\Models\Condicion;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
+use App\Http\Requests\StoreAnuncioRequest;
 
 
 class AnuncioController extends Controller
@@ -20,8 +24,8 @@ class AnuncioController extends Controller
    */
   public function index()
   {
-
-    return view('anuncios.index');
+    $anuncios = Anuncio::all();
+    return view('anuncios.index', compact('anuncios'));
   }
 
   /**
@@ -32,12 +36,12 @@ class AnuncioController extends Controller
     //$categorias = Categoria::all();
     //$categorias = Categoria::pluck('descripcion','id'); esto reconoce laravel colective
 
-    $categorias = [
+    /* $categorias = [
       "1" => "Vehículo",
       "2" => "Inmueble",
-    ];
+    ]; */
 
-    $etiquetas = [
+    /* $etiquetas = [
       "1" => "En promocion",
       "2" => "Negociable",
       "3" => "Nuevo",
@@ -46,20 +50,40 @@ class AnuncioController extends Controller
       "6" => "Ocasión",
       "7" => "Liquidación",
       "8" => "Últimas Unidades",
-    ];
+    ]; */
 
-    return view('anuncios.create'/* compact('categorias', 'etiquetas') */);
+    $categorias = Categoria::all();
+    $monedas = Moneda::all();
+    $condiciones = Condicion::all();
+    //$estados = Estado::all();
+
+
+
+    return view('anuncios.create', compact('categorias', 'monedas', 'condiciones'/* , 'estados' */));
   }
 
   /**
    * Store a newly created resource in storage.
    */
-  public function store(StoreAnuncioRequest $request)
+  public function store(Request $request)
   {
-    $anuncio = Anuncio::create($request->all());
 
-    //return redirect()->route('anuncios.edit', $anuncio);
-    return redirect()->route('anuncios.index', $anuncio);
+    $anuncio = new Anuncio();
+    $anuncio->titulo = $request->titulo;
+    $anuncio->descripcion = $request->descripcion;
+    $anuncio->precio = $request->precio;
+    $anuncio->fecha_publicacion = Carbon::now();//obtener fecha actual al crear el anuncio
+    $anuncio->fecha_expiracion = Carbon::now();//obtener fecha actual al crear el anuncio + los dias de duracion del anuncio
+    $anuncio->visitas = 0;
+    $anuncio->condicion_id = $request->condicion_id;
+    $anuncio->categoria_id = $request->categoria_id;
+    $anuncio->estado_id = 2;  //por defecto el anuncio estara en estado disponible o no vendido
+    $anuncio->moneda_id = $request->moneda_id;
+    $anuncio->user_id = auth()->user()->id;//id de usuario autentificado actual
+    $anuncio->save();
+
+    return redirect()->route('anuncios.index');
+    //return redirect()->route('anuncios.show', $anuncio); para previsualizar el anuncio luego de que se haya creado
   }
 
   /**

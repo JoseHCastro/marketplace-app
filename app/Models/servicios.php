@@ -7,11 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class servicios extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    protected $fillable = [
-        'titulo',
-        'descripcion',
-        'precio',
-    ];
+  protected $fillable = [
+    'titulo',
+    'descripcion',
+    'precio',
+  ];
+
+
+  public function anuncios()
+  {
+    return $this->belongsToMany(Anuncio::class);
+  }
 }

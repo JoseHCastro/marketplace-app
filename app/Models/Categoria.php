@@ -21,4 +21,8 @@ class Categoria extends Model
     public function parent() {
         return $this->belongsTo(Categoria::class, 'padre_id');
     }
+
+    public function anuncio() {
+        return $this->belongsTo(Anuncio::class);
+    }
 }

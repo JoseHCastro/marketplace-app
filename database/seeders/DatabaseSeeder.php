@@ -30,6 +30,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             EtiquetaSeeder::class,
+            MonedaSeeder::class,
+            CondicionSeeder::class, 
+            EstadoSeeder::class,
+            CategoriaSeeder::class,
         ]);
     }
 }

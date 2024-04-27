@@ -12,31 +12,49 @@
 @stop
 
 @section('content')
+    <a class="btn btn-dark ml-auto" href="{{ route('anuncios.create') }}">Nuevo anuncio</a>
 
-    {{-- ------------------------------------------------------------------- --}}
-    <a class="btn btn-dark ml-auto" href="{{ route('users.create') }}">Nuevo</a>
+    {{-- <div class="card"> --}}
 
-    <div class="card">
+    {{-- <div class="card-header">
+            <input wire:model="search" class="form-control" placeholder="Buscar anuncio por título">
+        </div> --}}
+
+    {{--   @if ($anuncios->count()) --}}
+    <div class="card{{-- -header --}}">
         <div class="card-body">
-            <table class="table table-striped" id="usersTable">
+            <table class="table table-striped" id="anuncioTable">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Correo</th>
+                        <th>Id</th>
+                        <th>Título</th>
+                        <th>Descripcion</th>
+
+                        {{-- <th>Categoria</th> --}}
+                        <th>Precio(Bs)</th>
+                        {{-- <th>Fecha Publicacion</th> --}}
                         <th>Acciones</th>
                     </tr>
                 </thead>
-
                 <tbody>
-                    @foreach ($users as $user)
+                    @foreach ($anuncios as $anuncio)
                         <tr>
-                            <td>{{ $user->id }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>
-                                <a class="btn btn-warning" href="{{ route('users.edit', $user->id) }}">Editar</a>
-                                {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
+                            <td>{{ $anuncio->id }}</td>
+                            <td>{{ $anuncio->titulo }}</td>
+                            {{-- <td>{{ $anuncio->categoria->nombre }}</td> --}}
+                            <td>{{ $anuncio->descripcion }}</td>
+                            <td>{{ $anuncio->precio }}</td>
+                            {{-- <td>{{ $anuncio->fecha_publicacion }}</td> --}}
+
+
+                            <td with="10px">
+                                <a class="btn btn-warning" href="{{ route('anuncios.edit', $anuncio->id) }}">Editar</a>
+
+                                {!! Form::open([
+                                    'method' => 'DELETE',
+                                    'route' => ['anuncios.destroy', $anuncio->id],
+                                    'style' => 'display:inline',
+                                ]) !!}
                                 {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
                                 {!! Form::close() !!}
                             </td>
@@ -45,7 +63,17 @@
                 </tbody>
             </table>
         </div>
+
+        {{-- <div class="card-footer">
+                {{ $anuncios->links() }}
+            </div> --}}
     </div>
+    {{-- @else
+            <div class="card-body">
+                <strong>No hay registros</strong>
+            </div>
+        @endif --}}
+    {{-- </div> --}}
     {{-- ------------------------------------------------------------------- --}}
 @endsection
 
@@ -78,3 +106,4 @@
     </script>
 
 @endsection
+

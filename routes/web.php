@@ -26,7 +26,12 @@ use App\Http\Controllers\ServiciosController;
 //Ruta para la HomePage
 Route::get('/', [HomePageController::class, 'HomePage'])->name('HomePage');
 
+Route::get('/prueba', function () {
+  return view('anuncios.html');
+});
+
 Auth::routes(); //genera rutas login, logout,register, etc
+
 
 Route::group(['middleware' => ['auth']], function () {
   //Poner aqui sus rutas Protegidas--------------------------------------------------------------------
