@@ -25,7 +25,17 @@ class AnuncioController extends Controller
   public function index()
   {
     $anuncios = Anuncio::all();
-    return view('anuncios.index', compact('anuncios'));
+
+    /* $colores = [
+      "1" => "Rojo",
+      "2" => "Azul",
+      "3" => "Verde",
+      "4" => "Amarillo",
+      "5" => "Naranja",
+      "6" => "Morado",
+      "7" => "Café",
+    ]; */
+    return view('anuncios.index', compact('anuncios'/* ,'colores' */));
   }
 
   /**
@@ -72,14 +82,14 @@ class AnuncioController extends Controller
     $anuncio->titulo = $request->titulo;
     $anuncio->descripcion = $request->descripcion;
     $anuncio->precio = $request->precio;
-    $anuncio->fecha_publicacion = Carbon::now();//obtener fecha actual al crear el anuncio
-    $anuncio->fecha_expiracion = Carbon::now();//obtener fecha actual al crear el anuncio + los dias de duracion del anuncio
+    $anuncio->fecha_publicacion = Carbon::now(); //obtener fecha actual al crear el anuncio
+    $anuncio->fecha_expiracion = Carbon::now(); //obtener fecha actual al crear el anuncio + los dias de duracion del anuncio
     $anuncio->visitas = 0;
     $anuncio->condicion_id = $request->condicion_id;
     $anuncio->categoria_id = $request->categoria_id;
     $anuncio->estado_id = 2;  //por defecto el anuncio estara en estado disponible o no vendido
     $anuncio->moneda_id = $request->moneda_id;
-    $anuncio->user_id = auth()->user()->id;//id de usuario autentificado actual
+    $anuncio->user_id = auth()->user()->id; //id de usuario autentificado actual
     $anuncio->save();
 
     return redirect()->route('anuncios.index');

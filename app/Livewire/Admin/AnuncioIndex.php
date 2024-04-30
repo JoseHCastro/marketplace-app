@@ -23,8 +23,8 @@ class AnuncioIndex extends Component
   public function render()
   {
     $anuncios = Anuncio::where('user_id', auth()->user()->id)
-      ->where('titulo', 'LIKE', '%' . $this->search.'%')
-      ->latest('id')
+      ->where('titulo', 'LIKE', '%' . $this->search . '%')
+      ->latest('id')   
       ->paginate();
     return view('livewire.admin.anuncio-index', compact('anuncios'));
   }

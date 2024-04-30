@@ -35,9 +35,10 @@
                         <th>Id</th>
                         <th>Título</th>
                         <th>Descripcion</th>
-                        
+
                         {{-- <th>Categoria</th> --}}
                         <th>Precio(Bs)</th>
+
                         {{-- <th>Fecha Publicacion</th> --}}
                         <th>Acciones</th>
                     </tr>
@@ -50,6 +51,7 @@
                             {{-- <td>{{ $anuncio->categoria->nombre }}</td> --}}
                             <td>{{ $anuncio->descripcion }}</td>
                             <td>{{ $anuncio->precio }}</td>
+
                             {{-- <td>{{ $anuncio->fecha_publicacion }}</td> --}}
 
 
@@ -64,6 +66,8 @@
                                 {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
                                 {!! Form::close() !!}
                             </td>
+                            {{-- <td>{{ $colores['1'] }}</td>
+                            <td>{{ $colores[1] }}</td> --}}
                         </tr>
                     @endforeach
                 </tbody>

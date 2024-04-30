@@ -17,7 +17,7 @@
 
                 <div class="form-group">
                     {!! Form::label('titulo', 'Título') !!}
-                    {!! Form::text('titulo', null, ['class' => 'form-control', 'placeholder' => 'Ingrese el título del anuncio']) !!}
+                    {!! Form::text('titulo'/* name */, null/* si nvalor por defecto */, ['class' => 'form-control'/* estilo */, 'placeholder' => 'Ingrese el título del anuncio']) !!}
 
                     @error('titulo')
                         <small class="alert-danger">{{ $message }}</small>
