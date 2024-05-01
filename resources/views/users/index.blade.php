@@ -2,7 +2,7 @@
 
 @section('title', 'Usuarios')
 @section('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.1/css/responsive.bootstrap4.css">
 @endsection
@@ -39,6 +39,7 @@
                                 {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
                                 {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
                                 {!! Form::close() !!}
+                                <a class="btn btn-primary" href="{{ route('users.show', $user->id) }}">Mostrar</a>
                             </td>
                         </tr>
                     @endforeach
@@ -50,7 +51,7 @@
 @endsection
 
 @section('js')
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.7.1.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>

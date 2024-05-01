@@ -9,7 +9,9 @@ use App\Http\Controllers\AnuncioController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EtiquetaController;
 use App\Http\Controllers\HomePageController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiciosController;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +44,7 @@ Route::group(['middleware' => ['auth']], function () {
 
   // Rutas para usuarios------------------------------------------------------------------------------
   Route::resource('users', UserController::class);
+  Route::resource('profiles', ProfileController::class);
   // Rutas para servicio-------------------------------------------------------------------------------
   Route::get('/servicios', [ServiciosController::class, 'index'])->name('servicios.index');
   Route::get('/servicios/create', [ServiciosController::class, 'create'])->name('servicios.create');

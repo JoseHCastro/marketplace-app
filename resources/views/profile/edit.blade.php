@@ -3,7 +3,7 @@
 @section('title', 'Editar')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Editar Usuario</h1>
+    <h1 class="m-0 text-dark">Editar Perfil de Usuario</h1>
 @stop
 
 @section('content')
@@ -25,8 +25,9 @@
                     @endif
 
                     <div class="d-flex justify-content-center mb-4">
-                        @if ($user->profile_photo_path)
-                            <img src="{{ asset($user->profile_photo_path) }}" class="img-fluid rounded border mb-3"
+                        {{-- @if ($user->profile_photo_path) --}}
+                        @if (auth()->user()->profile_photo_path)    
+                        <img src="{{ asset(auth()->user()->profile_photo_path) }}" class="img-fluid rounded border mb-3"
                                 alt="Foto de perfil" style="max-width: 200px; height: auto;">
                         @else
                             <img src="{{ asset('assets/images/user.png') }}" class="img-fluid rounded border mb-3"
@@ -35,19 +36,21 @@
                     </div>
 
 
-                    <form class="forms-sample" method="POST" action="{{ route('users.update', $user->id) }}"
+                    <form class="forms-sample" method="POST" action="{{ route('profiles.update', auth()->user()->id) }}"
                         enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
                         <div class="form-group">
                             <label for="name">Nombre</label>
                             <input type="text" class="form-control" id="name" name="name"
-                                value="{{ $user->name }}" placeholder="Nombre">
+                                {{-- value="{{ $user->name }}" placeholder="Nombre"> --}}
+                                value="{{ auth()->user()->name }}" placeholder="Nombre">
                         </div>
                         <div class="form-group">
                             <label for="email">E-mail</label>
                             <input type="email" class="form-control" id="email" name="email"
-                                value="{{ $user->email }}" placeholder="Email">
+                                {{-- value="{{ $user->email }}" placeholder="Email"> --}}
+                                value="{{ auth()->user()->email }}" placeholder="Email">
                         </div>
                         <div class="form-group">
                             <label for="password">Contraseña</label>
@@ -65,7 +68,7 @@
                                 accept="image/*">
                         </div>
                         <button type="submit" class="btn btn-primary mr-2">Guardar</button>
-                        <a href="{{ route('users.index') }}" class="btn btn-light">Cancelar</a>
+                        <a href="{{ route('profiles.index') }}" class="btn btn-light">Cancelar</a>
                     </form>
 
                 </div>
