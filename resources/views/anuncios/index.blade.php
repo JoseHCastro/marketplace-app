@@ -8,7 +8,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.1/css/responsive.bootstrap4.css">
+    <style>
+        .image-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+        }
 
+        .image-wrapper img {
+            position: absolute;
+            object-fit: cover;
+            /* width: 100%;
+            height: 100%; */
+        }
+    </style>
 @endsection
 
 @section('content_header')
@@ -19,6 +31,8 @@
     {{-- ------------------------------------------------------------------- --}}
 
     <a class="btn btn-dark ml-auto" href="{{ route('anuncios.create') }}">Nuevo anuncio</a>
+
+    {{-- <a class="btn btn-dark ml-auto" id="btnVisitar">un boton</a> --}}
 
     {{-- <div class="card"> --}}
 
@@ -33,27 +47,34 @@
                 <thead>
                     <tr>
                         <th>Id</th>
+                        <th>Imagen</th>
                         <th>Título</th>
-                        <th>Descripcion</th>
+                        <th>Categoria</th>
 
                         {{-- <th>Categoria</th> --}}
-                        <th>Precio(Bs)</th>
+                        <th>Desde</th>
+                        <th>Hasta</th>
 
                         {{-- <th>Fecha Publicacion</th> --}}
                         <th>Acciones</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($anuncios as $anuncio)
                         <tr>
                             <td>{{ $anuncio->id }}</td>
+                            <td>
+                                <div >
+                                    <img src="{{ Storage::url($anuncio->imagen->url) }}" alt="{{ $anuncio->titulo }}"
+                                        style="width: 100px; height: 100px;" class="rounded mx-auto d-block">
+
+                                </div>
+                            </td>
                             <td>{{ $anuncio->titulo }}</td>
-                            {{-- <td>{{ $anuncio->categoria->nombre }}</td> --}}
-                            <td>{{ $anuncio->descripcion }}</td>
-                            <td>{{ $anuncio->precio }}</td>
-
-                            {{-- <td>{{ $anuncio->fecha_publicacion }}</td> --}}
-
+                            <td>{{ $anuncio->categoria->nombre }}</td>
+                            <td>{{ $anuncio->fecha_publicacion }}</td>
+                            <td>{{ $anuncio->fecha_expiracion }}</td>
 
                             <td with="10px">
                                 <a class="btn btn-warning" href="{{ route('anuncios.edit', $anuncio->id) }}">Editar</a>
@@ -65,11 +86,15 @@
                                 ]) !!}
                                 {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
                                 {!! Form::close() !!}
+
+                                <button class="btn btn-primary">Mas acciones</button>
                             </td>
                             {{-- <td>{{ $colores['1'] }}</td>
                             <td>{{ $colores[1] }}</td> --}}
                         </tr>
                     @endforeach
+
+
                 </tbody>
             </table>
         </div>
@@ -113,6 +138,22 @@
                     "previous": "Anterior"
                 }
             }
+        });
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.getElementById('btnVisitar').addEventListener('click', function() {
+            axios.post("{{ route('anuncios.index') }}")
+                .then(function(response) {
+
+                    console.log(response);
+                })
+                .catch(function(error) {
+
+                    console.log(error);
+                });
         });
     </script>
 @stop

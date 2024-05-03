@@ -35,8 +35,8 @@
             <div class="header-inner">
                 <div class="header-left">
                     <div class="logo-thumbnail logo-custom-css">
-                        <a class="logo-light" href="/"><img
-                                src="{{ asset('assets/images/logo/logo-white.png') }}" alt="nft-logo"></a>
+                        <a class="logo-light" href="/"><img src="{{ asset('assets/images/logo/logo-white.png') }}"
+                                alt="nft-logo"></a>
                         <a class="logo-dark" href="/"><img src="{{ asset('assets/images/logo/logo-dark.png') }}"
                                 alt="nft-logo"></a>
                     </div>
@@ -129,8 +129,8 @@
         <div class="inner">
             <div class="header-top">
                 <div class="logo logo-custom-css">
-                    <a class="logo-light" href="/"><img
-                            src="{{ asset('assets/images/logo/logo-white.png') }}" alt="nft-logo"></a>
+                    <a class="logo-light" href="/"><img src="{{ asset('assets/images/logo/logo-white.png') }}"
+                            alt="nft-logo"></a>
                     <a class="logo-dark" href="/"><img src="{{ asset('assets/images/logo/logo-dark.png') }}"
                             alt="nft-logo"></a>
                 </div>
@@ -166,7 +166,8 @@
                 </div>
                 <div class="col-lg-5 col-md-6 col-sm-12 offset-lg-1">
                     <div class="slider-thumbnail">
-                        <img src="{{ asset('assets/images/slider/slider-1.png') }}" alt="Slider Images">
+                        <img src="{{ asset('assets/images/slider/slider-1.png') }} {{-- {{ Storage::url($anuncio->imagen->url) }} --}} "
+                            alt="Slider Images">
                     </div>
                 </div>
             </div>
@@ -189,10 +190,10 @@
                 </div>
             </div>
             <div class="row g-5">
-                @foreach($categorias as $categoria)
+                @foreach ($categorias as $categoria)
                     <!-- start single product -->
                     <div data-sal="slide-up" data-sal-delay="150" data-sal-duration="800"
-                         class="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
+                        class="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
                         <div class="product-style-one no-overlay">
                             <div class="card-thumbnail">
                                 <a href="product-details.html"><img
@@ -202,11 +203,14 @@
                             <div class="product-share-wrapper">
                                 <div class="profile-share">
                                     <a href="author.html" class="avatar" data-tooltip="Jone lee"><img
-                                            src="{{ asset('assets/images/client/client-1.png') }}" alt="Nft_Profile"></a>
+                                            src="{{ asset('assets/images/client/client-1.png') }}"
+                                            alt="Nft_Profile"></a>
                                     <a href="author.html" class="avatar" data-tooltip="Jone Due"><img
-                                            src="{{ asset('assets/images/client/client-2.png') }}" alt="Nft_Profile"></a>
+                                            src="{{ asset('assets/images/client/client-2.png') }}"
+                                            alt="Nft_Profile"></a>
                                     <a href="author.html" class="avatar" data-tooltip="Nisat Tara"><img
-                                            src="{{ asset('assets/images/client/client-3.png') }}" alt="Nft_Profile"></a>
+                                            src="{{ asset('assets/images/client/client-3.png') }}"
+                                            alt="Nft_Profile"></a>
                                     <a class="more-author-text" href="#">9+ Place Bit.</a>
                                 </div>
                                 <div class="share-btn share-btn-activation dropdown">
@@ -219,18 +223,19 @@
                                         </svg>
                                     </button>
                                     <div class="share-btn-setting dropdown-menu dropdown-menu-end">
-                                        <button type="button" class="btn-setting-text share-text" data-bs-toggle="modal"
-                                                data-bs-target="#shareModal">
+                                        <button type="button" class="btn-setting-text share-text"
+                                            data-bs-toggle="modal" data-bs-target="#shareModal">
                                             Share
                                         </button>
                                         <button type="button" class="btn-setting-text report-text"
-                                                data-bs-toggle="modal" data-bs-target="#reportModal">
+                                            data-bs-toggle="modal" data-bs-target="#reportModal">
                                             Report
                                         </button>
                                     </div>
                                 </div>
                             </div>
-                            <a href="product-details.html"><span class="product-name">{{ $categoria->nombre }}</span></a>
+                            <a href="product-details.html"><span
+                                    class="product-name">{{ $categoria->nombre }}</span></a>
                             <span class="latest-bid">{{ $categoria->descripcion }}</span>
                             <div class="bid-react-area">
                                 <div class="last-bid">Precio: {{ $categoria->precio }}</div>
@@ -251,7 +256,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- New items End -->
     <!-- top top-seller start -->
 
@@ -906,8 +911,7 @@
                                         class="text">twitter</span></a></li>
                             <li><a href="#"><span class="icon"><i data-feather="linkedin"></i></span><span
                                         class="text">linkedin</span></a></li>
-                            <li><a href="#"><span class="icon"><i
-                                            data-feather="instagram"></i></span><span
+                            <li><a href="#"><span class="icon"><i data-feather="instagram"></i></span><span
                                         class="text">instagram</span></a></li>
                             <li><a href="#"><span class="icon"><i data-feather="youtube"></i></span><span
                                         class="text">youtube</span></a></li>

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
 use App\Http\Requests\StoreAnuncioRequest;
+use Illuminate\Support\Facades\Storage;
 
 
 class AnuncioController extends Controller
@@ -78,7 +79,13 @@ class AnuncioController extends Controller
   public function store(Request $request)
   {
 
+    /* return  $request->all(); */
+    /* return  $request->file('formFile'); */
+    /* $fileFormPath = $request->file('formFile')->store(); */
+
+    /* return Storage::put('public/images/anuncios', $request->file('formFile')); */
     $anuncio = new Anuncio();
+
     $anuncio->titulo = $request->titulo;
     $anuncio->descripcion = $request->descripcion;
     $anuncio->precio = $request->precio;
@@ -90,6 +97,15 @@ class AnuncioController extends Controller
     $anuncio->estado_id = 2;  //por defecto el anuncio estara en estado disponible o no vendido
     $anuncio->moneda_id = $request->moneda_id;
     $anuncio->user_id = auth()->user()->id; //id de usuario autentificado actual
+    $anuncio->save();
+
+    if ($request->file('formFile')) {
+      $url = Storage::put('public/images/anuncios', $request->file('formFile'));
+      $anuncio->imagen()->create([
+        'url' => $url,
+      ]);
+    }
+
     $anuncio->save();
 
     return redirect()->route('anuncios.index');
@@ -110,7 +126,11 @@ class AnuncioController extends Controller
    */
   public function edit(Anuncio $anuncio)
   {
-    return view('anuncios.edit', compact('anuncio'));
+    $categorias = Categoria::all();
+    $monedas = Moneda::all();
+    $condiciones = Condicion::all();
+    $imagen = $anuncio->imagen;
+    return view('anuncios.edit', compact('anuncio', 'categorias', 'monedas', 'imagen', 'condiciones'));
   }
 
 

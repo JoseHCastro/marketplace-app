@@ -11,6 +11,6 @@ class Moneda extends Model
   protected $table = 'monedas';
   public function anuncio()
   {
-    return $this->belongsTo(Anuncio::class);
+    return $this->hasOne(Anuncio::class);
   }
 }

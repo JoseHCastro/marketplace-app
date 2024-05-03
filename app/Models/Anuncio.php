@@ -22,9 +22,10 @@ class Anuncio extends Model
 
   use HasFactory;
 
+  //ok
   public function categoria()
   {
-    return $this->hasOne(Categoria::class);
+    return $this->belongsTo(Categoria::class);
   }
 
   public function estado()
@@ -32,14 +33,16 @@ class Anuncio extends Model
     return $this->hasOne(Estado::class);
   }
 
+  //ok
   public function Moneda()
   {
-    return $this->hasOne(Moneda::class);
+    return $this->belongsTo(Moneda::class);
   }
 
+  //ok
   public function condicion()
   {
-    return $this->hasOne(Condicion::class);
+    return $this->belongsTo(Condicion::class);
   }
 
   public function etiquetas()
@@ -50,5 +53,11 @@ class Anuncio extends Model
   public function servicios()
   {
     return $this->belongsToMany(servicios::class);
+  }
+
+  //ok
+  public function imagen()
+  {
+    return  $this->morphOne('App\Models\Image', 'imageable');
   }
 }

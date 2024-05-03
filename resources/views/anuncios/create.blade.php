@@ -10,6 +10,20 @@
     {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .image-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+        }
+
+        .image-wrapper img {
+            position: absolute;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 @stop
 
 
@@ -28,6 +42,24 @@
     </script> --}}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+        //cambiar imagen
+        document.getElementById("formFile").addEventListener('change', cambiarImagen);
+
+        function cambiarImagen(event) {
+            var file = event.target.files[0];
+
+            var reader = new FileReader();
+            reader.onload = (event) => {
+                document.getElementById("picture").setAttribute('src', event.target.result);
+            };
+
+            reader.readAsDataURL(file);
+            console.log("file");
+        }
+    </script>
 @stop
 
 @section('content')
@@ -41,37 +73,28 @@
                             {{-- <div class="card-header">
                                 <h3 class="card-title">Nueva Categoría</h3>
                             </div> --}}
-                            <form action="{{ route('anuncios.store') }}" method="POST">
+                            <form action="{{ route('anuncios.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
-
-                                    {{-- <div class="form-group">
-                                        <label for="padre_id">Categoría Padre (opcional):</label>
-                                        <select class="form-control" name="padre_id" id="padre_id">
-                                            <option value="">Categoria padre</option>
-                                            @foreach ($categorias as $categoria)
-                                                <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div> --}}
 
                                     {{-- input para seleccionar categoria --}}
                                     <div {{-- class="form-group" --}}>
                                         <label {{-- for="padre_id" --}}>Categoria:</label>
-                                        <select class="form-select" aria-label="Default select example" name="categoria_id" required>
+                                        <select class="form-select" aria-label="Default select example" name="categoria_id"
+                                            required>
                                             <option selected>Seleccionar</option>
                                             @foreach ($categorias as $categoria)
-                                                <option value="{{ $categoria->id }}" required>{{ $categoria->nombre }}</option>
+                                                <option value="{{ $categoria->id }}" required>{{ $categoria->nombre }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
 
                                     {{-- input para titulo --}}
-
                                     <div {{-- class="form-group" --}}>
                                         <label {{-- for="nombre" --}}>Título:</label>
                                         <input type="text" class="form-control {{-- {{ $errors->has('nombre') ? 'is-invalid' : '' }} --}}"
-                                            {{-- id="nombre" --}} name="titulo" placeholder="" required
+                                            {{-- id="nombre" --}} name="titulo" required
                                             value="{{ old('titulo') }}">
                                         {{-- @if ($errors->has('nombre'))
                                             <div class="invalid-feedback">
@@ -86,6 +109,7 @@
                                         <input type="text"class="form-control" name="precio"
                                             id=""value="{{ old('precio') }}" required>
                                     </div>
+
                                     {{-- input para moneda --}}
                                     <div>
                                         <label>Moneda:</label>
@@ -96,6 +120,7 @@
                                             @endforeach
                                         </select>
                                     </div>
+
                                     {{-- input para descripcion --}}
                                     <br>
                                     <div>
@@ -119,11 +144,24 @@
 
                                     {{-- input para imagen --}}
                                     <div class="mb-3">
-                                        <label {{-- for="formFile" --}} class="form-label">Carga una imagen a tu
-                                            anuncio:</label>
-                                        <input class="form-control" type="file" {{-- id="formFile" --}}>
+                                        <label for="formFile" class="form-label">Carga una imagen a tu anuncio:</label>
+                                        <input class="form-control" type="file" id="formFile" name="formFile"
+                                            {{-- accept="image/*" --}}>
+                                    </div>
+
+                                    <div class="image-wrapper">
+                                        <img src="https://wpdirecto.com/wp-content/uploads/2017/08/alt-de-una-imagen.png"
+                                            class="rounded mx-auto d-block" alt="" id="picture">
                                     </div>
                                     {{-- input para descripcion --}}
+                                    {{-- <div>
+                                        <label for="">Ubicación</label> --}}
+                                    {{-- <input type="textarea" class="form-control" name="descripcion"
+                                            id=""value="{{ old('precio') }}">> --}}
+
+                                    {{--  <textarea name="ubicacion" class="form-control" id="" cols="" rows="5"required>{{ old('ubicacion') }}</textarea>
+                                    </div> --}}
+
 
 
                                 </div>
@@ -135,75 +173,7 @@
                         </div>
                     </div>
                 </div>
-                {{-- ------------------------------inicio formulario------------------------------------ --}}
-                <form class="forms-sample" action="{{ route('anuncios.store') }}" method="POST">
-                    @csrf
 
-                    <div class="form-group">
-                        <label for="name">Categoria</label>
-                        <input type="text" class="form-control" id="categoria" name="categoria"
-                            value="{{ old('categoria') }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="name">Nombre</label>
-                        <input type="text" class="form-control" id="name" name="name"
-                            value="{{ old('name') }}">
-                    </div>
-
-
-
-
-                    @error('name')
-                        <br>
-                        <span>*{{ $message }}</span>
-                        <br>
-                    @enderror
-                    <br>
-
-                    <label for="">
-                        Slug:
-                        <br>
-                        <input type="text" name="slug" id="" value="{{ old('slug') }}">
-                    </label>
-
-                    @error('slug')
-                        <br>
-                        <span>*{{ $message }}</span>
-                        <br>
-                    @enderror
-                    <br>
-                    <label for="">
-                        Descripción:
-                        <br>
-                        <textarea name="descripcion" id="" cols="30" rows="10">{{ old('descripcion') }}</textarea>
-                    </label>
-
-                    @error('descripcion')
-                        <br>
-                        <span>*{{ $message }}</span>
-                        <br>
-                    @enderror
-
-                    <br>
-                    <label for="">
-                        Categoria:
-                        <br>
-                        <input type="text" name="categoria" id="" value="{{ old('categoria') }}">
-                    </label>
-                    <br>
-
-                    @error('categoria')
-                        <span>*{{ $message }}</span>
-                        <br>
-                    @enderror
-
-                    <button type="submit">Enviar formulario</button>
-
-
-
-                </form>
-                {{-- ------------------------------------------------------------------ --}}
             </div>
         </div>
     </div>

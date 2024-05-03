@@ -5,13 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Condicion extends Model
+class Image extends Model
 {
-  protected $table = 'condiciones';
+
+
   use HasFactory;
-  
-  public function anuncio()
+
+
+  protected $fillable = ['url'];
+  protected $table = 'images';
+
+  public function imageable()
   {
-    return $this->hasOne(Anuncio::class);
+    return $this->morphTo();
   }
 }
