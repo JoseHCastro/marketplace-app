@@ -94,8 +94,7 @@
                                     <div {{-- class="form-group" --}}>
                                         <label {{-- for="nombre" --}}>Título:</label>
                                         <input type="text" class="form-control {{-- {{ $errors->has('nombre') ? 'is-invalid' : '' }} --}}"
-                                            {{-- id="nombre" --}} name="titulo" required
-                                            value="{{ old('titulo') }}">
+                                            {{-- id="nombre" --}} name="titulo" required value="{{ old('titulo') }}">
                                         {{-- @if ($errors->has('nombre'))
                                             <div class="invalid-feedback">
                                                 {{ $errors->first('nombre') }}
@@ -165,11 +164,18 @@
 
 
                                 </div>
+
+
+
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Crear anuncio</button>
-                                    <a href="{{ route('anuncios.index') }}" class="btn btn-default">Cancelar</a>
+                                    <button type="submit" class="btn btn-primary">Publicar</button>
+                                    <a href="{{ route('anuncios.index') }}" class="btn btn-secondary">Cancelar</a>
+
+
+
                                 </div>
                             </form>
+
                         </div>
                     </div>
                 </div>

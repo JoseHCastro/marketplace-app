@@ -11,20 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('anuncio_etiquetas', function (Blueprint $table) {
+        Schema::create('anuncio_servicio', function (Blueprint $table) {
             $table->id();
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
+
             $table->unsignedBigInteger('anuncio_id');
-            $table->unsignedBigInteger('etiqueta_id');
-            
+            $table->unsignedBigInteger('servicio_id');
+
             $table->foreign('anuncio_id')
                 ->references('id')
                 ->on('anuncios')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->foreign('etiqueta_id')
+            $table->foreign('servicio_id')
                 ->references('id')
-                ->on('etiquetas')
+                ->on('servicios')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
@@ -37,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('anuncio_etiquetas');
+        Schema::dropIfExists('anuncio_servicios');
     }
 };

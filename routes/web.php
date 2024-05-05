@@ -9,6 +9,7 @@ use App\Http\Controllers\VisitaController;
 use App\Http\Controllers\AnuncioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContenidoPromocionalController;
 use App\Http\Controllers\EtiquetaController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\ServiciosController;
@@ -59,7 +60,15 @@ Route::group(['middleware' => ['auth']], function () {
   Route::resource('etiquetas', EtiquetaController::class);
   // Rutas para categorias-----------------------------------------------------------------------------
   Route::resource('categoria', CategoryController::class)->parameters(['categoria' => 'categoria']);
+  //Contenido promocional--------------------------------------------------------------------
+  Route::get('contenido_promocional', [ContenidoPromocionalController::class, 'index'])->name('contenido_promocional.index');
+  Route::get('contenido_promocional/{anuncio}', [ContenidoPromocionalController::class, 'show'])->name('contenido_promocional.show');
+  Route::post('contenido_promocional', [ContenidoPromocionalController::class, 'store'])->name('contenido_promocional.store');
+
+
   //Poner aqui sus rutas Protegidas--------------------------------------------------------------------
+
+
 
 });
 Route::post('/contar-visita', [VisitaController::class, 'contarVisita'])->name('contar.visita');

@@ -18,7 +18,7 @@
             position: absolute;
             object-fit: cover;
             /* width: 100%;
-            height: 100%; */
+                                                                                                                        height: 100%; */
         }
     </style>
 @endsection
@@ -65,7 +65,7 @@
                         <tr>
                             <td>{{ $anuncio->id }}</td>
                             <td>
-                                <div >
+                                <div>
                                     <img src="{{ Storage::url($anuncio->imagen->url) }}" alt="{{ $anuncio->titulo }}"
                                         style="width: 100px; height: 100px;" class="rounded mx-auto d-block">
 
@@ -87,7 +87,35 @@
                                 {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
                                 {!! Form::close() !!}
 
-                                <button class="btn btn-primary">Mas acciones</button>
+
+                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-primary dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            Más acciones
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Habilitar</a></li>
+                                            <li><a class="dropdown-item" href="#">Deshabilitar</a></li>
+
+                                            <form action="contenido_promocional.index" method="get">
+                                                @csrf
+                                                <input {{-- name="id_anuncios" --}} value="{{ $anuncio->id }}"hidden>
+
+                                                <button type="submit" class="dropdown-item">
+                                                    <a href="{{ route('contenido_promocional.show', $anuncio) }}"> Mejorar
+                                                        anuncio</a>
+                                                </button>
+                                            </form>
+
+                                            <li><a class="dropdown-item" href="#">Vendido</a></li>
+                                            <li><a class="dropdown-item" href="#">No venido</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+
+                                {{-- <button class="btn btn-primary">Mas acciones</button> --}}
                             </td>
                             {{-- <td>{{ $colores['1'] }}</td>
                             <td>{{ $colores[1] }}</td> --}}
@@ -121,6 +149,9 @@
     <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap4.js"></script>
     <script src="https://cdn.datatables.net/responsive/3.0.1/js/dataTables.responsive.js"></script>
     <script src="https://cdn.datatables.net/responsive/3.0.1/js/responsive.bootstrap4.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         new DataTable('#anuncioTable', {
             responsive: true,

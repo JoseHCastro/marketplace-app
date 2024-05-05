@@ -67,6 +67,7 @@ class AnuncioController extends Controller
     $monedas = Moneda::all();
     $condiciones = Condicion::all();
     //$estados = Estado::all();
+    
 
 
 
