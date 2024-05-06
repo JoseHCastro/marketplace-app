@@ -335,9 +335,9 @@ return [
           'url' => '#',
         ],
         [
-          'text' => 'Gestionar Bitácora',
+          'text' => 'Bitácora',
           'icon' => 'fas fa-history',
-          'url' => '#',
+          'url' => '/bitacora',
         ],
         [
           'text' => 'Gestionar Reportes',

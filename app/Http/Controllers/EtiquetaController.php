@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Etiqueta;
 use App\Http\Controllers\Controller;
+use App\Models\Bitacora;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EtiquetaController extends Controller
 {
@@ -15,7 +17,7 @@ class EtiquetaController extends Controller
     {
         $etiquetas = Etiqueta::all();
         //dd($etiquetas);
-        return view('etiquetas.index',compact('etiquetas'));
+        return view('etiquetas.index', compact('etiquetas'));
     }
 
     /**
@@ -42,6 +44,17 @@ class EtiquetaController extends Controller
         $etiqueta->precio = $request->precio;
         $etiqueta->save();
 
+        date_default_timezone_set("America/La_Paz");
+        $bitacora = new Bitacora();
+        $bitacora->usuario = Auth::user()->name;
+        $bitacora->hora = now();
+        $bitacora->evento = 'Crear';
+        $bitacora->contexto = 'Etiqueta';
+        $bitacora->descripcion = 'Creó la Etiqueta: ' . $request->name . ' con precio: ' . $request->precio;
+        $bitacora->origen = 'Web';
+        $bitacora->ip = $request->ip();
+        $bitacora->save();
+
         return redirect()->route('etiquetas.index');
     }
 
@@ -60,7 +73,7 @@ class EtiquetaController extends Controller
     {
         $etiqueta = Etiqueta::find($id);
 
-        return view('etiquetas.edit',compact('etiqueta'));
+        return view('etiquetas.edit', compact('etiqueta'));
     }
 
     /**
@@ -78,18 +91,42 @@ class EtiquetaController extends Controller
         $etiqueta->name = $request->name;
         $etiqueta->precio = $request->precio;
         $etiqueta->save();
-        return redirect()->route('etiquetas.index');
 
+        $etiquetaAux = Etiqueta::find($id);
+        date_default_timezone_set("America/La_Paz");
+        $bitacora = new Bitacora();
+        $bitacora->usuario = Auth::user()->name;
+        $bitacora->hora = now();
+        $bitacora->evento = 'Actualizar';
+        $bitacora->contexto = 'Etiqueta';
+        $bitacora->descripcion = 'Actualizó la Etiqueta: ' . $etiquetaAux->name . ' con precio: ' . $etiquetaAux->precio . ' a ' . $etiqueta->name . ' con precio: ' . $etiqueta->precio;
+        $bitacora->origen = 'Web';
+        $bitacora->ip = $request->ip();
+        $bitacora->save();
+
+        return redirect()->route('etiquetas.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         $etiqueta = Etiqueta::find($id);
+        $etiquetaAux = Etiqueta::find($id);
 
         $etiqueta->delete();
+
+        date_default_timezone_set("America/La_Paz");
+        $bitacora = new Bitacora();
+        $bitacora->usuario = Auth::user()->name;
+        $bitacora->hora = now();
+        $bitacora->evento = 'Eliminar';
+        $bitacora->contexto = 'Etiqueta';
+        $bitacora->descripcion = 'Eliminó la Etiqueta: ' . $etiquetaAux->name . ' con precio: ' . $etiquetaAux->precio;
+        $bitacora->origen = 'Web';
+        $bitacora->ip = $request->ip();
+        $bitacora->save();
 
         return redirect()->route('etiquetas.index');
     }

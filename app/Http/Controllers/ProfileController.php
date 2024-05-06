@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bitacora;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,7 +33,7 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'required|same:confirm-password',
+            'password' => 'nullable|same:confirm-password',
             'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8192',
         ]);
 
@@ -48,8 +50,20 @@ class ProfileController extends Controller
             $profilePhotoPath = $request->file('profile_photo')->store('public/images');
             $userData['profile_photo_path'] = Storage::url($profilePhotoPath);
         }
-        
+
         $user->update($userData);
+
+        date_default_timezone_set("America/La_Paz");
+        $bitacora = new Bitacora();
+        $bitacora->usuario = Auth::user()->name;
+        $bitacora->hora = now();
+        $bitacora->usuario_afectado = Auth::user()->namee;
+        $bitacora->evento = 'Actualizar';
+        $bitacora->contexto = 'Perfil';
+        $bitacora->descripcion = 'Actualizó su perfil';
+        $bitacora->origen = 'Web';
+        $bitacora->ip = $request->ip();
+        $bitacora->save();
 
         return redirect()->route('profiles.index')->with('success', 'El usuario se ha actualizado correctamente.');
     }

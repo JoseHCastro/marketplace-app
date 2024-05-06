@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Activitylog\Models\Activity;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Bitacora;
+
 
 class UserController extends Controller
 {
@@ -41,10 +42,16 @@ class UserController extends Controller
         ]);
 
         date_default_timezone_set("America/La_Paz");
-        activity()->useLog('Usuarios')->log('Registró')->subject();
-        $lastActivity = Activity::all()->last();
-        $lastActivity->subject_id = $user->id;
-        $lastActivity->save();
+        $bitacora = new Bitacora();
+        $bitacora->usuario = Auth::user()->name;
+        $bitacora->hora = now();
+        $bitacora->usuario_afectado = $user->name;
+        $bitacora->evento = 'Crear';
+        $bitacora->contexto = 'Usuario';
+        $bitacora->descripcion = 'Creó el usuario ' . $user->name . ' ' . $user->email;
+        $bitacora->origen = 'Web';
+        $bitacora->ip = $request->ip();
+        $bitacora->save();
 
         return redirect()->route('users.index')->with('success', 'El usuario se ha creado correctamente.');
     }
@@ -56,10 +63,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         date_default_timezone_set("America/La_Paz");
-        activity()->useLog('Usuarios')->log('Editó')->subject();
-        $lastActivity = Activity::all()->last();
-        $lastActivity->subject_id = $user->id;
-        $lastActivity->save();
+
 
         return view('users.edit', compact('user'));
     }
@@ -67,7 +71,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-
+        $userAux = User::findOrFail($id);
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
@@ -91,27 +95,58 @@ class UserController extends Controller
 
         $user->update($userData);
 
+        date_default_timezone_set("America/La_Paz");
+        $bitacora = new Bitacora();
+        $bitacora->usuario = Auth::user()->name;
+        $bitacora->hora = now();
+        $bitacora->usuario_afectado = $user->name;
+        $bitacora->evento = 'Actualizar';
+        $bitacora->contexto = 'Usuario';
+        $bitacora->descripcion = 'Actualizó el usuario ' . $userAux->name . ' ' . $userAux->email . 'a ' . $user->name . ' ' . $user->email;
+        $bitacora->origen = 'Web';
+        $bitacora->ip = $request->ip();
+        $bitacora->save();
+
         return redirect()->route('users.index')->with('success', 'El usuario se ha actualizado correctamente.');
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         $user = User::find($id);
 
         date_default_timezone_set("America/La_Paz");
-        activity()->useLog('Usuarios')->log('Eliminó')->subject();
-        $lastActivity = Activity::all()->last();
-        $lastActivity->subject_id = $user->id;
-        $lastActivity->save();
+        $bitacora = new Bitacora();
+        $bitacora->usuario = Auth::user()->name;
+        $bitacora->hora = now();
+        $bitacora->usuario_afectado = $user->name;
+        $bitacora->evento = 'Eliminar';
+        $bitacora->contexto = 'Usuario';
+        $bitacora->descripcion = 'Eliminó el usuario ' . $user->name . ' ' . $user->email;
+        $bitacora->origen = 'Web';
+        $bitacora->ip = $request->ip();
+        $bitacora->save();
 
         $user->delete();
 
         return redirect()->route('users.index');
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
         $user = User::find($id);
+
+        date_default_timezone_set("America/La_Paz");
+        $bitacora = new Bitacora();
+        $bitacora->usuario = Auth::user()->name;
+        $bitacora->hora = now();
+        $bitacora->usuario_afectado = $user->name;
+        $bitacora->evento = 'Mostrar';
+        $bitacora->contexto = 'Usuario';
+        $bitacora->descripcion = 'Visualizó el usuario ' . $user->name;
+        $bitacora->origen = 'Web';
+        $bitacora->ip = $request->ip();
+        $bitacora->save();
+
         return view('users.show', compact('user'));
     }
 }

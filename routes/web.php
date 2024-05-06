@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitaController;
 use App\Http\Controllers\AnuncioController;
+use App\Http\Controllers\BitacoraController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContenidoPromocionalController;
@@ -47,6 +48,8 @@ Route::group(['middleware' => ['auth']], function () {
   // Rutas para usuarios------------------------------------------------------------------------------
   Route::resource('users', UserController::class);
   Route::resource('profiles', ProfileController::class);
+  //Bitacora------------------------------------------------------------------------------------------
+  Route::resource('bitacora', BitacoraController::class);
   // Rutas para servicio-------------------------------------------------------------------------------
   Route::get('/servicios', [ServiciosController::class, 'index'])->name('servicios.index');
   Route::get('/servicios/create', [ServiciosController::class, 'create'])->name('servicios.create');

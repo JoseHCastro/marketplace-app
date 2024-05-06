@@ -12,7 +12,9 @@ use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
 use App\Http\Requests\StoreAnuncioRequest;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Auth;
+use App\Models\Bitacora;
+use App\Models\User;
 
 class AnuncioController extends Controller
 {
@@ -67,7 +69,7 @@ class AnuncioController extends Controller
     $monedas = Moneda::all();
     $condiciones = Condicion::all();
     //$estados = Estado::all();
-    
+
 
 
 
@@ -109,6 +111,17 @@ class AnuncioController extends Controller
 
     $anuncio->save();
 
+    date_default_timezone_set("America/La_Paz");
+    $bitacora = new Bitacora();
+    $bitacora->usuario = Auth::user()->name;
+    $bitacora->hora = now();
+    $bitacora->evento = 'Crear';
+    $bitacora->contexto = 'Anuncio';
+    $bitacora->descripcion = 'Creó el anuncio ' . $anuncio->titulo;
+    $bitacora->origen = 'Web';
+    $bitacora->ip = $request->ip();
+    $bitacora->save();
+
     return redirect()->route('anuncios.index');
     //return redirect()->route('anuncios.show', $anuncio); para previsualizar el anuncio luego de que se haya creado
   }
@@ -116,8 +129,19 @@ class AnuncioController extends Controller
   /**
    * Display the specified resource.
    */
-  public function show(Anuncio $anuncio)
+  public function show(Anuncio $anuncio, Request $request)
   {
+    date_default_timezone_set("America/La_Paz");
+    $bitacora = new Bitacora();
+    $bitacora->usuario = Auth::user()->name;
+    $bitacora->hora = now();
+    $bitacora->evento = 'Crear';
+    $bitacora->contexto = 'Anuncio';
+    $bitacora->descripcion = 'Creó el anuncio: ' . $anuncio->titulo;
+    $bitacora->origen = 'Web';
+    $bitacora->ip = $request->ip();
+    $bitacora->save();
+
     return view('anuncios.show', compact('anuncio'));
   }
 
@@ -157,16 +181,29 @@ class AnuncioController extends Controller
     $anuncio = Anuncio::find($anuncio->id);
     $anuncio->update($request->all());
 
+    $anuncioAux = Anuncio::find($anuncio->id);
+    date_default_timezone_set("America/La_Paz");
+    $bitacora = new Bitacora();
+    $bitacora->usuario = Auth::user()->name;
+    $bitacora->hora = now();
+    $bitacora->usuario_afectado = User::find($anuncio->user_id)->name;
+    $bitacora->evento = 'Actualizar';
+    $bitacora->contexto = 'Anuncio';
+    $bitacora->descripcion = 'Actualizó el anuncio: ' . $anuncioAux->id . ' ' . $anuncioAux->titulo . ' ' . $anuncioAux->descripcion . ' ' . $anuncioAux->precio . ' ' . $anuncioAux->fecha_expiracion;
+    $bitacora->origen = 'Web';
+    $bitacora->ip = $request->ip();
+    $bitacora->save();
+
     return redirect()->route('anuncios.index');
   }
 
   /**
    * Remove the specified resource from storage.
    */
-  public function destroy(Anuncio $anuncio)
+  public function destroy(Anuncio $anuncio, Request $request)
   {
     //
-    $user = Anuncio::find($anuncio);
+    $anuncioAux = Anuncio::find($anuncio->id);
 
     date_default_timezone_set("America/La_Paz");
     //activity()->useLog('Usuarios')->log('Eliminó')->subject();
@@ -175,6 +212,18 @@ class AnuncioController extends Controller
     $lastActivity->save(); */
 
     $anuncio->delete();
+
+    date_default_timezone_set("America/La_Paz");
+    $bitacora = new Bitacora();
+    $bitacora->usuario = Auth::user()->name;
+    $bitacora->hora = now();
+    $bitacora->usuario_afectado = User::find($anuncio->user_id)->name;
+    $bitacora->evento = 'Eliminar';
+    $bitacora->contexto = 'Anuncio';
+    $bitacora->descripcion = 'Eliminó el anuncio: ' . $anuncioAux->id . ' ' . $anuncioAux->titulo . ' ' . $anuncioAux->descripcion . ' ' . $anuncioAux->precio . ' ' . $anuncioAux->fecha_expiracion;
+    $bitacora->origen = 'Web';
+    $bitacora->ip = $request->ip();
+    $bitacora->save();
 
     return redirect()->route('anuncios.index');
   }

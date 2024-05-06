@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ServiciosRequest;
+use App\Models\Bitacora;
 use App\Models\Servicios;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ServiciosController extends Controller
 {
@@ -41,6 +43,17 @@ class ServiciosController extends Controller
         $servicio = $request->all();
 
         Servicios::create($servicio);
+
+        date_default_timezone_set("America/La_Paz");
+        $bitacora = new Bitacora();
+        $bitacora->usuario = Auth::user()->name;
+        $bitacora->hora = now();
+        $bitacora->evento = 'Crear';
+        $bitacora->contexto = 'Servicio';
+        $bitacora->descripcion = 'Creó el Servicio: ' . $request->titulo . ' descripción: ' . $request->descripcion . ' precio: ' . $request->precio;
+        $bitacora->origen = 'Web';
+        $bitacora->ip = $request->ip();
+        $bitacora->save();
 
         return redirect()->route('servicios.index')
             ->with('success-create', 'Servicio agregado con éxito');
@@ -84,7 +97,7 @@ class ServiciosController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Servicios $servicios)
-    {
+    {     
         $servicios->delete();
 
         return redirect()->route('servicios.index')
