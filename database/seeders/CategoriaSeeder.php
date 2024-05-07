@@ -15,10 +15,14 @@ class CategoriaSeeder extends Seeder
   {
     //
     $categoria = Categoria::create([
-      'nombre' => 'Vehiculos',//categoria padre
+      'nombre' => 'Vehiculos', //categoria padre
+      'url' => 'assets/images/vehiculos.jpg',
+      'descripcion' => 'Encuentra tu hogar ideal. Explora una amplia variedad de propiedades en venta o alquiler, desde acogedores apartamentos hasta espaciosas casas familiares. ¡Encuentra el lugar perfecto para ti!"',
     ]);
     $categoria = Categoria::create([
-      'nombre' => 'Inmuebles',//categoria padre
+      'nombre' => 'Inmuebles', //categoria padre
+      'url' => 'assets/images/inmuebles.jpg',
+      'descripcion' => 'Descubre el vehículo de tus sueños.  Desde elegantes autos deportivos hasta robustos vehículos todo terreno, tenemos una amplia selección de opciones para cada estilo y presupuesto. ¡Encuentra tu próximo viaje aquí!',
     ]);
   }
 }
