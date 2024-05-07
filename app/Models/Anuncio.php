@@ -29,10 +29,9 @@ class Anuncio extends Model
   }
 
   public function estado()
-  {
-    return $this->hasOne(Estado::class);
-  }
-
+    {
+        return $this->belongsTo('App\Models\Estado', 'estado_id');
+    }
   //ok
   public function Moneda()
   {
@@ -60,4 +59,13 @@ class Anuncio extends Model
   {
     return  $this->morphOne('App\Models\Image', 'imageable');
   }
+
+
+  //user
+  public function usuario()
+  {
+    
+      return $this->belongsTo(User::class, 'user_id');
+  }
+
 }

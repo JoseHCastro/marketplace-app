@@ -12,8 +12,8 @@ class HomePageController extends Controller
 
         $categorias = Categoria::all();
 
-        $anuncio = Anuncio::find(3);
-        return view('homepage', compact('categorias','anuncio'));
+        $anuncios = Anuncio::all();
+        return view('homepage', compact('categorias','anuncios'));
         
      }
 }
