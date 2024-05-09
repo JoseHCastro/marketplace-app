@@ -15,7 +15,7 @@
         "laravelcollective/html": "^6.4",
         "livewire/livewire": "^3.4",
         "spatie/laravel-activitylog": "^4.8",
-        "spatie/laravel-permission": "^6.4",
+        "spatie/laravel-permission": "^6.7",
         "tymon/jwt-auth": "^2.1"
     },
     "require-dev": {
