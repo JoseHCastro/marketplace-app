@@ -9,16 +9,24 @@ class Anuncio extends Model
 {
 
   //protected $guarded = ['id','created_at','updated_at'];
-  protected $guarded = [''];
+  /* protected $guarded = ['']; */
   protected $table = 'anuncios';
-  /* protected $fillable = [
+  protected $fillable = [
 
-    'user_id',
     'titulo',
     'descripcion',
-    'precio'
+    'precio',
+    'fecha_publicacion',
+    'fecha_expiracion',
+    'visitas',
+    'condicion_id',
+    'categoria_id',
+    'moneda_id',
+    'user_id',
+    'disponible',
+    'habilitado',
 
-  ]; */
+  ];
 
   use HasFactory;
 
@@ -29,9 +37,9 @@ class Anuncio extends Model
   }
 
   public function estado()
-    {
-        return $this->belongsTo('App\Models\Estado', 'estado_id');
-    }
+  {
+    return $this->belongsTo('App\Models\Estado', 'estado_id');
+  }
   //ok
   public function Moneda()
   {
@@ -64,8 +72,7 @@ class Anuncio extends Model
   //user
   public function usuario()
   {
-    
-      return $this->belongsTo(User::class, 'user_id');
-  }
 
+    return $this->belongsTo(User::class, 'user_id');
+  }
 }

@@ -11,6 +11,23 @@
         console.log("Hi, I'm using the Laravel-AdminLTE package!");
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        //cambiar imagen
+        document.getElementById("formFile").addEventListener('change', cambiarImagen);
+
+        function cambiarImagen(event) {
+            var file = event.target.files[0];
+
+            var reader = new FileReader();
+            reader.onload = (event) => {
+                document.getElementById("picture").setAttribute('src', event.target.result);
+            };
+
+            reader.readAsDataURL(file);
+            console.log("file");
+        }
+    </script>
 @stop
 
 @section('content')
@@ -44,12 +61,19 @@
                                     <div {{-- class="form-group" --}}>
                                         <label {{-- for="padre_id" --}}>Categoria:</label>
                                         <select class="form-select" aria-label="Default select example" name="categoria_id"
-                                            required>
+                                            required value="">
                                             <option selected>Seleccionar</option>
 
                                             @foreach ($categorias as $categoria)
-                                                <option value="{{ $categoria->id }}" required>{{ $categoria->nombre }}
-                                                </option>
+                                                @if ($categoria->id === $anuncio->categoria->id)
+                                                    <option value="{{ $categoria->id }}" selected>{{ $categoria->nombre }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                                                @endif
+
+                                                {{-- <option value="{{ $categoria->id }}" required>{{ $categoria->nombre }}
+                                                </option> --}}
                                             @endforeach
                                         </select>
 
@@ -81,7 +105,12 @@
                                         <select class="form-select" name="moneda_id" required>
                                             <option selected>Seleccionar</option>
                                             @foreach ($monedas as $moneda)
-                                                <option value="{{ $moneda->id }}">{{ $moneda->nombre }}</option>
+                                                @if ($moneda->id === $anuncio->moneda->id)
+                                                    <option value="{{ $moneda->id }}" selected>{{ $moneda->nombre }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $moneda->id }}">{{ $moneda->nombre }}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>
@@ -103,7 +132,12 @@
                                             <option selected value="">Seleccionar
                                             </option>
                                             @foreach ($condiciones as $condicion)
-                                                <option value="{{ $condicion->id }}">{{ $condicion->nombre }}</option>
+                                                @if ($condicion->id === $anuncio->condicion->id)
+                                                    <option value="{{ $condicion->id }}" selected>{{ $condicion->nombre }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $condicion->id }}">{{ $condicion->nombre }}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>
@@ -116,7 +150,12 @@
                                     </div>
 
                                     <div class="image-wrapper">
-                                        <img src="{{ Storage::url($anuncio->imagen->url) }}"
+                                        <img src="@php
+if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
+                                        echo Storage::url($anuncio->imagen->url); 
+                                      }else { 
+                                        echo "https://wpdirecto.com/wp-content/uploads/2017/08/alt-de-una-imagen.png";
+                                      } @endphp"
                                             class="rounded mx-auto d-block" alt="" id="picture">
                                     </div>
                                 </div>

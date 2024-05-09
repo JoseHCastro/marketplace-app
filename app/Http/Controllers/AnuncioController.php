@@ -181,6 +181,13 @@ class AnuncioController extends Controller
     $anuncio = Anuncio::find($anuncio->id);
     $anuncio->update($request->all());
 
+    if ($request->file('formFile')) {
+      $url = Storage::put('public/images/anuncios', $request->file('formFile'));
+      $anuncio->imagen()->create([
+        'url' => $url,
+      ]);
+    }
+
     $anuncioAux = Anuncio::find($anuncio->id);
     date_default_timezone_set("America/La_Paz");
     $bitacora = new Bitacora();
@@ -189,7 +196,7 @@ class AnuncioController extends Controller
     $bitacora->usuario_afectado = User::find($anuncio->user_id)->name;
     $bitacora->evento = 'Actualizar';
     $bitacora->contexto = 'Anuncio';
-    $bitacora->descripcion = 'Actualizó el anuncio: ' . $anuncioAux->id . ' ' . $anuncioAux->titulo . ' ' . $anuncioAux->descripcion . ' ' . $anuncioAux->precio . ' ' . $anuncioAux->fecha_expiracion;
+    $bitacora->descripcion = 'Actualizó el anuncio: ' . $anuncioAux->id . ' ' . $anuncioAux->titulo . ' ' . $anuncioAux->precio . ' ' . $anuncioAux->fecha_expiracion;
     $bitacora->origen = 'Web';
     $bitacora->ip = $request->ip();
     $bitacora->save();

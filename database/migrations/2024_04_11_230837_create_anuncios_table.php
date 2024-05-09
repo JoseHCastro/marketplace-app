@@ -24,9 +24,12 @@ return new class extends Migration
       $table->unsignedBigInteger('categoria_id')/* ->nullable() */;
       $table->unsignedBigInteger('condicion_id')/* ->unique() *//* ->nullable() */;
 
-      $table->unsignedBigInteger('estado_id');
+      /* $table->unsignedBigInteger('estado_id'); */
       $table->unsignedBigInteger('moneda_id');
       $table->unsignedBigInteger('user_id');
+
+      $table->boolean('disponible')->default(true);
+      $table->boolean('habilitado')->default(true);
 
       /* $table->unsignedBigInteger('departamento_id')->nullable();
       $table->unsignedBigInteger('provincia_id')->nullable(); */
@@ -45,11 +48,11 @@ return new class extends Migration
         ->onUpdate('cascade');
 
 
-      $table->foreign('estado_id')
+      /* $table->foreign('estado_id')
         ->references('id')
         ->on('estados')
         ->onDelete('cascade')
-        ->onUpdate('cascade');
+        ->onUpdate('cascade'); */
 
       $table->foreign('moneda_id')
         ->references('id')
