@@ -323,6 +323,7 @@ return [
           'text' => 'Gestionar Usuarios',
           'icon' => 'fas fa-users',
           'url' => '/users',
+
         ],
         [
           'text' => 'Gestionar Membresías',
@@ -330,9 +331,22 @@ return [
           'url' => '#',
         ],
         [
-          'text' => 'Gestionar Roles y Permisos',
-          'icon' => 'fas fa-check-square',
-          'url' => '#',
+            'text' => 'Gestionar Roles',
+            'icon' => 'far fa-fw fa-file',
+            'route' => 'roles.index',
+
+        ],
+        [
+            'text' => 'Gestionar Permisos',
+            'icon' => 'fas fa-check-square',
+            'route' => 'permisos.index',
+
+        ],
+        [
+            'text' => 'Roles de Usuarios',
+            'icon' => 'fas fa-check-square',
+            'route' => 'asignar.index',
+
         ],
         [
           'text' => 'Bitácora',
@@ -381,7 +395,7 @@ return [
           'text' => 'Gestionar Notificaciones',
           'route' => 'servicios.index',
           'icon' => 'fas fa-bell',
-          
+
         ],
         [
           'text' => 'Gestionar Banners',

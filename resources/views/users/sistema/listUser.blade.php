@@ -1,49 +1,40 @@
 @extends('adminlte::page')
 
-@section('title', 'Usuarios')
+@section('title', 'Roles')
+
 @section('css')
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.1/css/responsive.bootstrap4.css">
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
 @endsection
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Usuarios</h1>
+    <h1 class="m-0 text-dark">Administrador de USUARIOS</h1>
 @stop
 
 @section('content')
-     @role('administrador')
-        <a class="btn btn-dark ml-auto" href="{{ route('users.create') }}">Nuevo</a>
-     @endrole
-
     <div class="card">
+
         <div class="card-body">
             <table class="table table-striped" id="usersTable">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
-                        <th>Correo</th>
-                        <th>Acciones</th>
+                        <th>email</th>
+                        <th>Acciones</th> <!-- Agregamos esta columna -->
                     </tr>
                 </thead>
-
                 <tbody>
                     @foreach ($users as $user)
                         <tr>
                             <td>{{ $user->id }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>
 
-                                    <a class="btn btn-warning" href="{{ route('users.edit', $user->id) }}">Editar</a>
-
-
-                                    {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
-                                    {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
-                                    {!! Form::close() !!}
-
-                                <a class="btn btn-primary" href="{{ route('users.show', $user->id) }}">Mostrar</a>
+                            <td class="text-right"> <!-- Alineamos los botones a la derecha -->
+                                <a class="btn btn-warning" href="{{ route('asignar.edit', $user->id) }}">Ver Roles</a>
                             </td>
                         </tr>
                     @endforeach
@@ -51,6 +42,7 @@
             </table>
         </div>
     </div>
+
 @endsection
 
 @section('js')
@@ -61,11 +53,12 @@
     <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap4.js"></script>
     <script src="https://cdn.datatables.net/responsive/3.0.1/js/dataTables.responsive.js"></script>
     <script src="https://cdn.datatables.net/responsive/3.0.1/js/responsive.bootstrap4.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
         new DataTable('#usersTable', {
             responsive: true,
             autoWidth: false,
-
             "language": {
                 "lengthMenu": "Mostrar _MENU_ registros por página",
                 "zeroRecords": "Nada encontrado - disculpa",
