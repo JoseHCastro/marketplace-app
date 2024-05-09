@@ -73,6 +73,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Rutas para anuncios
     Route::resource('anuncios', AnuncioController::class);
+    Route::post('', [AnuncioController::class, 'habilitar'])->name('anuncios.habilitar');
+
 
     // Rutas para etiquetas
     Route::resource('etiquetas', EtiquetaController::class);

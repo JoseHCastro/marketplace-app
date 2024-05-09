@@ -18,7 +18,7 @@
             position: absolute;
             object-fit: cover;
             /* width: 100%;
-                                                                                                                                                                                                                                height: 100%; */
+                                                                                                                                                                                                                                            height: 100%; */
         }
     </style>
 @endsection
@@ -101,8 +101,22 @@ if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
                                             Más acciones
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Habilitar</a></li>
-                                            <li><a class="dropdown-item" href="#">Deshabilitar</a></li>
+                                            <form action="contenido_promocional.index" method="post">
+                                                @csrf
+                                                <input {{-- name="id_anuncios" --}} value="{{ $anuncio->id }}"hidden>
+
+                                                <button type="submit" class="dropdown-item">
+                                                    <a href="{{ route('contenido_promocional.show', $anuncio) }}"> Mejorar
+                                                        anuncio</a>
+                                                </button>
+                                            </form>
+
+                                            <li>
+                                                <a class="dropdown-item" href="#">Habilitar</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">Deshabilitar</a>
+                                            </li>
 
                                             <form action="contenido_promocional.index" method="get">
                                                 @csrf
