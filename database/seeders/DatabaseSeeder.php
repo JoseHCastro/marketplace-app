@@ -8,6 +8,8 @@ use App\Models\servicios;
 use Illuminate\Database\Seeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\EtiquetaSeeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 
 class DatabaseSeeder extends Seeder
@@ -35,6 +37,8 @@ class DatabaseSeeder extends Seeder
       EstadoSeeder::class,
       CategoriaSeeder::class,
       ServicioSeeder::class,
+      RolSeeder::class,
+      PermissionsSeeder::class,
     ]);
   }
 }

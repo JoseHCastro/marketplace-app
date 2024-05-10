@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\AsignarController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AsignarController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitaController;
@@ -17,7 +17,6 @@ use App\Http\Controllers\ServiciosController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermisoController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -88,3 +87,5 @@ Route::group(['middleware' => ['auth']], function () {
 
 // Ruta para contar visita
 Route::post('/contar-visita', [VisitaController::class, 'contarVisita'])->name('contar.visita');
+
+?>

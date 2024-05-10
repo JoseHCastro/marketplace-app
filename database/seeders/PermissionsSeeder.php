@@ -1,9 +1,11 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 
-class PermisosTableSeeder extends Seeder
+class PermissionsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,6 +18,6 @@ class PermisosTableSeeder extends Seeder
         Permission::create(['name' => 'crear usuario']);
         Permission::create(['name' => 'eliminar usuario']);
         Permission::create(['name' => 'editar usuario']);
-        Permission::create(['name' => 'configuración de administrador']);
+        Permission::create(['name' => 'configuracion administrador']);
     }
 }
