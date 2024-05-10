@@ -234,4 +234,40 @@ class AnuncioController extends Controller
 
     return redirect()->route('anuncios.index');
   }
+
+  public function habilitar(Request  $request)
+  {
+    $anuncio = Anuncio::find($request->unAnuncio);
+    $anuncio->habilitado = true;
+    $anuncio->save();
+
+    return redirect()->route('anuncios.index');
+  }
+
+  public function deshabilitar(Request $request)
+  {
+    $anuncio = Anuncio::find($request->unAnuncio);
+    $anuncio->habilitado = false;
+    $anuncio->save();
+
+    return redirect()->route('anuncios.index');
+  }
+
+  public function vendido(Request $request)
+  {
+    $anuncio = Anuncio::find($request->unAnuncio);
+    $anuncio->disponible = false;
+    $anuncio->save();
+
+    return redirect()->route('anuncios.index');
+  }
+
+  public function disponible(Request $request)
+  {
+    $anuncio = Anuncio::find($request->unAnuncio);
+    $anuncio->disponible = true;
+    $anuncio->save();
+
+    return redirect()->route('anuncios.index');
+  }
 }
