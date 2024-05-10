@@ -17,6 +17,9 @@ use App\Http\Controllers\ServiciosController;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermisoController;
+use App\Http\Controllers\BackupController;
+use App\Http\Controllers\RestoreController;
+use App\Http\Controllers\SupportController;
 
 
 /*
@@ -79,11 +82,25 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Rutas para categorías
     Route::resource('categoria', CategoryController::class)->parameters(['categoria' => 'categoria']);
-
-    // Rutas para contenido promocional
+    
+	// Rutas para backups-----------------------------------------------------------------------------
+    Route::get('/backups', [BackupController::class, 'index'])->name('backups.index');
+    Route::post('/backups/create', [BackupController::class, 'create'])->name('backups.create');
+    Route::delete('/backups/delete/{file_name}', [BackupController::class, 'delete'])->name('backups.delete');
+    Route::get('/backups/download/{file_name}', [BackupController::class, 'download'])->name('backups.download');
+    
+	// Rutas para restore-----------------------------------------------------------------------------
+    Route::get('/restore', [RestoreController::class, 'index'])->name('restore.index');
+    Route::post('/restore/upload', [RestoreController::class, 'uploadAndRestore'])->name('restore.upload');
+    Route::get('/restore/perform/{file_name}', [RestoreController::class, 'restoreFromPath'])->name('restore.perform');
+    
+	// Rutas para contenido promocional
     Route::get('contenido_promocional', [ContenidoPromocionalController::class, 'index'])->name('contenido_promocional.index');
     Route::get('contenido_promocional/{anuncio}', [ContenidoPromocionalController::class, 'show'])->name('contenido_promocional.show');
     Route::post('contenido_promocional', [ContenidoPromocionalController::class, 'store'])->name('contenido_promocional.store');
+    
+    // Ruta para enviar solicitudes de soporte
+    Route::post('/send-support-request', [SupportController::class, 'sendSupportRequest'])->middleware('auth');
 });
 
 // Ruta para contar visita
