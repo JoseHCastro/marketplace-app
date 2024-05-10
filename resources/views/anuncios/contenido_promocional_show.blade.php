@@ -149,7 +149,7 @@
                                             <div class="card-body">
                                                 <p>Llama la atención de los compradores y vende más rapido con nuestros
                                                     destaques.
-                                                    El detaque de anuncio tiene una duración de 7 dias.</p>
+                                                    </p>
                                                 <div class="row">
 
                                                     {{-- fila 1 columna 1 --}}
@@ -173,8 +173,10 @@
 
                                                                     <ul class="dropdown-menu ">
                                                                         <li>
-                                                                          <p for="opcion" class="">Ingrese el número de semanas: <br></p>
-                                                                          <input type="text" name="numero_semanas" id="opcion" placeholder="0">
+                                                                            <p for="opcion" class="">Ingrese el
+                                                                                número de semanas: <br></p>
+                                                                            <input type="text" name="numero_semanas"
+                                                                                id="opcion" placeholder="0">
                                                                             <h6 class="dropdown-header">Semanas</h6>
                                                                         </li>
                                                                         <li>
@@ -204,7 +206,7 @@
                                                                         <li>
                                                                             <a class="dropdown-item" href="#">
                                                                                 Fecha actual: <br>
-                                                                                 {{$anuncio->fecha_publicacion}}
+                                                                                {{ $anuncio->fecha_publicacion }}
                                                                             </a>
                                                                         </li>
                                                                     </ul>
@@ -238,8 +240,10 @@
 
                                                                     <ul class="dropdown-menu ">
                                                                         <li>
-                                                                          <p for="opcion" class="">Ingrese el número de semanas: <br></p>
-                                                                          <input type="text" name="numero_semanas" id="opcion" placeholder="0">
+                                                                            <p for="opcion" class="">Ingrese el
+                                                                                número de semanas: <br></p>
+                                                                            <input type="text" name="numero_semanas"
+                                                                                id="opcion" placeholder="0">
                                                                             <h6 class="dropdown-header">Semanas</h6>
                                                                         </li>
                                                                         <li>
@@ -269,7 +273,7 @@
                                                                         <li>
                                                                             <a class="dropdown-item" href="#">
                                                                                 Fecha actual: <br>
-                                                                                 {{$anuncio->fecha_publicacion}}
+                                                                                {{ $anuncio->fecha_publicacion }}
                                                                             </a>
                                                                         </li>
                                                                     </ul>
@@ -304,8 +308,10 @@
 
                                                                     <ul class="dropdown-menu ">
                                                                         <li>
-                                                                          <p for="opcion" class="">Ingrese el número de semanas: <br></p>
-                                                                          <input type="text" name="numero_semanas" id="opcion" placeholder="0">
+                                                                            <p for="opcion" class="">Ingrese el
+                                                                                número de semanas: <br></p>
+                                                                            <input type="text" name="numero_semanas"
+                                                                                id="opcion" placeholder="0">
                                                                             <h6 class="dropdown-header">Semanas</h6>
                                                                         </li>
                                                                         <li>
@@ -335,7 +341,7 @@
                                                                         <li>
                                                                             <a class="dropdown-item" href="#">
                                                                                 Fecha actual: <br>
-                                                                                 {{$anuncio->fecha_publicacion}}
+                                                                                {{ $anuncio->fecha_publicacion }}
                                                                             </a>
                                                                         </li>
                                                                     </ul>
@@ -352,7 +358,13 @@
                                                     <div class="card">
 
                                                         <div class="image-wrapper">
-                                                            <img src="{{ Storage::url($anuncio->imagen->url) }}"
+                                                            <img src="@php
+if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
+                                        echo Storage::url($anuncio->imagen->url);
+                                        }else { 
+                                        echo "https://wpdirecto.com/wp-content/uploads/2017/08/alt-de-una-imagen.png";
+                                      
+                                    } @endphp"
                                                                 alt="{{ $anuncio->titulo }}"
                                                                 class="rounded mx-auto d-block" alt=""
                                                                 id="picture">
@@ -360,12 +372,18 @@
 
                                                         <div class="card-body">
                                                             <h5 class="card-title">Título: <br>
-                                                                {{ $anuncio->titulo }}</h5>
-                                                            <p class="card-text">
-                                                                Descripción: <br>
+                                                                {{ $anuncio->titulo }}
+                                                            </h5>
+                                                            
 
-                                                                {{ $anuncio->descripcion }}
+                                                            <p class="card-text">
+                                                                Descripción: 
+                                                            <div>
+                                                                {!! nl2br($anuncio->descripcion) !!}
+                                                            </div>
+                                                            {{-- {{ $anuncio->descripcion }} --}}
                                                             </p>
+
                                                             <a {{-- href="" --}}
                                                                 class="btn btn-warning">{{ $anuncio->moneda->nombre }}.
                                                                 {{ $anuncio->precio }}</a>
@@ -381,7 +399,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
 
 
                                     </div>

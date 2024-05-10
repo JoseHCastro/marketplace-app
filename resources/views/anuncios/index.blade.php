@@ -18,7 +18,7 @@
             position: absolute;
             object-fit: cover;
             /* width: 100%;
-                                                                                                                        height: 100%; */
+                                                                                                                                                                                                                                            height: 100%; */
         }
     </style>
 @endsection
@@ -66,7 +66,13 @@
                             <td>{{ $anuncio->id }}</td>
                             <td>
                                 <div>
-                                    <img src="{{ Storage::url($anuncio->imagen->url) }}" alt="{{ $anuncio->titulo }}"
+                                    <img src=" 
+                                    @php
+if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
+                                        echo Storage::url($anuncio->imagen->url);
+                                    } else { 
+                                        echo "https://wpdirecto.com/wp-content/uploads/2017/08/alt-de-una-imagen.png";
+                                      } @endphp"
                                         style="width: 100px; height: 100px;" class="rounded mx-auto d-block">
 
                                 </div>
@@ -95,8 +101,22 @@
                                             Más acciones
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Habilitar</a></li>
-                                            <li><a class="dropdown-item" href="#">Deshabilitar</a></li>
+                                            <form action="contenido_promocional.index" method="post">
+                                                @csrf
+                                                <input {{-- name="id_anuncios" --}} value="{{ $anuncio->id }}"hidden>
+
+                                                <button type="submit" class="dropdown-item">
+                                                    <a href="{{ route('contenido_promocional.show', $anuncio) }}"> Mejorar
+                                                        anuncio</a>
+                                                </button>
+                                            </form>
+
+                                            <li>
+                                                <a class="dropdown-item" href="#">Habilitar</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">Deshabilitar</a>
+                                            </li>
 
                                             <form action="contenido_promocional.index" method="get">
                                                 @csrf
