@@ -12,6 +12,7 @@
 @stop
 
 @section('content')
+
      @role('administrador')
         <a class="btn btn-dark ml-auto" href="{{ route('users.create') }}">Nuevo</a>
      @endrole

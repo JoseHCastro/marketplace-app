@@ -246,7 +246,7 @@
                                     class="product-name">{{ $categoria->nombre }}</span></a>
                             <span class="latest-bid">{{ $categoria->descripcion }}</span>
                             <div class="bid-react-area">
-                                {{-- <div class="last-bid">Precio: {{ $categoria->precio }}</div> --}}                               
+                                {{-- <div class="last-bid">Precio: {{ $categoria->precio }}</div> --}}
                                 <div class="react-area">
                                     <svg viewBox="0 0 17 16" fill="none" width="16" height="16"
                                         class="sc-bdnxRM sc-hKFxyN kBvkOu">
@@ -326,7 +326,13 @@
                         <div class="product-style-one no-overlay">
                             <div class="card-thumbnail">
                                 <a href="product-details.html"><img img
-                                        src=" {{ Storage::url($anuncio->imagen->url) }} " alt="NFT_portfolio"></a>
+                                        src=" 
+                                        @php
+if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
+                                        echo Storage::url($anuncio->imagen->url);
+                                                                          } @endphp
+                                                                                "
+                                        alt="NFT_portfolio"></a>
                             </div>
                             <div class="product-share-wrapper">
                                 <div class="profile-share">
@@ -360,7 +366,7 @@
                             </div>
                             <a href="product-details.html"><span
                                     class="product-name">{{ $anuncio->titulo }}</span></a>
-                            <span class="latest-bid">{{ $anuncio->estado->nombre }}</span>
+                            <span class="latest-bid">{{-- {{ $anuncio->estado->nombre }} --}}</span>
                             <div class="bid-react-area">
                                 <div class="last-bid">{{ $anuncio->precio }} {{ $anuncio->moneda->nombre }}</div>
                                 <div class="react-area">

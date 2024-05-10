@@ -18,7 +18,7 @@
             position: absolute;
             object-fit: cover;
             /* width: 100%;
-                                                                                                                                                                                                                                height: 100%; */
+                                                                                                                                                                                                                                                                                                                                                                                    height: 100%; */
         }
     </style>
 @endsection
@@ -48,7 +48,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Imagen</th>
-                        <th>Título</th>
+                        <th>Detalle</th>
                         <th>Categoria</th>
 
                         {{-- <th>Categoria</th> --}}
@@ -77,7 +77,35 @@ if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
 
                                 </div>
                             </td>
-                            <td>{{ $anuncio->titulo }}</td>
+                            <td>
+                                <h5>{{ $anuncio->titulo }}</h5>
+
+                                <p>Visitas: {{ $anuncio->visitas }}</p>
+
+                                @php
+                                    if ($anuncio->disponible === 0) {
+                                        echo ' <strong style="color:red">| Vendido </strong>';
+                                    }
+                                    /* if ($anuncio->precio !== null && isset($anuncio->precio)) {
+                                            echo "Precio: $" . $anuncio->precio;
+                                        } else {
+                                            echo 'Precio: No especificado';
+                                        } */
+                                @endphp
+
+                                @php
+                                    if ($anuncio->habilitado === 0) {
+                                        echo ' <strong style="color:red"> | No publicado  </strong>';
+                                    }
+                                    /* if ($anuncio->precio !== null && isset($anuncio->precio)) {
+                                            echo "Precio: $" . $anuncio->precio;
+                                        } else {
+                                            echo 'Precio: No especificado';
+                                        } */
+                                @endphp
+
+
+                            </td>
                             <td>{{ $anuncio->categoria->nombre }}</td>
                             <td>{{ $anuncio->fecha_publicacion }}</td>
                             <td>{{ $anuncio->fecha_expiracion }}</td>
@@ -100,22 +128,62 @@ if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
                                             data-bs-toggle="dropdown" aria-expanded="false">
                                             Más acciones
                                         </button>
+
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Habilitar</a></li>
-                                            <li><a class="dropdown-item" href="#">Deshabilitar</a></li>
 
-                                            <form action="contenido_promocional.index" method="get">
+                                            <form action="{{ route('anuncios.habilitar') }}" method="post">
                                                 @csrf
-                                                <input {{-- name="id_anuncios" --}} value="{{ $anuncio->id }}"hidden>
 
+
+                                                <input type="text" name="unAnuncio" id=""
+                                                    value="{{ $anuncio->id }}" hidden>
                                                 <button type="submit" class="dropdown-item">
-                                                    <a href="{{ route('contenido_promocional.show', $anuncio) }}"> Mejorar
-                                                        anuncio</a>
+                                                    Publicar
                                                 </button>
                                             </form>
 
-                                            <li><a class="dropdown-item" href="#">Vendido</a></li>
-                                            <li><a class="dropdown-item" href="#">No venido</a></li>
+                                            {{-- <li>
+                                                <a class="dropdown-item" href="#">Habilitar</a>
+                                            </li> --}}
+
+                                            <form action="{{ route('anuncios.deshabilitar') }}" method="post">
+                                                @csrf
+                                                <input type="text" name="unAnuncio" id=""
+                                                    value="{{ $anuncio->id }}" hidden>
+                                                <button type="submit" class="dropdown-item">
+                                                    No publicar
+                                                </button>
+                                            </form>
+
+
+                                            <form action="{{ route('contenido_promocional.show', $anuncio) }}"
+                                                method="get">
+
+                                                <button type="submit" class="dropdown-item">
+                                                    Mejorar anuncio
+                                                </button>
+                                            </form>
+
+
+                                            <form action="{{ route('anuncios.vendido') }}" method="post">
+                                                @csrf
+                                                <input type="text" name="unAnuncio" id=""
+                                                    value="{{ $anuncio->id }}" hidden>
+                                                <button type="submit" class="dropdown-item">
+                                                    Vendido
+                                                </button>
+                                            </form>
+
+                                            <form action="{{ route('anuncios.disponible') }}" method="post">
+                                                @csrf
+                                                <input type="text" name="unAnuncio" id=""
+                                                    value="{{ $anuncio->id }}" hidden>
+                                                <button type="submit" class="dropdown-item">
+                                                    No vendido
+                                                </button>
+                                            </form>
+
+
                                         </ul>
                                     </div>
                                 </div>

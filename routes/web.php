@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\AsignarController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AsignarController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitaController;
@@ -21,7 +21,6 @@ use App\Http\Controllers\BackupController;
 use App\Http\Controllers\RestoreController;
 use App\Http\Controllers\SupportController;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,69 +37,83 @@ Route::get('/', [HomePageController::class, 'HomePage'])->name('HomePage');
 
 // Ruta para la prueba
 Route::get('/prueba', function () {
-    return view('anuncios.html');
+  return view('anuncios.html');
 });
 
 Auth::routes(); // Genera rutas login, logout, register, etc
 
 Route::group(['middleware' => ['auth']], function () {
-    // Ruta para el dashboard
-    Route::get('/home', function () {
-        return view('home');
-    })->name('home');
+  // Ruta para el dashboard
+  Route::get('/home', function () {
+    return view('home');
+  })->name('home');
 
-    // Rutas para usuarios
-    Route::resource('users', UserController::class);
+  // Rutas para usuarios
+  Route::resource('users', UserController::class);
 
-    // Rutas para perfiles
-    Route::resource('profiles', ProfileController::class);
+  // Rutas para perfiles
+  Route::resource('profiles', ProfileController::class);
 
-    // Rutas para roles
-    Route::resource('roles', RoleController::class);
-    Route::post('/users/sistema/roles', [RoleController::class, 'store'])->name('roles.store');
+  // Rutas para roles
+  Route::resource('roles', RoleController::class);
+  Route::post('/users/sistema/roles', [RoleController::class, 'store'])->name('roles.store');
 
-    // Rutas para permisos
-    Route::resource('permisos', PermisoController::class);
-    Route::resource('usuarios', AsignarController::class)->names('asignar');
+  // Rutas para permisos
+  Route::resource('permisos', PermisoController::class);
+  Route::resource('usuarios', AsignarController::class)->names('asignar');
 
-    // Rutas para bitácora
-    Route::resource('bitacora', BitacoraController::class);
+  // Rutas para bitácora
+  Route::resource('bitacora', BitacoraController::class);
 
-    // Rutas para servicios
-    Route::get('/servicios', [ServiciosController::class, 'index'])->name('servicios.index');
-    Route::get('/servicios/create', [ServiciosController::class, 'create'])->name('servicios.create');
-    Route::post('/servicios', [ServiciosController::class, 'store'])->name('servicios.store');
-    Route::get('/servicios/{servicio}/edit', [ServiciosController::class, 'edit'])->name('servicios.edit');
-    Route::put('/servicios/{servicio}', [ServiciosController::class, 'update'])->name('servicios.update');
-    Route::delete('/servicios/{servicio}', [ServiciosController::class, 'destroy'])->name('servicios.destroy');
+  // Rutas para servicios
+  Route::get('/servicios', [ServiciosController::class, 'index'])->name('servicios.index');
+  Route::get('/servicios/create', [ServiciosController::class, 'create'])->name('servicios.create');
+  Route::post('/servicios', [ServiciosController::class, 'store'])->name('servicios.store');
+  Route::get('/servicios/{servicio}/edit', [ServiciosController::class, 'edit'])->name('servicios.edit');
+  Route::put('/servicios/{servicio}', [ServiciosController::class, 'update'])->name('servicios.update');
+  Route::delete('/servicios/{servicio}', [ServiciosController::class, 'destroy'])->name('servicios.destroy');
 
-    // Rutas para anuncios
-    Route::resource('anuncios', AnuncioController::class);
+  // Rutas para anuncios
+  Route::resource('anuncios', AnuncioController::class);
+  Route::post('anuncios/habilitado', [AnuncioController::class, 'habilitar'])->name('anuncios.habilitar');
+  Route::post('anuncios/deshabilitado', [AnuncioController::class, 'deshabilitar'])->name('anuncios.deshabilitar');
+  Route::post('anuncios/vendido', [AnuncioController::class, 'vendido'])->name('anuncios.vendido');
+  Route::post('anuncios/disponible', [AnuncioController::class, 'disponible'])->name('anuncios.disponible');
 
-    // Rutas para etiquetas
-    Route::resource('etiquetas', EtiquetaController::class);
+  Route::get('anuncios/mensaje/{anuncio}', [AnuncioController::class, 'mensaje'])->name('anuncios.mensaje');
 
-    // Rutas para categorías
-    Route::resource('categoria', CategoryController::class)->parameters(['categoria' => 'categoria']);
+  // Rutas para categorías
+  Route::resource('categoria', CategoryController::class)->parameters(['categoria' => 'categoria']);
     
 	// Rutas para backups-----------------------------------------------------------------------------
-    Route::get('/backups', [BackupController::class, 'index'])->name('backups.index');
-    Route::post('/backups/create', [BackupController::class, 'create'])->name('backups.create');
-    Route::delete('/backups/delete/{file_name}', [BackupController::class, 'delete'])->name('backups.delete');
-    Route::get('/backups/download/{file_name}', [BackupController::class, 'download'])->name('backups.download');
+  Route::get('/backups', [BackupController::class, 'index'])->name('backups.index');
+  Route::post('/backups/create', [BackupController::class, 'create'])->name('backups.create');
+  Route::delete('/backups/delete/{file_name}', [BackupController::class, 'delete'])->name('backups.delete');
+  Route::get('/backups/download/{file_name}', [BackupController::class, 'download'])->name('backups.download');
     
 	// Rutas para restore-----------------------------------------------------------------------------
-    Route::get('/restore', [RestoreController::class, 'index'])->name('restore.index');
-    Route::post('/restore/upload', [RestoreController::class, 'uploadAndRestore'])->name('restore.upload');
-    Route::get('/restore/perform/{file_name}', [RestoreController::class, 'restoreFromPath'])->name('restore.perform');
+  Route::get('/restore', [RestoreController::class, 'index'])->name('restore.index');
+  Route::post('/restore/upload', [RestoreController::class, 'uploadAndRestore'])->name('restore.upload');
+  Route::get('/restore/perform/{file_name}', [RestoreController::class, 'restoreFromPath'])->name('restore.perform');
     
 	// Rutas para contenido promocional
-    Route::get('contenido_promocional', [ContenidoPromocionalController::class, 'index'])->name('contenido_promocional.index');
-    Route::get('contenido_promocional/{anuncio}', [ContenidoPromocionalController::class, 'show'])->name('contenido_promocional.show');
-    Route::post('contenido_promocional', [ContenidoPromocionalController::class, 'store'])->name('contenido_promocional.store');
+  Route::get('contenido_promocional', [ContenidoPromocionalController::class, 'index'])->name('contenido_promocional.index');
+  Route::get('contenido_promocional/{anuncio}', [ContenidoPromocionalController::class, 'show'])->name('contenido_promocional.show');
+  Route::post('contenido_promocional', [ContenidoPromocionalController::class, 'store'])->name('contenido_promocional.store');
     
-    // Ruta para enviar solicitudes de soporte
-    Route::post('/send-support-request', [SupportController::class, 'sendSupportRequest'])->middleware('auth');
+  // Ruta para enviar solicitudes de soporte
+  Route::post('/send-support-request', [SupportController::class, 'sendSupportRequest'])->middleware('auth');
+
+  // Rutas para etiquetas
+  Route::resource('etiquetas', EtiquetaController::class);
+
+  // Rutas para categorías
+  Route::resource('categoria', CategoryController::class)->parameters(['categoria' => 'categoria']);
+
+  // Rutas para contenido promocional
+  Route::get('contenido_promocional', [ContenidoPromocionalController::class, 'index'])->name('contenido_promocional.index');
+  Route::get('contenido_promocional/{anuncio}', [ContenidoPromocionalController::class, 'show'])->name('contenido_promocional.show');
+  Route::post('contenido_promocional', [ContenidoPromocionalController::class, 'store'])->name('contenido_promocional.store');
 });
 
 // Ruta para contar visita
