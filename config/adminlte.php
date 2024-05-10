@@ -318,6 +318,7 @@ return [
     [
       'text' => 'Administración',
       'icon' => 'fas fa-desktop',
+      //'can'  => 'administrador',
       'submenu' => [
         [
           'text' => 'Gestionar Usuarios',
