@@ -95,7 +95,7 @@ if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
 
                                 @php
                                     if ($anuncio->habilitado === 0) {
-                                        echo ' <strong style="color:red"> | Deshabilitado  </strong>';
+                                        echo ' <strong style="color:red"> | No publicado  </strong>';
                                     }
                                     /* if ($anuncio->precio !== null && isset($anuncio->precio)) {
                                             echo "Precio: $" . $anuncio->precio;
@@ -138,7 +138,7 @@ if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
                                                 <input type="text" name="unAnuncio" id=""
                                                     value="{{ $anuncio->id }}" hidden>
                                                 <button type="submit" class="dropdown-item">
-                                                    Habilitar
+                                                    Publicar
                                                 </button>
                                             </form>
 
@@ -151,7 +151,7 @@ if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
                                                 <input type="text" name="unAnuncio" id=""
                                                     value="{{ $anuncio->id }}" hidden>
                                                 <button type="submit" class="dropdown-item">
-                                                    Deshabilitar
+                                                    No publicar
                                                 </button>
                                             </form>
 
