@@ -357,7 +357,23 @@ return [
           'text' => 'Gestionar Reportes',
           'icon' => 'fas fa-file-archive',
           'url' => '#',
-        ]
+        ],
+        [
+          'text' => 'Gestionar Backups/Restore',
+          'icon' => 'fas fa-desktop',
+          'submenu' => [
+            [
+              'text' => 'Backups',
+              'icon' => 'fas fa-check-square',
+              'url' => '/backups',
+            ],
+            [
+              'text' => 'Restore',
+              'icon' => 'fas fa-address-card',
+              'url' => '/restore',
+            ],
+          ],
+        ],
       ],
     ],
     [
