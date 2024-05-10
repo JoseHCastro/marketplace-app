@@ -79,15 +79,37 @@
 
                                     {{-- input para seleccionar categoria --}}
                                     <div {{-- class="form-group" --}}>
-                                        <label {{-- for="padre_id" --}}>Categoria:</label>
-                                        <select class="form-select" aria-label="Default select example" name="categoria_id"
-                                            required>
+                                        {{-- <label for="padre_id">Categoria:</label>
+                                        <select class="form-select" name="categoria_id" required>
                                             <option selected>Seleccionar</option>
                                             @foreach ($categorias as $categoria)
                                                 <option value="{{ $categoria->id }}" required>{{ $categoria->nombre }}
                                                 </option>
                                             @endforeach
+                                        </select> --}}
+
+                                        <label>Categoria:</label>
+                                        <select class="form-select" name="categoria_id" id="">
+                                            <option selected>Seleccionar</option>
+                                            @foreach ($categorias as $categoria)
+                                                <optgroup
+                                                    label="
+                                                {{ $categoria->nombre }}
+                                                    ">
+                                                    @foreach ($subcategorias as $subcategoria)
+                                                        <option value="{{ $subcategoria->id }} ">
+                                                            @php
+                                                                if ($subcategoria->padre_id === $categoria->id) {
+                                                                    echo $subcategoria->nombre;
+                                                                }
+                                                            @endphp
+                                                        </option>
+                                                    @endforeach
+                                                </optgroup>
+                                            @endforeach
                                         </select>
+
+
                                     </div>
 
                                     {{-- input para titulo --}}

@@ -18,7 +18,7 @@
             position: absolute;
             object-fit: cover;
             /* width: 100%;
-                                                                                                                                                                                                                                                                                                                                                                                    height: 100%; */
+                                                                                                                                                                                                                                                                                                                                                                                                                height: 100%; */
         }
     </style>
 @endsection
@@ -49,7 +49,7 @@
                         <th>Id</th>
                         <th>Imagen</th>
                         <th>Detalle</th>
-                        <th>Categoria</th>
+                        <th>Categorias</th>
 
                         {{-- <th>Categoria</th> --}}
                         <th>Desde</th>
@@ -97,20 +97,23 @@ if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
                                     if ($anuncio->habilitado === 0) {
                                         echo ' <strong style="color:red"> | No publicado  </strong>';
                                     }
-                                    /* if ($anuncio->precio !== null && isset($anuncio->precio)) {
-                                            echo "Precio: $" . $anuncio->precio;
-                                        } else {
-                                            echo 'Precio: No especificado';
-                                        } */
                                 @endphp
 
 
                             </td>
-                            <td>{{ $anuncio->categoria->nombre }}</td>
+                            <td>
+                                <p><strong>Categoria:</strong> {{ $categorias[$anuncio->categoria->padre_id - 1]->nombre }}
+                                </p>
+                                <p><strong>Subcategoria:</strong> {{ $anuncio->categoria->nombre }} </p>
+                            </td>
                             <td>{{ $anuncio->fecha_publicacion }}</td>
                             <td>{{ $anuncio->fecha_expiracion }}</td>
 
                             <td with="10px">
+
+                                {{-- <form action="{{ route('anuncios.edit', $anuncio) }}">
+                                    <button type="submit" class="btn btn-primary">Editar</button>
+                                </form> --}}
                                 <a class="btn btn-warning" href="{{ route('anuncios.edit', $anuncio->id) }}">Editar</a>
 
                                 {!! Form::open([
