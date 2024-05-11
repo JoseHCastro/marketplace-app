@@ -16,12 +16,12 @@ class ServicioSeeder extends Seeder
     //
 
     $servicio = servicios::create([
-      'titulo' => 'Destaca en categorias de anuncios (Oferta 1)',
+      'titulo' => 'Destaca en categorias de anuncios',
       'descripcion' => 'Elige este destacado para que tu anuncio aparezca en la parte superior de la categoria seleccionada, y haz que todas las personas que visiten la categoria vean tu anuncio.',
       'precio' => '100',
     ]);
     $servicio = servicios::create([
-      'titulo' => 'Destaca en el marketplace principal (Oferta 2)',
+      'titulo' => 'Destaca en el marketplace principal',
       'descripcion' => 'Elige este destacado para que tu anuncio aparezca en la parte superior de la pagina principal del marketplace, y haz que todas las personas que visiten el marketplace vean tu anuncio.',
       'precio' => '150',
     ]);

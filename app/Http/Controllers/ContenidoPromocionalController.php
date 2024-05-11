@@ -30,6 +30,8 @@ class ContenidoPromocionalController extends Controller
     ]); */
 
     $etiquetas = $request->etiquetas;
+
+
     /* $etiquetas = implode(",", $etiquetas); */ //convertir array en string, separado por comas, para guardar en la base de datos, si no se hace esto, se guarda como array
     $anuncio = Anuncio::findOrFail($request->id_anuncio);
     $anuncio->etiquetas()->sync($etiquetas/* , false */); //en false, no se borran las etiquetas anteriores, solo se agregan las nuevas //en true, se borran las etiquetas anteriores y se agregan las nuevas
@@ -37,15 +39,42 @@ class ContenidoPromocionalController extends Controller
 
     /* --------------- para agregar el servicio a la tabla intermedia anuncio_servicio(incompleto) -------------- */
     $numero_dias = 0;
-    if ($request->numero_semanas == 1) {
-      $numero_dias = 7;
-    } elseif ($request->numero_semanas == 2) {
-      $numero_dias = 14;
-    } elseif ($request->numero_semanas == 3) {
-      $numero_dias = 21;
-    } elseif ($request->numero_semanas == 4) {
-      $numero_dias = 28;
+    if ($request->oferta1 !== null) {
+      if ($request->oferta1 == 1) {
+        $numero_dias = 7;
+      } elseif ($request->oferta1 == 2) {
+        $numero_dias = 14;
+      } elseif ($request->oferta1 == 3) {
+        $numero_dias = 21;
+      } elseif ($request->oferta1 == 4) {
+        $numero_dias = 30;
+      }
+    } elseif ($request->oferta2 !== null) {
+      if ($request->oferta1 == 1) {
+        $numero_dias = 7;
+      } elseif ($request->oferta1 == 2) {
+        $numero_dias = 14;
+      } elseif ($request->oferta1 == 3) {
+        $numero_dias = 21;
+      } elseif ($request->oferta1 == 4) {
+        $numero_dias = 30;
+      }
+    } elseif ($request->oferta3 !== null) {
+      if ($request->oferta1 == 1) {
+        $numero_dias = 7;
+      } elseif ($request->oferta1 == 2) {
+        $numero_dias = 14;
+      } elseif ($request->oferta1 == 3) {
+        $numero_dias = 21;
+      } elseif ($request->oferta1 == 4) {
+        $numero_dias = 30;
+      }
     }
+    
+    $request->oferta2;
+    $request->oferta3;
+    $numero_dias = 0;
+
 
     $fecha_inicio_servicio = Carbon::now();
     $fecha_fin_servicio = Carbon::now();
@@ -63,8 +92,14 @@ class ContenidoPromocionalController extends Controller
 
   public function show(Anuncio $anuncio)
   {
+
+    date_default_timezone_set("America/La_Paz");
     $etiquetas = Etiqueta::all();
     $servicios = servicios::all();
-    return view('anuncios.contenido_promocional_show', compact('anuncio', 'etiquetas', 'servicios'));
+
+
+    /* $fecha_actual = Carbon::now(); */
+    $fecha_actual = Carbon::now()->format('d/m/Y');
+    return view('anuncios.contenido_promocional_show', compact('anuncio', 'etiquetas', 'servicios', 'fecha_actual'));
   }
 }
