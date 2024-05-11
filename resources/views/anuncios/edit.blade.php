@@ -58,26 +58,41 @@
                                 <div class="card-body">
 
                                     {{-- input para seleccionar categoria --}}
-                                    <div {{-- class="form-group" --}}>
-                                        <label {{-- for="padre_id" --}}>Categoria:</label>
-                                        <select class="form-select" aria-label="Default select example" name="categoria_id"
-                                            required value="">
-                                            <option selected>Seleccionar</option>
 
-                                            @foreach ($categorias as $categoria)
-                                                @if ($categoria->id === $anuncio->categoria->id)
-                                                    <option value="{{ $categoria->id }}" selected>{{ $categoria->nombre }}
-                                                    </option>
-                                                @else
-                                                    <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
-                                                @endif
 
-                                                {{-- <option value="{{ $categoria->id }}" required>{{ $categoria->nombre }}
-                                                </option> --}}
-                                            @endforeach
-                                        </select>
+                                    <label>Categoria:</label>
+                                    <select class="form-select" name="categoria_id" id="">
+                                        <option selected>Seleccionar</option>
+                                        @foreach ($categorias as $categoria)
+                                            <optgroup
+                                                label="
+                                                {{ $categoria->nombre }}
+                                                    ">
+                                                @foreach ($subcategorias as $subcategoria)
+                                                    @if ($subcategoria->padre_id === $categoria->id)
+                                                        @if ($subcategoria->id === $anuncio->categoria->id)
+                                                            <option value="{{ $subcategoria->id }} "selected>
+                                                                {{ $subcategoria->nombre }}
+                                                            </option>
+                                                        @else
+                                                            <option value="{{ $subcategoria->id }}">
+                                                                {{ $subcategoria->nombre }}
+                                                            </option>
+                                                        @endif
+                                                    @endif
+                                                @endforeach
+                                            </optgroup>
+                                        @endforeach
+                                    </select>
 
-                                    </div>
+                                    @foreach ($monedas as $moneda)
+                                        @if ($moneda->id === $anuncio->moneda->id)
+                                            <option value="{{ $moneda->id }}" selected>{{ $moneda->nombre }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $moneda->id }}">{{ $moneda->nombre }}</option>
+                                        @endif
+                                    @endforeach
 
                                     {{-- input para titulo --}}
                                     <div {{-- class="form-group" --}}>

@@ -91,14 +91,17 @@
                                             <div class="col">
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        Tu anuncio con etiquetas
+
+                                                        <h5>Tu anuncio con etiquetas</h5>
 
                                                     </div>
                                                     <div class="card-body">
 
                                                         <p>Para captar la atención de posibles compradores, selecciona los
                                                             iconos a
-                                                            continuación.</p>
+                                                            continuación.
+                                                        </p>
+                                                        <p>Bs. 10 por etiqueta. Cada uno tiene una duración de 30 dias.</p>
                                                         {{-- primera opcion --}}
                                                         {{-- @foreach ($etiquetas as $etiqueta)
                                                     <div class="col">
@@ -144,19 +147,28 @@
                                         {{-- inicio row --}}
 
                                         <div class="card">
-                                            <div class="card-header">Destaca tu Anuncio y recibe más llamadas</div>
+                                            <div class="card-header">
+                                                <h5>Destaca tu Anuncio y recibe más llamadas</h5>
+                                            </div>
 
                                             <div class="card-body">
                                                 <p>Llama la atención de los compradores y vende más rapido con nuestros
                                                     destaques.
-                                                    </p>
+                                                </p>
+                                                <p>
+                                                    <strong>
+                                                        Escoge una oferta a continuación(4 semanas igual a 30 dias):
+                                                    </strong>
+                                                </p>
                                                 <div class="row">
 
                                                     {{-- fila 1 columna 1 --}}
                                                     <div class="col">
                                                         <div class="card">
 
-                                                            <div class="card-header"> <br></div>
+                                                            <div class="card-header">
+                                                                <h5> Oferta 1</h5>
+                                                            </div>
                                                             <div class="card-body">
                                                                 <h5 class="card-title">{{ $servicios[0]->titulo }}</h5>
                                                                 <p class="card-text">
@@ -175,7 +187,7 @@
                                                                         <li>
                                                                             <p for="opcion" class="">Ingrese el
                                                                                 número de semanas: <br></p>
-                                                                            <input type="text" name="numero_semanas"
+                                                                            <input type="text" name="oferta1"
                                                                                 id="opcion" placeholder="0">
                                                                             <h6 class="dropdown-header">Semanas</h6>
                                                                         </li>
@@ -206,7 +218,7 @@
                                                                         <li>
                                                                             <a class="dropdown-item" href="#">
                                                                                 Fecha actual: <br>
-                                                                                {{ $anuncio->fecha_publicacion }}
+                                                                                {{ $fecha_actual }}
                                                                             </a>
                                                                         </li>
                                                                     </ul>
@@ -222,7 +234,9 @@
                                                     <div class="col">
                                                         <div class="card">
 
-                                                            <div class="card-header"><br></div>
+                                                            <div class="card-header">
+                                                                <h5>Oferta 2</h5>
+                                                            </div>
                                                             <div class="card-body">
                                                                 <h5 class="card-title">{{ $servicios[1]->titulo }}</h5>
                                                                 <p class="card-text">
@@ -242,7 +256,7 @@
                                                                         <li>
                                                                             <p for="opcion" class="">Ingrese el
                                                                                 número de semanas: <br></p>
-                                                                            <input type="text" name="numero_semanas"
+                                                                            <input type="text" name="oferta2"
                                                                                 id="opcion" placeholder="0">
                                                                             <h6 class="dropdown-header">Semanas</h6>
                                                                         </li>
@@ -273,7 +287,7 @@
                                                                         <li>
                                                                             <a class="dropdown-item" href="#">
                                                                                 Fecha actual: <br>
-                                                                                {{ $anuncio->fecha_publicacion }}
+                                                                                {{ $fecha_actual }}
                                                                             </a>
                                                                         </li>
                                                                     </ul>
@@ -290,7 +304,9 @@
                                                     <div class="col">
                                                         <div class="card">
 
-                                                            <div class="card-header"><br></div>
+                                                            <div class="card-header">
+                                                                <h5>Oferta 3</h5>
+                                                            </div>
                                                             <div class="card-body">
                                                                 <h5 class="card-title">{{ $servicios[2]->titulo }}</h5>
                                                                 <p class="card-text">
@@ -310,7 +326,7 @@
                                                                         <li>
                                                                             <p for="opcion" class="">Ingrese el
                                                                                 número de semanas: <br></p>
-                                                                            <input type="text" name="numero_semanas"
+                                                                            <input type="text" name="oferta3"
                                                                                 id="opcion" placeholder="0">
                                                                             <h6 class="dropdown-header">Semanas</h6>
                                                                         </li>
@@ -341,7 +357,7 @@
                                                                         <li>
                                                                             <a class="dropdown-item" href="#">
                                                                                 Fecha actual: <br>
-                                                                                {{ $anuncio->fecha_publicacion }}
+                                                                                {{ $fecha_actual }}
                                                                             </a>
                                                                         </li>
                                                                     </ul>
@@ -371,13 +387,13 @@ if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
                                                         </div>
 
                                                         <div class="card-body">
-                                                            <h5 class="card-title">Título: <br>
+                                                            <h5 class="card-title"><strong>Título:</strong> <br>
                                                                 {{ $anuncio->titulo }}
                                                             </h5>
-                                                            
+
 
                                                             <p class="card-text">
-                                                                Descripción: 
+                                                                <strong> Descripción:</strong>
                                                             <div>
                                                                 {!! nl2br($anuncio->descripcion) !!}
                                                             </div>
