@@ -1,6 +1,6 @@
 {{-- resources/views/categoria/index.blade.php --}}
 @extends('adminlte::page')
-
+@include('components.helpButton')
 @section('title', 'Gestionar Categorías')
 
 @section('content_header')

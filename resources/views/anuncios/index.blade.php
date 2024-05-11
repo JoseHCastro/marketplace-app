@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-
+@include('components.helpButton')
 @section('title', 'Anuncio')
 @section('css')
     {{-- Add here extra stylesheets --}}

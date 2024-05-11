@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-
+@include('components.helpButton')
 @section('title', 'Index')
 
 @section('content_header')

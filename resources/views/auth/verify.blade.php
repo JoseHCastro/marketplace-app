@@ -1,5 +1,5 @@
 @extends('adminlte::auth.auth-page', ['auth_type' => 'login'])
-
+@include('components.helpButton')
 @section('auth_header', __('adminlte::adminlte.verify_message'))
 
 @section('auth_body')

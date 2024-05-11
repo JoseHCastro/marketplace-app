@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-
+@include('components.helpButton')
 @section('title', 'Gestionar apariencia de Anuncios')
 
 @section('content_header')

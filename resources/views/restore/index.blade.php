@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-
+@include('components.helpButton')
 @section('title', 'Restaurar Copias de Seguridad')
 
 @section('content_header')

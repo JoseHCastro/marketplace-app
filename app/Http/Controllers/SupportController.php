@@ -3,25 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Mail\SupportRequestMail;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\SupportMail;
 
 class SupportController extends Controller
 {
-    public function sendSupportRequest(Request $request)
+    public function send(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'role' => 'required|string',
-            'description' => 'required|string|max:1000'
+        $request->validate([
+            'description' => 'required|string',
         ]);
+        // Lógica para manejar la entrada del formulario
+        $data = $request->all();
+
+        Mail::to('taniavaldadonozo@gmail.com')->send(new SupportMail($data));
     
-        try {
-            Mail::to('superadmin@example.com')->send(new SupportRequestMail($validated));
-            return response()->json(['message' => 'Solicitud enviada correctamente']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al enviar la solicitud'], 500);
-        }
+        return back()->with('success', 'Su solicitud de soporte ha sido enviada.');
     }
 }
+ 
