@@ -318,10 +318,10 @@ return [
     [
       'text' => 'Administración',
       'icon' => 'fas fa-desktop',
-      //'can'  => 'administrador',
       'submenu' => [
         [
           'text' => 'Gestionar Usuarios',
+          'can' => 'ver listado de usuarios',
           'icon' => 'fas fa-users',
           'url' => '/users',
 
@@ -409,7 +409,7 @@ return [
           'url' => '#',
         ],
         [
-          'text' => 'Gestionar Notificaciones',
+          'text' => 'Gestionar Servicios',
           'route' => 'servicios.index',
           'icon' => 'fas fa-bell',
 

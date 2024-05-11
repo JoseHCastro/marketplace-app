@@ -13,9 +13,10 @@
 
 @section('content')
 
-     @role('administrador')
+    {{-- @can('crear usuario') --}}
         <a class="btn btn-dark ml-auto" href="{{ route('users.create') }}">Nuevo</a>
-     @endrole
+    {{-- @endcan --}}
+    
 
     <div class="card">
         <div class="card-body">
@@ -36,15 +37,17 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-
-                                    <a class="btn btn-warning" href="{{ route('users.edit', $user->id) }}">Editar</a>
-
-
-                                    {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
-                                    {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
-                                    {!! Form::close() !!}
-
+                                @can('editar usuario')
+                                <a class="btn btn-warning" href="{{ route('users.edit', $user->id) }}">Editar</a>
+                                @endcan
+                                @can('eliminar usuario')
+                                {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
+                                {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
+                                {!! Form::close() !!}
+                                @endcan
+                                @can('mostrar usuario')
                                 <a class="btn btn-primary" href="{{ route('users.show', $user->id) }}">Mostrar</a>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

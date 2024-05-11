@@ -42,6 +42,38 @@ Route::get('/prueba', function () {
 
 Auth::routes(); // Genera rutas login, logout, register, etc
 
+//Rutas para usuarios-------------------------------------------------------------------------
+Route::middleware(['auth', 'can:ver listado de usuarios'])->group(function () {
+  // Rutas que requieren permiso para ver listado de usuarios
+  Route::get('/users', [UserController::class,'index'])->name('users.index');
+
+});
+
+Route::middleware(['auth', 'can:crear usuario'])->group(function () {
+  // Rutas que requieren permiso para crear usuario
+  Route::get('/users/create', [UserController::class,'create'])->name('users.create');
+  Route::post('/users/store', [UserController::class,'store'])->name('users.store');
+});
+
+Route::middleware(['auth', 'can:editar usuario'])->group(function () {
+  // Rutas que requieren permiso para editar usuario
+  Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+  //Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+  Route::match(['put', 'patch'], '/users/{user}', [UserController::class, 'update'])->name('users.update');
+});
+
+
+Route::middleware(['auth', 'can:eliminar usuario'])->group(function () {
+  // Rutas que requieren permiso para eliminar usuario
+  Route::delete('/users/{user}', [UserController::class,'destroy'])->name('users.destroy');
+});
+
+Route::middleware(['auth', 'can:mostrar usuario'])->group(function () {
+  // Rutas que requieren permiso para mostrar un usuario
+  Route::get('/users/{user}/show', [UserController::class,'show'])->name('users.show');
+});
+//----------------------------------------------------------------------------------------------
+
 Route::group(['middleware' => ['auth']], function () {
   // Ruta para el dashboard
   Route::get('/home', function () {
@@ -49,7 +81,11 @@ Route::group(['middleware' => ['auth']], function () {
   })->name('home');
 
   // Rutas para usuarios
+
   Route::resource('users', UserController::class);
+
+  //Route::resource('users', UserController::class);
+
   // Rutas para perfiles
   Route::resource('profiles', ProfileController::class);
   // Rutas para roles

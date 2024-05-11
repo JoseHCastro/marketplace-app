@@ -6,7 +6,7 @@ Primero configuren su archivo .env
 ```bash
 
 #Composer
-composer update
+composer update o composer install
 
 #key
 php artisan key:generate
@@ -14,8 +14,7 @@ php artisan key:generate
 # Migrar tablas y seeders
 php artisan migrate:fresh --seed
 
-# en una consola dentro del proyecto
-npm run dev
 
-#otra consola dentro del proyecto
+
+# Para correr el proyecto
 php artisan serve

@@ -3,14 +3,11 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\User;
-use App\Models\Anuncio;
-use App\Models\servicios;
+
 use Illuminate\Database\Seeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\EtiquetaSeeder;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+
 
 
 class DatabaseSeeder extends Seeder
@@ -31,6 +28,7 @@ class DatabaseSeeder extends Seeder
 
 
     $this->call([
+      RoleSeeder::class,
       UserSeeder::class,
       EtiquetaSeeder::class,
       MonedaSeeder::class,
