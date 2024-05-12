@@ -13,9 +13,11 @@
                 <div class="row">
                     <div class="col-md-4">
                         @if ($user->profile_photo_path)
-                            <img src="{{ asset($user->profile_photo_path) }}" class="img-fluid rounded border mb-3" alt="Foto de perfil" style="max-width: 200px; height: auto;">
+                            <img src="{{ asset($user->profile_photo_path) }}" class="img-fluid rounded border mb-3"
+                                alt="Foto de perfil" style="max-width: 200px; height: auto;">
                         @else
-                            <img src="{{ asset('assets/images/user.png') }}" class="img-fluid rounded border mb-3" alt="Foto de perfil" style="max-width: 200px; height: auto;">
+                            <img src="{{ asset('assets/images/user.png') }}" class="img-fluid rounded border mb-3"
+                                alt="Foto de perfil" style="max-width: 200px; height: auto;">
                         @endif
                         <div class="col-md-8">
                             <div class="form-group">
@@ -36,8 +38,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <a href="{{ route('users.index') }}" class="btn btn-primary mr-2">Volver</a>
-                        <a class="btn btn-warning" href="{{ route('users.edit', $user->id) }}">Editar</a>
-                    </div>                    
+                        @can('editar usuario')
+                            <a class="btn btn-warning" href="{{ route('users.edit', $user->id) }}">Editar</a>
+                        @endcan
+                    </div>
                 </div>
             </div>
         </div>

@@ -13,9 +13,9 @@
 
 @section('content')
 
-    {{-- @can('crear usuario') --}}
+    @can('crear usuario')
         <a class="btn btn-dark ml-auto" href="{{ route('users.create') }}">Nuevo</a>
-    {{-- @endcan --}}
+    @endcan
     
 
     <div class="card">

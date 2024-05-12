@@ -17,7 +17,7 @@
               @foreach ($roles as $role)
               <div>
                 <label>
-                    {!! Form::checkbox('roles[]', $role->id, $user->hasAnyRole($role->id) ? : false, ['class'=>'mr-1']) !!}
+                    {!! Form::checkbox('roles[]', $role->id, $user->hasRole($role->id) ? : false, ['class'=>'mr-1']) !!}
                     {{$role->name}}
                 </label>
               </div>
