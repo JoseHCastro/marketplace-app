@@ -38,7 +38,9 @@ class AnuncioController extends Controller
       "6" => "Morado",
       "7" => "Café",
     ]; */
-    return view('anuncios.index', compact('anuncios'/* ,'colores' */));
+
+    $categorias = Categoria::all();
+    return view('anuncios.index', compact('anuncios', 'categorias'/* ,'colores' */));
   }
 
   /**
@@ -65,15 +67,16 @@ class AnuncioController extends Controller
       "8" => "Últimas Unidades",
     ]; */
 
-    $categorias = Categoria::all();
+    /* $categorias = Categoria::all(); */
     $monedas = Moneda::all();
     $condiciones = Condicion::all();
     //$estados = Estado::all();
 
+    $categorias = Categoria::where('padre_id', null)->get();
+    $subcategorias = Categoria::where('padre_id', '!=', null)->get();
 
 
-
-    return view('anuncios.create', compact('categorias', 'monedas', 'condiciones'/* , 'estados' */));
+    return view('anuncios.create', compact('categorias', 'subcategorias', 'monedas', 'condiciones'/* , 'estados' */));
   }
 
   /**
@@ -81,7 +84,7 @@ class AnuncioController extends Controller
    */
   public function store(Request $request)
   {
-
+    date_default_timezone_set("America/La_Paz");
     /* return  $request->all(); */
     /* return  $request->file('formFile'); */
     /* $fileFormPath = $request->file('formFile')->store(); */
@@ -93,11 +96,12 @@ class AnuncioController extends Controller
     $anuncio->descripcion = $request->descripcion;
     $anuncio->precio = $request->precio;
     $anuncio->fecha_publicacion = Carbon::now(); //obtener fecha actual al crear el anuncio
-    $anuncio->fecha_expiracion = Carbon::now(); //obtener fecha actual al crear el anuncio + los dias de duracion del anuncio
+    $anuncio->fecha_expiracion = Carbon::now()->addDays(30); //obtener fecha actual al crear el anuncio + los dias de duracion del anuncio
     $anuncio->visitas = 0;
     $anuncio->condicion_id = $request->condicion_id;
     $anuncio->categoria_id = $request->categoria_id;
-    $anuncio->estado_id = 2;  //por defecto el anuncio estara en estado disponible o no vendido
+    $anuncio->disponible = 1;  //por defecto el anuncio estara en estado disponible o no vendido
+    $anuncio->habilitado = 1;  //por defecto el anuncio estara habilitado
     $anuncio->moneda_id = $request->moneda_id;
     $anuncio->user_id = auth()->user()->id; //id de usuario autentificado actual
     $anuncio->save();
@@ -111,7 +115,7 @@ class AnuncioController extends Controller
 
     $anuncio->save();
 
-    date_default_timezone_set("America/La_Paz");
+
     $bitacora = new Bitacora();
     $bitacora->usuario = Auth::user()->name;
     $bitacora->hora = now();
@@ -151,11 +155,14 @@ class AnuncioController extends Controller
    */
   public function edit(Anuncio $anuncio)
   {
-    $categorias = Categoria::all();
+    /* $categorias = Categoria::all(); */
     $monedas = Moneda::all();
     $condiciones = Condicion::all();
     $imagen = $anuncio->imagen;
-    return view('anuncios.edit', compact('anuncio', 'categorias', 'monedas', 'imagen', 'condiciones'));
+
+    $categorias = Categoria::where('padre_id', null)->get();
+    $subcategorias = Categoria::where('padre_id', '!=', null)->get();
+    return view('anuncios.edit', compact('anuncio', 'categorias', 'subcategorias', 'monedas', 'imagen', 'condiciones'));
   }
 
 
