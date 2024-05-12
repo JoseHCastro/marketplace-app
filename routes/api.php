@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\AnuncioController;
 use App\Http\Controllers\Api\UsuarioController;
+use App\Http\Controllers\Api\CategoriaApi;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,3 +73,11 @@ Route::group([
   /* ----------------------------------------------------------------------------------------------------- */
 });
 /* -------------colocar aqui rutas ignoradas por el midleware, quitar el prefijo auth de la url en insomnia o postman ya q no esta en el grupo de ruta----------------- */
+// RUTA PARA OBTENER LOS ANUNCIOS
+
+Route::get('/anuncios', [AnuncioController::class, 'index']);
+
+
+//RUTA PARA OBTENES CATEGORIAS
+
+Route::get('/categorias', [CategoriaApi::class, 'index']);
