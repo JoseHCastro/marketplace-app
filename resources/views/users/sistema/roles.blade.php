@@ -33,8 +33,12 @@
                             <td>{{ $role->id }}</td>
                             <td>{{ $role->name }}</td>
                             <td class="text-right"> <!-- Alineamos los botones a la derecha -->
-                                <a class="btn btn-warning" href="{{ route('roles.edit', $role->id) }}">Editar</a>
-                                <a class="btn btn-primary" href="{{ route('roles.show', $role->id) }}">Mostrar</a>
+                                <a class="btn btn-warning" href="{{ route('roles.edit', $role) }}">Editar</a>
+                                <a class="btn btn-primary" href="#" onclick="event.preventDefault(); document.getElementById('delete-role-{{ $role->id }}').submit();">Eliminar</a>
+                                   <form id="delete-role-{{ $role->id }}" action="{{ route('roles.destroy', $role) }}" method="POST" style="display: none;">
+                                     @csrf
+                                     @method('DELETE')
+                                   </form>
                             </td>
                         </tr>
                     @endforeach

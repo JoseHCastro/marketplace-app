@@ -57,7 +57,7 @@ class ProfileController extends Controller
         $bitacora = new Bitacora();
         $bitacora->usuario = Auth::user()->name;
         $bitacora->hora = now();
-        $bitacora->usuario_afectado = Auth::user()->namee;
+        $bitacora->usuario_afectado = Auth::user()->name;
         $bitacora->evento = 'Actualizar';
         $bitacora->contexto = 'Perfil';
         $bitacora->descripcion = 'Actualizó su perfil';

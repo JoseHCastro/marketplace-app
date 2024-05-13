@@ -90,6 +90,8 @@ Route::group(['middleware' => ['auth']], function () {
   // Rutas para roles
   Route::resource('roles', RoleController::class);
   Route::post('/users/sistema/roles', [RoleController::class, 'store'])->name('roles.store');
+  Route::delete('/roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+
   // Rutas para permisos
   Route::resource('permisos', PermisoController::class);
   Route::resource('usuarios', AsignarController::class)->names('asignar');

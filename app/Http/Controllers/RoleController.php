@@ -48,7 +48,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        //$role = Role::find($id);
+
         $permisos = Permission::all();
         return view('users.sistema.rolePermiso', compact('role', 'permisos'));
     }
@@ -59,14 +59,17 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         $role->permissions()->sync($request->permisos);
-        return redirect()->route('roles.edit', $role);
+        return redirect()->route('roles.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Role $role)
     {
-        //
+        $role->delete();
+
+        return redirect()->route('roles.index')
+                         ->with('success', 'Rol eliminado exitosamente');
     }
 }

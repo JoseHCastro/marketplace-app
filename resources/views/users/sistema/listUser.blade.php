@@ -34,7 +34,7 @@
                             <td>{{ $user->email }}</td>
 
                             <td class="text-right"> <!-- Alineamos los botones a la derecha -->
-                                <a class="btn btn-warning" href="{{ route('asignar.edit', $user->id) }}">Ver Roles</a>
+                                <a class="btn btn-warning" href="{{ route('asignar.edit', $user) }}">Ver Roles</a>
                             </td>
                         </tr>
                     @endforeach

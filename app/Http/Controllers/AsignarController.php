@@ -55,15 +55,13 @@ class AsignarController extends Controller
         return view('users.sistema.userRol', compact('user','roles'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
-        $role = Role::findOrFail($id);
+        $user = User::find($id);
+        $user->roles()->sync($request->roles);
 
-        // Sincronizar los permisos seleccionados con los del rol
-        $role->syncPermissions($request->permisos);
 
-        return redirect()->route('roles.edit', $role)
-                         ->with('success', 'Permisos actualizados exitosamente');
+        return redirect()->route('asignar.edit', $user);
     }
     public function destroy(string $id)
     {

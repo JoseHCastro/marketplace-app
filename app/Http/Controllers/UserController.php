@@ -32,13 +32,16 @@ class UserController extends Controller
             'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8192',
         ]);
 
-        $url_profile_photo = $request->file('profile_photo') ? $request->file('profile_photo')->store('public/images') : null;
+        // Asignación del rol 'usuario'
+        $role = 'usuario';
 
+        // Creación del usuario
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request['password']),
-            'profile_photo_path' => $url_profile_photo ? Storage::url($url_profile_photo) : null,
+            'profile_photo_path' => $request->file('profile_photo') ? $request->file('profile_photo')->store('public/images') : null,
+            'role' => $role, // Asignación del rol aquí
         ]);
 
         date_default_timezone_set("America/La_Paz");
@@ -55,7 +58,6 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'El usuario se ha creado correctamente.');
     }
-
 
 
 

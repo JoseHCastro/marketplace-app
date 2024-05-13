@@ -15,6 +15,7 @@ class ServiciosController extends Controller
      */
     public function index(Request $request)
     {
+
         $filterValue = $request->input('filterValue');
 
         $serviciosFilter = Servicios::where('titulo', 'LIKE', '%' . $filterValue . '%');
@@ -55,8 +56,8 @@ class ServiciosController extends Controller
         $bitacora->ip = $request->ip();
         $bitacora->save();
 
-        return redirect()->route('servicios.index')
-            ->with('success-create', 'Servicio agregado con éxito');
+        return redirect()->action([ServiciosController::class, 'index'])
+            ->with('success-create', 'Servicio creado con éxito');
     }
 
     /**
@@ -79,28 +80,23 @@ class ServiciosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ServiciosRequest $request, Servicios $servicios)
+    public function update(ServiciosRequest $request, Servicios $servicio)
     {
-        $data = $request->validated();
+        $servicio->titulo = $request->titulo;
+        $servicio->descripcion = $request->descripcion;
+        $servicio->precio = $request->precio;
+        $servicio->save();
 
-        $servicios->update([
-            'titulo' => $data['titulo'],
-            'descripcion' => $data['descripcion'],
-            'precio' => $data['precio'],
-        ]);
-
-        return redirect()->route('servicios.index')
-            ->with('success-update', 'Servicio actualizado con éxito');
+        return redirect()->action([ServiciosController::class, 'index'])
+            ->with('success-editar', 'Servicio editado con éxito');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Servicios $servicios)
-    {     
-        $servicios->delete();
 
-        return redirect()->route('servicios.index')
-            ->with('success-delete', 'Servicio eliminado con éxito');
+    public function destroy(Servicios $servicio)
+    {
+        $servicio->delete();
+
+        return redirect()->action([ServiciosController::class, 'index'])
+            ->with('success-eliminar', 'Servicio eliminadoo con éxito');
     }
 }

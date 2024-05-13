@@ -32,8 +32,12 @@
                             <td>{{ $permiso->id }}</td>
                             <td>{{ $permiso->name }}</td>
                             <td class="text-right"> <!-- Alineamos los botones a la derecha -->
-                                <a class="btn btn-warning" href="{{ route('permisos.edit', $permiso->id) }}">Editar</a>
-                                <a class="btn btn-primary" href="{{ route('permisos.show', $permiso->id) }}">Mostrar</a>
+                                <a class="btn btn-warning" href="{{ route('permisos.edit', $permiso) }}">Editar</a>
+                                <a class="btn btn-primary" href="#" onclick="event.preventDefault(); document.getElementById('delete-permiso-{{ $permiso->id }}').submit();">Eliminar</a>
+                                   <form id="delete-permiso-{{ $permiso->id }}" action="{{ route('permisos.destroy', $permiso) }}" method="POST" style="display: none;">
+                                     @csrf
+                                     @method('DELETE')
+                                   </form>
                             </td>
                         </tr>
                     @endforeach
