@@ -27,7 +27,13 @@ class AnuncioController extends Controller
    */
   public function index()
   {
-    $anuncios = Anuncio::all();
+    /* $anuncios = Anuncio::all(); */
+
+    if (auth()->user()->id === 7) {
+      $anuncios = Anuncio::all();
+    } else {
+      $anuncios = Anuncio::where('user_id', auth()->user()->id)->get();
+    }
 
     /* $colores = [
       "1" => "Rojo",
@@ -163,6 +169,7 @@ class AnuncioController extends Controller
 
     $categorias = Categoria::where('padre_id', null)->get();
     $subcategorias = Categoria::where('padre_id', '!=', null)->get();
+
     return view('anuncios.edit', compact('anuncio', 'categorias', 'subcategorias', 'monedas', 'imagen', 'condiciones'));
   }
 

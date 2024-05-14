@@ -105,9 +105,14 @@
                                             <span><a href="#">{{ auth()->user()->rol }}</a></span>
                                         </div>
                                         <ul class="list-inner">
-                                            <li><a href="home">Panel Admin</a></li>
+
+                                            @if (auth()->user()->id == '7')
+                                                <li><a href="home">Panel admin</a></li>
+                                            @else
+                                                <li><a href="anuncios">Mis publicaciones</a></li>
+                                            @endif
+
                                             <li><a href="profiles">Mi perfil</a></li>
-                                            <li><a href="anuncios">Mis publicaciones</a></li>
                                             <li><a href="{{ route('logout') }}"
                                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar
                                                     sesión</a></li>
@@ -156,21 +161,21 @@
                     <p class="slide-disc" data-sal-delay="300" data-sal="slide-up" data-sal-duration="800">Descubre
                         nuevos anuncios</p>
                     <div class="button-group">
-                        @guest
+                        {{-- @guest
                             <!-- Botón de Iniciar Sesión para Usuarios No Logueados -->
                             <a class="btn btn-large btn-primary" href="{{ route('login') }}" data-sal-delay="400"
                                 data-sal="slide-up" data-sal-duration="800">Iniciar sesión</a>
-                        @endguest
+                        @endguest --}}
 
-                        @auth
+                        {{-- @auth --}}
                             <!-- Botón de Crear para Usuarios Logueados -->
                             <a class="btn btn-large btn-primary-alta" href="{{ route('anuncios.create') }}"
                                 data-sal-delay="500" data-sal="slide-up" data-sal-duration="800">Publicar</a>
-                        @else
+                        {{-- @else
                             <!-- Botón de Crear que Redirige a Login para Usuarios No Logueados -->
                             <a class="btn btn-large btn-primary-alta" href="{{ route('login') }}" data-sal-delay="500"
                                 data-sal="slide-up" data-sal-duration="800">Crear</a>
-                        @endauth
+                        @endauth --}}
                     </div>
                 </div>
                 <div class="col-lg-5 col-md-6 col-sm-12 offset-lg-1">
