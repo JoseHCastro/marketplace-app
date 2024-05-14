@@ -154,7 +154,7 @@
                     <h2 class="title" data-sal-delay="200" data-sal="slide-up" data-sal-duration="800">Bienvenido
                         al Marketplace</h2>
                     <p class="slide-disc" data-sal-delay="300" data-sal="slide-up" data-sal-duration="800">Descubre
-                        nuevos productos</p>
+                        nuevos anuncios</p>
                     <div class="button-group">
                         @guest
                             <!-- Botón de Iniciar Sesión para Usuarios No Logueados -->
@@ -165,7 +165,7 @@
                         @auth
                             <!-- Botón de Crear para Usuarios Logueados -->
                             <a class="btn btn-large btn-primary-alta" href="{{ route('anuncios.create') }}"
-                                data-sal-delay="500" data-sal="slide-up" data-sal-duration="800">Crear</a>
+                                data-sal-delay="500" data-sal="slide-up" data-sal-duration="800">Publicar</a>
                         @else
                             <!-- Botón de Crear que Redirige a Login para Usuarios No Logueados -->
                             <a class="btn btn-large btn-primary-alta" href="{{ route('login') }}" data-sal-delay="500"
@@ -274,7 +274,7 @@
             <div class="row mb--50 align-items-center">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                     <h3 class="title mb--0" data-sal-delay="150" data-sal="slide-up" data-sal-duration="800">
-                        Explorar Productos</h3>
+                        Publicaciones</h3>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-12 mt_mobile--15">
                     <div class="view-more-btn text-start text-sm-end" data-sal-delay="150" data-sal="slide-up"

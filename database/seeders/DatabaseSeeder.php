@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\EtiquetaSeeder;
+use Database\Seeders\ImagenAnuncioSeeder;
 
 
 
