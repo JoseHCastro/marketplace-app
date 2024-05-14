@@ -36,7 +36,8 @@ class DatabaseSeeder extends Seeder
       EstadoSeeder::class,
       CategoriaSeeder::class,
       ServicioSeeder::class,
-      AnuncioSeeder::class
+      AnuncioSeeder::class,
+      ImagenAnuncioSeeder::class,
     ]);
   }
 }

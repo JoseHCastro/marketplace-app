@@ -107,9 +107,10 @@ class AnuncioController extends Controller
     $anuncio->save();
 
     if ($request->file('formFile')) {
-      $url = Storage::put('public/images/anuncios', $request->file('formFile'));
+      /* $url = Storage::put('public/images/anuncios', $request->file('formFile')); */
+      $url1 = Storage::put('public/images/anuncios', $request->file('formFile'));
       $anuncio->imagen()->create([
-        'url' => $url,
+        'url' => $url1, //guardar la url de la imagen en la base de datos
       ]);
     }
 

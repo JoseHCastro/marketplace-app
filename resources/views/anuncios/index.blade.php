@@ -18,7 +18,7 @@
             position: absolute;
             object-fit: cover;
             /* width: 100%;
-                                                                                                                                                                                                                                                                                                                                                                                                                height: 100%; */
+                                                                                                                                                                                                                                                                                                                                                                                                                    height: 100%; */
         }
     </style>
 @endsection
@@ -70,6 +70,7 @@
                                     @php
 if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
                                         echo Storage::url($anuncio->imagen->url);
+                                        /* echo $anuncio->imagen->url; */
                                     } else { 
                                         echo "https://wpdirecto.com/wp-content/uploads/2017/08/alt-de-una-imagen.png";
                                       } @endphp"
