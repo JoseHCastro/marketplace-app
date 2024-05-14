@@ -97,13 +97,11 @@
                                                 {{ $categoria->nombre }}
                                                     ">
                                                     @foreach ($subcategorias as $subcategoria)
-                                                        <option value="{{ $subcategoria->id }} ">
-                                                            @php
-                                                                if ($subcategoria->padre_id === $categoria->id) {
-                                                                    echo $subcategoria->nombre;
-                                                                }
-                                                            @endphp
-                                                        </option>
+                                                        @if ($subcategoria->padre_id === $categoria->id)
+                                                            <option value="{{ $subcategoria->id }}">
+                                                                {{ $subcategoria->nombre }}
+                                                            </option>
+                                                        @endif
                                                     @endforeach
                                                 </optgroup>
                                             @endforeach
