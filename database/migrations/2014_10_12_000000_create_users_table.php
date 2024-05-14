@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('profile_photo_path', 2048)->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->string('rol_id')/* ->default('2') */->nullable();
         });
     }
 
