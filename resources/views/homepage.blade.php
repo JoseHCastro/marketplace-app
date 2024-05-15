@@ -25,6 +25,84 @@
 
     <!-- Style css -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
+    <style>
+        .card-thumbnail {
+            margin-bottom: 20px;
+            /* Espacio entre cada tarjeta */
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            /* Ajusta la altura deseada */
+            overflow: hidden;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sold-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 0, 0, 0.7);
+            color: white;
+            padding: 40px 70px;
+            border-radius: 5px;
+            font-size: 40px;
+        }
+
+        .product-share-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .profile-share {
+            flex: 1;
+        }
+
+        .share-btn {
+            flex: 1;
+        }
+
+        .product-name {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .latest-bid {
+            display: block;
+            color: gray;
+        }
+
+        .bid-react-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .last-bid {
+            flex: 1;
+        }
+
+        .react-area {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .react-area svg {
+            margin-right: 5px;
+        }
+    </style>
 </head>
 
 <body class="template-color-1 nft-body-connect">
@@ -43,6 +121,10 @@
                 </div>
                 <div class="header-right">
                     @guest
+
+                        <div class="setting-option">
+                            <a href="{{ route('register') }}" class="btn btn-primary">Registrarse</a>
+                        </div>
                         <div class="setting-option">
                             <a href="{{ route('login') }}" class="btn btn-primary">Iniciar sesión</a>
                         </div>
@@ -168,9 +250,9 @@
                         @endguest --}}
 
                         {{-- @auth --}}
-                            <!-- Botón de Crear para Usuarios Logueados -->
-                            <a class="btn btn-large btn-primary-alta" href="{{ route('anuncios.create') }}"
-                                data-sal-delay="500" data-sal="slide-up" data-sal-duration="800">Publicar</a>
+                        <!-- Botón de Crear para Usuarios Logueados -->
+                        <a class="btn btn-large btn-primary-alta" href="{{ route('anuncios.create') }}"
+                            data-sal-delay="500" data-sal="slide-up" data-sal-duration="800">Publicar</a>
                         {{-- @else
                             <!-- Botón de Crear que Redirige a Login para Usuarios No Logueados -->
                             <a class="btn btn-large btn-primary-alta" href="{{ route('login') }}" data-sal-delay="500"
@@ -326,66 +408,85 @@
             <div class="row g-5">
                 <!-- start single product -->
                 @foreach ($anuncios as $anuncio)
-                    <div data-sal="slide-up" data-sal-delay="550" data-sal-duration="800"
-                        class="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
-                        <div class="product-style-one no-overlay">
-                            <div class="card-thumbnail">
-                                <a href="product-details.html"><img img
-                                        src=" 
-                                        @php
-if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
-                                        echo Storage::url($anuncio->imagen->url);
-                                                                          } @endphp
-                                                                                "
-                                        alt="NFT_portfolio"></a>
-                            </div>
-                            <div class="product-share-wrapper">
-                                <div class="profile-share">
-                                    <!-- Podrías tener que adaptar esta parte con datos reales -->
-                                    <a class="avatar" data-tooltip="{{ $anuncio->usuario->name }}">
-                                        <img src="{{ $anuncio->usuario->adminlte_image() }}" alt="Nft_Profile"></a>
-                                    {{-- <a class="more-author-text" href="#">12+ Place Bit.</a> --}}
-                                </div>
-                                <div class="share-btn share-btn-activation dropdown">
-                                    <button class="icon" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <svg viewBox="0 0 14 4" fill="none" width="16" height="16"
-                                            class="sc-bdnxRM sc-hKFxyN hOiKLt">
-                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M3.5 2C3.5 2.82843 2.82843 3.5 2 3.5C1.17157 3.5 0.5 2.82843 0.5 2C0.5 1.17157 1.17157 0.5 2 0.5C2.82843 0.5 3.5 1.17157 3.5 2ZM8.5 2C8.5 2.82843 7.82843 3.5 7 3.5C6.17157 3.5 5.5 2.82843 5.5 2C5.5 1.17157 6.17157 0.5 7 0.5C7.82843 0.5 8.5 1.17157 8.5 2ZM11.999 3.5C12.8274 3.5 13.499 2.82843 13.499 2C13.499 1.17157 12.8274 0.5 11.999 0.5C11.1706 0.5 10.499 1.17157 10.499 2C10.499 2.82843 11.1706 3.5 11.999 3.5Z"
-                                                fill="currentColor"></path>
-                                        </svg>
-                                    </button>
+                    @if ($anuncio->habilitado === 1)
+                        <div data-sal="slide-up" data-sal-delay="550" data-sal-duration="800"
+                            class="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="product-style-one no-overlay">
 
-                                    <div class="share-btn-setting dropdown-menu dropdown-menu-end">
-                                        <button type="button" class="btn-setting-text share-text"
-                                            data-bs-toggle="modal" data-bs-target="#shareModal">
-                                            Compartir
-                                        </button>
-                                        <button type="button" class="btn-setting-text report-text"
-                                            data-bs-toggle="modal" data-bs-target="#reportModal">
-                                            Guardar
-                                        </button>
+                                <div class="card-thumbnail">
+                                    <a href="product-details.html">
+
+                                        <div class="image-container">
+                                            <img src="
+                @php
+if ($anuncio->imagen !== null && isset($anuncio->imagen->url)) {
+                        echo Storage::url($anuncio->imagen->url);
+                    } @endphp
+            "
+                                                alt="NFT_portfolio">
+                                            @if ($anuncio->disponible === 0)
+                                                <div class="sold-overlay">Vendido</div>
+                                            @endif
+                                        </div>
+
+                                    </a>
+                                </div>
+
+
+                                <div class="product-share-wrapper">
+                                    <div class="profile-share">
+                                        <!-- Podrías tener que adaptar esta parte con datos reales -->
+                                        <a class="avatar" data-tooltip="{{ $anuncio->usuario->name }}">
+                                            <img src="{{ $anuncio->usuario->adminlte_image() }}"
+                                                alt="Nft_Profile"></a>
+                                        {{-- <a class="more-author-text" href="#">12+ Place Bit.</a> --}}
                                     </div>
 
+                                    {{-- <div>
+                                        <a href="{{ route('anuncios.show', $anuncio) }}" class="btn btn-primary">Ver
+                                            más</a>
+                                    </div> --}}
+                                    <div class="share-btn share-btn-activation dropdown">
+                                        <button class="icon" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <svg viewBox="0 0 14 4" fill="none" width="16" height="16"
+                                                class="sc-bdnxRM sc-hKFxyN hOiKLt">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M3.5 2C3.5 2.82843 2.82843 3.5 2 3.5C1.17157 3.5 0.5 2.82843 0.5 2C0.5 1.17157 1.17157 0.5 2 0.5C2.82843 0.5 3.5 1.17157 3.5 2ZM8.5 2C8.5 2.82843 7.82843 3.5 7 3.5C6.17157 3.5 5.5 2.82843 5.5 2C5.5 1.17157 6.17157 0.5 7 0.5C7.82843 0.5 8.5 1.17157 8.5 2ZM11.999 3.5C12.8274 3.5 13.499 2.82843 13.499 2C13.499 1.17157 12.8274 0.5 11.999 0.5C11.1706 0.5 10.499 1.17157 10.499 2C10.499 2.82843 11.1706 3.5 11.999 3.5Z"
+                                                    fill="currentColor"></path>
+                                            </svg>
+                                        </button>
+
+                                        <div class="share-btn-setting dropdown-menu dropdown-menu-end">
+                                            <button type="button" class="btn-setting-text share-text"
+                                                data-bs-toggle="modal" data-bs-target="#shareModal">
+                                                Compartir
+                                            </button>
+                                            <button type="button" class="btn-setting-text report-text"
+                                                data-bs-toggle="modal" data-bs-target="#reportModal">
+                                                Guardar
+                                            </button>
+                                        </div>
+
+                                    </div>
                                 </div>
-                            </div>
-                            <a href="product-details.html"><span
-                                    class="product-name">{{ $anuncio->titulo }}</span></a>
-                            <span class="latest-bid">{{-- {{ $anuncio->estado->nombre }} --}}</span>
-                            <div class="bid-react-area">
-                                <div class="last-bid">{{ $anuncio->precio }} {{ $anuncio->moneda->nombre }}</div>
-                                <div class="react-area">
-                                    <svg viewBox="0 0 17 16" fill="none" width="16" height="16"
-                                        class="sc-bdnxRM sc-hKFxyN kBvkOu">
-                                        <path
-                                            d="M8.2112 14L12.1056 9.69231L14.1853 7.39185C15.2497 6.21455 15.3683 4.46116 14.4723 3.15121V3.15121C13.3207 1.46757 10.9637 1.15351 9.41139 2.47685L8.2112 3.5L6.95566 2.42966C5.40738 1.10976 3.06841 1.3603 1.83482 2.97819V2.97819C0.777858 4.36443 0.885104 6.31329 2.08779 7.57518L8.2112 14Z"
-                                            stroke="currentColor" stroke-width="2"></path>
-                                    </svg>
-                                    <span class="number">{{ $anuncio->visitas }}</span>
+                                <a href="product-details.html"><span
+                                        class="product-name">{{ $anuncio->titulo }}</span></a>
+                                <span class="latest-bid">{{-- {{ $anuncio->estado->nombre }} --}}</span>
+                                <div class="bid-react-area">
+                                    <div class="last-bid">{{ $anuncio->precio }} {{ $anuncio->moneda->nombre }}</div>
+                                    <div class="react-area">
+                                        <svg viewBox="0 0 17 16" fill="none" width="16" height="16"
+                                            class="sc-bdnxRM sc-hKFxyN kBvkOu">
+                                            <path
+                                                d="M8.2112 14L12.1056 9.69231L14.1853 7.39185C15.2497 6.21455 15.3683 4.46116 14.4723 3.15121V3.15121C13.3207 1.46757 10.9637 1.15351 9.41139 2.47685L8.2112 3.5L6.95566 2.42966C5.40738 1.10976 3.06841 1.3603 1.83482 2.97819V2.97819C0.777858 4.36443 0.885104 6.31329 2.08779 7.57518L8.2112 14Z"
+                                                stroke="currentColor" stroke-width="2"></path>
+                                        </svg>
+                                        <span class="number">{{ $anuncio->visitas }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 @endforeach
 
 
