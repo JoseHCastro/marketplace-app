@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-
+@include('components.helpButton')
 @section('title', 'Crear')
 
 @section('content_header')
@@ -40,7 +40,17 @@
                 console.error(error);
             });
     </script> --}}
+    <script>
+        document.getElementById('miFormulario').addEventListener('submit', function(event) {
+            var select = document.getElementById('miSelect');
+            var selectedValue = select.value;
 
+            if (selectedValue === '') {
+                alert('Por favor, seleccione una opción.');
+                event.preventDefault(); // Evitar que el formulario se envíe
+            }
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 
@@ -60,12 +70,25 @@
             console.log("file");
         }
     </script>
+
+
+
 @stop
 
 @section('content')
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+
+                {{-- @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif --}}
                 {{-- ------------------------------inicio formulario------------------------------------ --}}
                 <div class="row justify-content-center">
                     <div class="col-md-6">
@@ -73,7 +96,8 @@
                             {{-- <div class="card-header">
                                 <h3 class="card-title">Nueva Categoría</h3>
                             </div> --}}
-                            <form action="{{ route('anuncios.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('anuncios.store') }}" method="POST" enctype="multipart/form-data"
+                                id="miFormulario">
                                 @csrf
                                 <div class="card-body">
 
@@ -89,7 +113,8 @@
                                         </select> --}}
 
                                         <label>Categoria:</label>
-                                        <select class="form-select" name="categoria_id" id="">
+                                        <select class="form-select" name="categoria" id="miSelect"
+                                            value="{{-- {{ old('categoria') }} --}}">
                                             <option selected>Seleccionar</option>
                                             @foreach ($categorias as $categoria)
                                                 <optgroup
@@ -107,6 +132,10 @@
                                             @endforeach
                                         </select>
 
+                                        @error('categoria_id')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+
 
                                     </div>
 
@@ -121,6 +150,9 @@
                                             </div>
                                         @endif --}}
                                     </div>
+                                    @error('titulo')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
 
                                     {{-- input para precio --}}
                                     <div>
@@ -129,16 +161,24 @@
                                             id=""value="{{ old('precio') }}" required>
                                     </div>
 
+                                    @error('precio')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+
                                     {{-- input para moneda --}}
                                     <div>
                                         <label>Moneda:</label>
-                                        <select class="form-select" name="moneda_id" required>
+                                        <select class="form-select" name="moneda" required>
                                             <option selected>Seleccionar</option>
                                             @foreach ($monedas as $moneda)
                                                 <option value="{{ $moneda->id }}">{{ $moneda->nombre }}</option>
                                             @endforeach
                                         </select>
                                     </div>
+
+                                    @error('moneda_id')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
 
                                     {{-- input para descripcion --}}
                                     <br>
@@ -153,7 +193,7 @@
                                     {{-- input para condicion --}}
                                     <div>
                                         <label>Condición:</label>
-                                        <select class="form-select" name="condicion_id">
+                                        <select class="form-select" name="condicion">
                                             <option selected>Seleccionar</option>
                                             @foreach ($condiciones as $condicion)
                                                 <option value="{{ $condicion->id }}">{{ $condicion->nombre }}</option>

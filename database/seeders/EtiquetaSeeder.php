@@ -17,32 +17,32 @@ class EtiquetaSeeder extends Seeder
         //1
         $etiqueta = Etiqueta::create([
             'name'=>'NEGOCIABLE',
-            'precio'=> 10.50,
+            'precio'=> 10.00,
         ]);
 
         $etiqueta = Etiqueta::create([
             'name'=>'EN OFERTA',
-            'precio'=> 10.50,
+            'precio'=> 10.00,
         ]);
 
         $etiqueta = Etiqueta::create([
             'name'=>'NUEVO',
-            'precio'=> 10.50,
+            'precio'=> 10.00,
         ]);
 
         $etiqueta = Etiqueta::create([
             'name'=>'PROMOCION',
-            'precio'=> 10.50,
+            'precio'=> 10.00,
         ]);
 
         $etiqueta = Etiqueta::create([
             'name'=>'DE OCACION',
-            'precio'=> 10.50,
+            'precio'=> 10.00,
         ]);
 
         $etiqueta = Etiqueta::create([
             'name'=>'REMATO',
-            'precio'=> 10.50,
+            'precio'=> 10.00,
         ]);
     }
 }

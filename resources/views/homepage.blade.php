@@ -475,11 +475,13 @@ if ($anuncio->imagen !== null && isset($anuncio->imagen->url)) {
                                 <div class="bid-react-area">
                                     <div class="last-bid">{{ $anuncio->precio }} {{ $anuncio->moneda->nombre }}</div>
                                     <div class="react-area">
-                                        <svg viewBox="0 0 17 16" fill="none" width="16" height="16"
-                                            class="sc-bdnxRM sc-hKFxyN kBvkOu">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="1 0 20 20" width="16"
+                                            height="16" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="sc-bdnxRM sc-hKFxyN kBvkOu" style="margin-right: 5px;">
                                             <path
-                                                d="M8.2112 14L12.1056 9.69231L14.1853 7.39185C15.2497 6.21455 15.3683 4.46116 14.4723 3.15121V3.15121C13.3207 1.46757 10.9637 1.15351 9.41139 2.47685L8.2112 3.5L6.95566 2.42966C5.40738 1.10976 3.06841 1.3603 1.83482 2.97819V2.97819C0.777858 4.36443 0.885104 6.31329 2.08779 7.57518L8.2112 14Z"
-                                                stroke="currentColor" stroke-width="2"></path>
+                                                d="M15.5 12c0-1.93-2.5-3.5-5.5-3.5S4.5 10.07 4.5 12s2.5 3.5 5.5 3.5 5.5-1.57 5.5-3.5zm-7 0a1.499 1.499 0 1 1 2.999-.001A1.499 1.499 0 0 1 8.5 12z" />
+                                            <path d="M22 12s-4-6-10-6S2 12 2 12s4 6 10 6 10-6 10-6z" />
                                         </svg>
                                         <span class="number">{{ $anuncio->visitas }}</span>
                                     </div>

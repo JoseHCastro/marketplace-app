@@ -90,6 +90,16 @@ class AnuncioController extends Controller
    */
   public function store(Request $request)
   {
+
+    /* $request->validate([
+      'titulo' => 'required',
+      'descripcion' => 'required',
+      'precio' => 'required ',
+      'condicion_id' => 'required',
+      'categoria_id' => 'required',
+      'moneda_id' => 'required',
+      'formFile' => 'required',
+    ]); */
     date_default_timezone_set("America/La_Paz");
     /* return  $request->all(); */
     /* return  $request->file('formFile'); */
@@ -104,11 +114,11 @@ class AnuncioController extends Controller
     $anuncio->fecha_publicacion = Carbon::now(); //obtener fecha actual al crear el anuncio
     $anuncio->fecha_expiracion = Carbon::now()->addDays(30); //obtener fecha actual al crear el anuncio + los dias de duracion del anuncio
     $anuncio->visitas = 0;
-    $anuncio->condicion_id = $request->condicion_id;
-    $anuncio->categoria_id = $request->categoria_id;
+    $anuncio->condicion_id = $request->condicion;
+    $anuncio->categoria_id = $request->categoria;
     $anuncio->disponible = 1;  //por defecto el anuncio estara en estado disponible o no vendido
     $anuncio->habilitado = 1;  //por defecto el anuncio estara habilitado
-    $anuncio->moneda_id = $request->moneda_id;
+    $anuncio->moneda_id = $request->moneda;
     $anuncio->user_id = auth()->user()->id; //id de usuario autentificado actual
     $anuncio->save();
 
@@ -179,28 +189,24 @@ class AnuncioController extends Controller
    */
   public function update(Request $request, Anuncio  $anuncio)
   {
-    /* 
-    $this->validate($request, [
-      'name' => 'required',
-      'email' => 'required|email|unique:users,email,' . $id,
-      'password' => 'same:confirm-password',
-    ]); */
-    /* 
-    $input = $request->all();
-    if (!empty($input['password'])) {
-      $input['password'] = Hash::make($input['password']);
-    } else {
-      $input = Arr::except($input, array('password'));
-    } */
 
     $anuncio = Anuncio::find($anuncio->id);
     $anuncio->update($request->all());
 
     if ($request->file('formFile')) {
       $url = Storage::put('public/images/anuncios', $request->file('formFile'));
-      $anuncio->imagen()->create([
-        'url' => $url,
-      ]);
+
+
+      if ($anuncio->imagen) {
+        Storage::delete($anuncio->imagen->url);
+        $anuncio->imagen()->update([
+          'url' => $url,
+        ]);
+      } else {
+        $anuncio->imagen()->create([
+          'url' => $url,
+        ]);
+      }
     }
 
     $anuncioAux = Anuncio::find($anuncio->id);

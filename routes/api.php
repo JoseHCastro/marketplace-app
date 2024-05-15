@@ -81,3 +81,14 @@ Route::get('/anuncios', [AnuncioController::class, 'index']);
 //RUTA PARA OBTENES CATEGORIAS
 
 Route::get('/categorias', [CategoriaApi::class, 'index']);
+
+
+use Illuminate\Support\Facades\Storage;
+
+Route::get('/imagenes/{nombreImagen}', function ($nombreImagen) {
+  $rutaImagen = 'public/images/anuncios/' . $nombreImagen;
+  $contenidoImagen = Storage::get($rutaImagen);
+  $tipoContenido = Storage::mimeType($rutaImagen);
+  
+  return response($contenidoImagen, 200)->header('Content-Type', $tipoContenido);
+});

@@ -1,6 +1,6 @@
 
 @extends('adminlte::page')
-
+@include('components.helpButton')
 @section('title', 'Editar')
 
 @section('content_header')
@@ -84,14 +84,14 @@
                                         @endforeach
                                     </select>
 
-                                    @foreach ($monedas as $moneda)
+                                    {{-- @foreach ($monedas as $moneda)
                                         @if ($moneda->id === $anuncio->moneda->id)
                                             <option value="{{ $moneda->id }}" selected>{{ $moneda->nombre }}
                                             </option>
                                         @else
                                             <option value="{{ $moneda->id }}">{{ $moneda->nombre }}</option>
                                         @endif
-                                    @endforeach
+                                    @endforeach --}}
 
                                     {{-- input para titulo --}}
                                     <div {{-- class="form-group" --}}>
