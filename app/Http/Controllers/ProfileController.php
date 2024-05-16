@@ -27,13 +27,11 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
-
         $user = User::findOrFail(auth()->user()->id);
 
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|same:confirm-password',
             'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:8192',
         ]);
 
@@ -42,7 +40,14 @@ class ProfileController extends Controller
             'email' => $request->email,
         ];
 
-        if ($request->has('password')) {
+        // Verificar si se proporcionó una nueva contraseña
+        if ($request->filled('password')) {
+            // Validar que la contraseña coincida con la confirmación
+            $request->validate([
+                'password' => 'required|string|min:8|confirmed',
+            ]);
+
+            // Actualizar la contraseña
             $userData['password'] = Hash::make($request->password);
         }
 
@@ -67,6 +72,7 @@ class ProfileController extends Controller
 
         return redirect()->route('profiles.index')->with('success', 'El usuario se ha actualizado correctamente.');
     }
+
 
     public function destroy(string $id)
     {

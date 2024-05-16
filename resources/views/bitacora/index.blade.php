@@ -38,15 +38,16 @@
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="desde">Desde:</label>
-                    <input type="date" name="desde" id="desde" class="form-control" placeholder="Desde">
+                    <input type="datetime-local" name="desde" id="desde" class="form-control" placeholder="Desde">
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="hasta">Hasta:</label>
-                    <input type="date" name="hasta" id="hasta" class="form-control" placeholder="Hasta">
+                    <input type="datetime-local" name="hasta" id="hasta" class="form-control" placeholder="Hasta">
                 </div>
+                
                 <div class="col-md-3">
                     <button class="btn btn-dark ml-auto mb-3" onclick="exportarPDF()">PDF</button>
-                    <button class="btn btn-dark ml-auto mb-3" onclick="exportarPDF()">Excel</button>
+                    <button class="btn btn-dark ml-auto mb-3" onclick="exportarExcel()">Excel</button>
                 </div>
             </div>
         </div>
@@ -139,10 +140,24 @@
 
     <script>
         function exportarPDF() {
-            var user = document.getElementById('user').value || null;
-            var plataforma = document.getElementById('plataforma').value || null;
-            var desde = document.getElementById('desde').value || null;
-            var hasta = document.getElementById('hasta').value || null;
+            var user = document.getElementById('user').value || '';
+            var plataforma = document.getElementById('plataforma').value || '';
+            var desde = document.getElementById('desde').value || '';
+            var hasta = document.getElementById('hasta').value || '';
+
+            window.location = '/bitacora/exportar-pdf?usuario=' + user + '&plataforma=' + plataforma + '&desde=' + desde +
+                '&hasta=' + hasta;
+        }
+
+        function exportarExcel() {
+            var user = document.getElementById('user').value || '';
+            var plataforma = document.getElementById('plataforma').value || '';
+            var desde = document.getElementById('desde').value || '';
+            var hasta = document.getElementById('hasta').value || '';
+
+            // Redirigir a la ruta de exportación de Excel con los parámetros
+            window.location = '/bitacora/exportar-excel?usuario=' + user + '&plataforma=' + plataforma + '&desde=' + desde +
+                '&hasta=' + hasta;
         }
     </script>
 

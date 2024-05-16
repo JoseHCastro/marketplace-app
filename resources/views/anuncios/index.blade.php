@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.1/css/responsive.bootstrap4.css">
+    {{-- BOTONES: VISIBILIDAD DE COLUMNAS y EXPORTAR --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css">
     <style>
         .image-wrapper {
             position: relative;
@@ -18,7 +21,7 @@
             position: absolute;
             object-fit: cover;
             /* width: 100%;
-                                                                                                                                                                                                                                                                                                                                                                                                                    height: 100%; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                            height: 100%; */
         }
     </style>
 @endsection
@@ -28,6 +31,47 @@
 @stop
 
 @section('content')
+    {{-- REPORTE INICIO --}}
+    <div class="card">
+        <div class="card-body">
+            <h2>Reportes</h2>
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="user">Usuario:</label>
+                    <select name="user" id="user" class="form-control">
+                        <option value="">Seleccionar usuario...</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="categoria">Categoría:</label>
+                    <select name="categoria" id="categoria" class="form-control">
+                        <option value="">Seleccionar Categoría...</option>
+                        @foreach ($categorias as $categoria)
+                            <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="desde">Desde:</label>
+                    <input type="datetime-local" name="desde" id="desde" class="form-control" placeholder="Desde">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="hasta">Hasta:</label>
+                    <input type="datetime-local" name="hasta" id="hasta" class="form-control" placeholder="Hasta">
+                </div>
+
+                <div class="col-md-3">
+                    <button class="btn btn-dark ml-auto mb-3" onclick="exportarPDF()">PDF</button>
+                    <button class="btn btn-dark ml-auto mb-3" onclick="exportarExcel()">Excel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- REPORTE FINAL --}}
+
     {{-- ------------------------------------------------------------------- --}}
 
     <a class="btn btn-dark ml-auto" href="{{ route('anuncios.create') }}">Nuevo anuncio</a>
@@ -41,6 +85,7 @@
         </div> --}}
 
     {{--   @if ($anuncios->count()) --}}
+
     <div class="card{{-- -header --}}">
         <div class="card-body">
             <table class="table table-striped" id="anuncioTable">
@@ -229,9 +274,28 @@ if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
     <script src="https://cdn.datatables.net/responsive/3.0.1/js/responsive.bootstrap4.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    {{-- VISIBILIDAD DE COLUMNAS --}}
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.colVis.min.js"></script>
+    {{-- EXPORTAR --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.js"></script>
 
     <script>
         new DataTable('#anuncioTable', {
+            layout: {
+                topStart: {
+                    buttons: [{
+                        extend: 'colvis',
+                        collectionLayout: 'fixed columns',
+                        popoverTitle: 'Column visibility control'
+                    }, 'copy', 'csv', 'excel', 'pdf', 'print']
+                }
+            },
             responsive: true,
             autoWidth: false,
 
@@ -250,6 +314,27 @@ if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
         });
     </script>
 
+    <script>
+        function exportarPDF() {
+            var user = document.getElementById('user').value || '';
+            var categoria = document.getElementById('categoria').value || '';
+            var desde = document.getElementById('desde').value || '';
+            var hasta = document.getElementById('hasta').value || '';
+
+            window.location = '/anuncios/exportar-pdf?user=' + user + '&categoria=' + categoria + '&desde=' + desde +
+                '&hasta=' + hasta;
+        }
+
+        function exportarExcel() {
+            var user = document.getElementById('user').value || '';
+            var categoria = document.getElementById('categoria').value || '';
+            var desde = document.getElementById('desde').value || '';
+            var hasta = document.getElementById('hasta').value || '';
+
+            window.location = '/anuncios/exportar-excel?user=' + user + '&categoria=' + categoria + '&desde=' + desde +
+                '&hasta=' + hasta;
+        }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>

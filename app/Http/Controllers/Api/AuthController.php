@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bitacora;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -25,7 +27,7 @@ class AuthController extends Controller
    *
    * @return \Illuminate\Http\JsonResponse
    */
-  public function register()
+  public function register(Request $request)
   {
     $validator = Validator::make(request()->all(), [
       'name' => 'required',
@@ -44,6 +46,19 @@ class AuthController extends Controller
 
     $user->save();
 
+    date_default_timezone_set("America/La_Paz");
+
+    $bitacora = new Bitacora();
+    $bitacora->usuario = $user->name;
+    $bitacora->hora = now();
+    $bitacora->evento = 'Registro';
+    $bitacora->contexto = 'Registro';
+    $bitacora->descripcion = 'El usuario se ha registrado';
+    $bitacora->origen = 'Movil';
+    $bitacora->ip = $request->ip();
+    $bitacora->save();
+
+
     return response()->json($user, 201);
   }
 
@@ -53,13 +68,26 @@ class AuthController extends Controller
    *
    * @return \Illuminate\Http\JsonResponse
    */
-  public function login()
+  public function login(Request $request)
   {
     $credentials = request(['email', 'password']);
 
     if (!$token = auth('api')->attempt($credentials)) {
       return response()->json(['error' => 'Unauthorized'], 401);
     }
+
+    //BITACORA
+    $user = Auth::user();
+    date_default_timezone_set("America/La_Paz");
+    $bitacora = new Bitacora();
+    $bitacora->usuario = $user->name;
+    $bitacora->hora = now();
+    $bitacora->evento = 'Login';
+    $bitacora->contexto = 'Sesion';
+    $bitacora->descripcion = 'El usuario ha iniciado sesión';
+    $bitacora->origen = 'API';
+    $bitacora->ip = $request->ip();
+    $bitacora->save();
 
     return $this->respondWithToken($token);
   }
@@ -79,9 +107,23 @@ class AuthController extends Controller
    *
    * @return \Illuminate\Http\JsonResponse
    */
-  public function logout()
+  public function logout(Request $request)
   {
+    $user = Auth::user(); //BITACORA
+
     auth('api')->logout();
+
+    //BITACORA
+    date_default_timezone_set("America/La_Paz");
+    $bitacora = new Bitacora();
+    $bitacora->usuario = $user->name;
+    $bitacora->hora = now();
+    $bitacora->evento = 'Logout';
+    $bitacora->contexto = 'Sesion';
+    $bitacora->descripcion = 'El usuario ha cerrado sesión';
+    $bitacora->origen = 'API';
+    $bitacora->ip = $request->ip();
+    $bitacora->save();
 
     return response()->json(['message' => 'Successfully logged out']);
   }

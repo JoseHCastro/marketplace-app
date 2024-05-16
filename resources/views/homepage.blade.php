@@ -414,7 +414,7 @@
                             <div class="product-style-one no-overlay">
 
                                 <div class="card-thumbnail">
-                                    <a href="product-details.html">
+                                    <a href="{{ route('detalle', ['id' => $anuncio->id]) }}">
 
                                         <div class="image-container">
                                             <img src="

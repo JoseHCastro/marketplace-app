@@ -34,6 +34,8 @@ use App\Http\Controllers\SupportController;
 
 // Ruta para la HomePage
 Route::get('/', [HomePageController::class, 'HomePage'])->name('HomePage');
+Route::get('/detalle/{id}', [HomePageController::class, 'details'])->name('detalle');
+
 
 // Ruta para la prueba
 Route::get('/prueba', function () {
@@ -98,6 +100,7 @@ Route::group(['middleware' => ['auth']], function () {
   // Rutas para bitácora
   Route::get('/bitacora', [BitacoraController::class, 'index'])->name('bitacora.index');
   Route::get('/bitacora/exportar-pdf', [BitacoraController::class, 'exportarPDF'])->name('bitacora.exportarPDF');
+  Route::get('/bitacora/exportar-excel', [BitacoraController::class, 'exportarExcel'])->name('bitacora.exportarExcel');
   // Rutas para servicios
   Route::get('/servicios', [ServiciosController::class, 'index'])->name('servicios.index');
   Route::get('/servicios/create', [ServiciosController::class, 'create'])->name('servicios.create');
@@ -106,12 +109,17 @@ Route::group(['middleware' => ['auth']], function () {
   Route::put('/servicios/{servicio}', [ServiciosController::class, 'update'])->name('servicios.update');
   Route::delete('/servicios/{servicio}', [ServiciosController::class, 'destroy'])->name('servicios.destroy');
   // Rutas para anuncios
+  Route::get('/anuncios/exportar-pdf', [AnuncioController::class, 'exportarPDF'])->name('anuncios.exportarPDF');
+  Route::get('/anuncios/exportar-excel', [AnuncioController::class, 'exportarExcel'])->name('anuncios.exportarExcel');
   Route::resource('anuncios', AnuncioController::class);
   Route::post('anuncios/habilitado', [AnuncioController::class, 'habilitar'])->name('anuncios.habilitar');
   Route::post('anuncios/deshabilitado', [AnuncioController::class, 'deshabilitar'])->name('anuncios.deshabilitar');
   Route::post('anuncios/vendido', [AnuncioController::class, 'vendido'])->name('anuncios.vendido');
   Route::post('anuncios/disponible', [AnuncioController::class, 'disponible'])->name('anuncios.disponible');
   Route::get('anuncios/mensaje/{anuncio}', [AnuncioController::class, 'mensaje'])->name('anuncios.mensaje');
+  
+
+
   // Rutas para categorías
   Route::resource('categoria', CategoryController::class)->parameters(['categoria' => 'categoria']);
   // Rutas para backups-----------------------------------------------------------------------------

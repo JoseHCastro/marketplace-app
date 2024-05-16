@@ -12,7 +12,6 @@ class Anuncio extends Model
   /* protected $guarded = ['']; */
   protected $table = 'anuncios';
   protected $fillable = [
-
     'titulo',
     'descripcion',
     'precio',

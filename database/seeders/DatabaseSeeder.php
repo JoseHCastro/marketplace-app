@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
       ServicioSeeder::class,
       AnuncioSeeder::class,
       ImagenAnuncioSeeder::class,
+      BitacoraSeeder::class,
     ]);
   }
 }

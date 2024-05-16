@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AnuncioExport;
 use App\Models\Estado;
 use App\Models\Moneda;
 use App\Models\Anuncio;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Bitacora;
 use App\Models\User;
+use Maatwebsite\Excel\Facades\Excel;
+use TCPDF;
 
 class AnuncioController extends Controller
 {
@@ -46,7 +49,8 @@ class AnuncioController extends Controller
     ]; */
 
     $categorias = Categoria::all();
-    return view('anuncios.index', compact('anuncios', 'categorias'/* ,'colores' */));
+    $users = User::all();
+    return view('anuncios.index', compact('anuncios', 'categorias'/* ,'colores' */, 'users'));
   }
 
   /**
@@ -290,5 +294,65 @@ class AnuncioController extends Controller
     $anuncio->save();
 
     return redirect()->route('anuncios.index');
+  }
+
+  public function exportarPDF(Request $request)
+  {
+    $usuario = $request->input('user');
+    $categoria = $request->input('categoria');
+    $desde = $request->input('desde');
+    $hasta = $request->input('hasta');
+
+    $query = Anuncio::query();
+
+    // Aplicar filtros si se proporcionan valores
+    if ($usuario !== null) {
+      $query->where('user_id', $usuario);
+    }
+    if ($categoria !== null) {
+      $query->where('categoria_id', $categoria);
+    }
+    if ($desde !== null && $hasta !== null) {
+      $query->whereBetween('fecha_publicacion', [$desde, $hasta]);
+    }
+
+    // Obtener las bitácoras según la consulta
+    $anuncios = $query->get();
+
+    // Generar el PDF
+    $pdf = new TCPDF();
+    $pdf->SetCreator('YourAppName');
+    $pdf->SetAuthor('YourName');
+    $pdf->SetTitle('Anuncios');
+    $pdf->SetSubject('Anuncios');
+    $pdf->SetKeywords('Anuncios, PDF');
+    $pdf->AddPage();
+    $html = view('anuncios.PDF', compact('anuncios'))->render();
+    $pdf->writeHTML($html, true, false, true, false, '');
+    $pdf->Output('anuncios.pdf', 'D');
+  }
+
+  public function exportarExcel(Request $request)
+  {
+    $usuario = $request->input('user');
+    $categoria = $request->input('categoria');
+    $desde = $request->input('desde');
+    $hasta = $request->input('hasta');
+
+    $query = Anuncio::query();
+
+    if ($usuario !== null) {
+      $query->where('user_id', $usuario);
+    }
+    if ($categoria !== null) {
+      $query->where('categoria_id', $categoria);
+    }
+    if ($desde !== null && $hasta !== null) {
+      $query->whereBetween('hora', [$desde, $hasta]);
+    }
+
+    $anuncios = $query->get();
+
+    return Excel::download(new AnuncioExport($anuncios), 'anuncios.xlsx');
   }
 }
