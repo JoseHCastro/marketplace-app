@@ -10,7 +10,7 @@ use App\Http\Controllers\AnuncioController;
 use App\Http\Controllers\BitacoraController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ContenidoPromocionalController;
+use App\Http\Controllers\PersonalizarAnuncioController;
 use App\Http\Controllers\EtiquetaController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\ServiciosController;
@@ -35,7 +35,7 @@ use App\Http\Controllers\SupportController;
 // Ruta para la HomePage
 Route::get('/', [HomePageController::class, 'HomePage'])->name('HomePage');
 
-// Ruta para la prueba
+// Ruta prueba
 Route::get('/prueba', function () {
   return view('anuncios.html');
 });
@@ -124,9 +124,9 @@ Route::group(['middleware' => ['auth']], function () {
   Route::post('/restore/upload', [RestoreController::class, 'uploadAndRestore'])->name('restore.upload');
   Route::get('/restore/perform/{file_name}', [RestoreController::class, 'restoreFromPath'])->name('restore.perform');
   // Rutas para contenido promocional
-  Route::get('contenido_promocional', [ContenidoPromocionalController::class, 'index'])->name('contenido_promocional.index');
-  Route::get('contenido_promocional/{anuncio}', [ContenidoPromocionalController::class, 'show'])->name('contenido_promocional.show');
-  Route::post('contenido_promocional', [ContenidoPromocionalController::class, 'store'])->name('contenido_promocional.store');
+  Route::get('contenido_promocional', [PersonalizarAnuncioController::class, 'index'])->name('contenido_promocional.index');
+  Route::get('contenido_promocional/{anuncio}', [PersonalizarAnuncioController::class, 'show'])->name('contenido_promocional.show');
+  Route::post('contenido_promocional', [PersonalizarAnuncioController::class, 'store'])->name('contenido_promocional.store');
   // Rutas para etiquetas
   Route::resource('etiquetas', EtiquetaController::class);
   // Rutas para controlador

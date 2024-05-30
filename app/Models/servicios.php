@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class servicios extends Model
+class Servicios extends Model
 {
   use HasFactory;
 
@@ -20,6 +20,6 @@ class servicios extends Model
 
   public function anuncios()
   {
-    return $this->belongsToMany(Anuncio::class);
+    return $this->belongsToMany(Anuncio::class, 'anuncio_servicios', 'servicios_id', 'anuncio_id')->withPivot('fecha_inicio', 'fecha_fin');
   }
 }

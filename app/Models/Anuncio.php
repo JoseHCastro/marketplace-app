@@ -25,7 +25,9 @@ class Anuncio extends Model
     'user_id',
     'disponible',
     'habilitado',
-
+    'descuento',
+    'posicion_principal',
+    'posicion_categoria'
   ];
 
   use HasFactory;
@@ -59,7 +61,8 @@ class Anuncio extends Model
 
   public function servicios()
   {
-    return $this->belongsToMany(servicios::class);
+    return $this->
+    belongsToMany(Servicios::class, 'anuncio_servicios', 'anuncio_id', 'servicios_id')->withPivot('fecha_inicio', 'fecha_fin');
   }
 
   //ok
