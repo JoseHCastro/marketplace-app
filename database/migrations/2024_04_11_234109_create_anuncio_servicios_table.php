@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('anuncio_servicio', function (Blueprint $table) {
+        Schema::create('anuncio_servicios', function (Blueprint $table) {
             $table->id();
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
 
             $table->unsignedBigInteger('anuncio_id');
-            $table->unsignedBigInteger('servicio_id');
+            $table->unsignedBigInteger('servicios_id');
 
             $table->foreign('anuncio_id')
                 ->references('id')
@@ -25,7 +25,7 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->foreign('servicio_id')
+            $table->foreign('servicios_id')
                 ->references('id')
                 ->on('servicios')
                 ->onUpdate('cascade')

@@ -112,6 +112,18 @@ class AnuncioController extends Controller
     /* return Storage::put('public/images/anuncios', $request->file('formFile')); */
     $anuncio = new Anuncio();
 
+    // Obtener el último valor de la posición
+    $ultimaPosicionPrincipal = Anuncio::max('posicion_principal');
+
+    // Asignar la nueva posición sumándole 1 al último valor
+    $nuevaPosicionPrincipal = $ultimaPosicionPrincipal + 1;
+
+    // Obtener el último valor de la posición
+    $ultimaPosicionCategoria = Anuncio::max('posicion_categoria');
+
+    // Asignar la nueva posición sumándole 1 al último valor
+    $nuevaPosicionCategoria = $ultimaPosicionCategoria + 1;
+
     $anuncio->titulo = $request->titulo;
     $anuncio->descripcion = $request->descripcion;
     $anuncio->precio = $request->precio;
@@ -122,8 +134,13 @@ class AnuncioController extends Controller
     $anuncio->categoria_id = $request->categoria;
     $anuncio->disponible = 1;  //por defecto el anuncio estara en estado disponible o no vendido
     $anuncio->habilitado = 1;  //por defecto el anuncio estara habilitado
+    $anuncio->descuento = 0;  //por defecto el anuncio estara con 0 de descuento
     $anuncio->moneda_id = $request->moneda;
     $anuncio->user_id = auth()->user()->id; //id de usuario autentificado actual
+
+    $anuncio->posicion_principal = $nuevaPosicionPrincipal;
+    $anuncio->posicion_categoria = $nuevaPosicionCategoria;
+
     $anuncio->save();
 
     if ($request->file('formFile')) {

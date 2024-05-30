@@ -30,6 +30,9 @@ return new class extends Migration
 
       $table->boolean('disponible')->default(true);
       $table->boolean('habilitado')->default(true);
+      $table->double('descuento')->nullable();
+      $table->bigInteger('posicion_principal')->nullable();
+      $table->bigInteger('posicion_categoria')->nullable();
 
       /* $table->unsignedBigInteger('departamento_id')->nullable();
       $table->unsignedBigInteger('provincia_id')->nullable(); */

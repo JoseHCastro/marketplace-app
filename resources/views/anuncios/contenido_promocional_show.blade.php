@@ -157,7 +157,7 @@
                                                 </p>
                                                 <p>
                                                     <strong>
-                                                        Escoge una oferta a continuación(4 semanas igual a 30 dias):
+                                                        {{-- Escoge una oferta a continuación --}}(4 semanas igual a 30 dias):
                                                     </strong>
                                                 </p>
                                                 <div class="row">
@@ -167,7 +167,7 @@
                                                         <div class="card">
 
                                                             <div class="card-header">
-                                                                <h5> Oferta 1</h5>
+                                                                <h5>POSICIONAMIENTO</h5>
                                                             </div>
                                                             <div class="card-body">
                                                                 <h5 class="card-title">{{ $servicios[0]->titulo }}</h5>
@@ -235,7 +235,7 @@
                                                         <div class="card">
 
                                                             <div class="card-header">
-                                                                <h5>Oferta 2</h5>
+                                                                <h5>DESCUENTO</h5>
                                                             </div>
                                                             <div class="card-body">
                                                                 <h5 class="card-title">{{ $servicios[1]->titulo }}</h5>
@@ -243,6 +243,9 @@
                                                                     {{ $servicios[1]->descripcion }}
                                                                 </p>
 
+                                                                <input type="text" value="" name="descuento"
+                                                                    class="form-control" placeholder="0.0%">
+                                                                <br>
                                                                 <div class="dropdown">
                                                                     <button class="btn btn-danger dropdown-toggle"
                                                                         type="button" data-bs-toggle="dropdown"
@@ -301,7 +304,7 @@
                                                         </div>
                                                     </div>
                                                     {{-- fila 1 columna 3 --}}
-                                                    <div class="col">
+                                                    {{-- <div class="col">
                                                         <div class="card">
 
                                                             <div class="card-header">
@@ -366,73 +369,73 @@
 
                                                         </div>
                                                     </div>
-                                                </div>
-                                                {{-- fin row --}}
+                                                </div> --}}
+                                                    {{-- fin row --}}
 
 
-                                                <div class="col">
-                                                    <div class="card">
+                                                    <div class="{{-- col --}}">
+                                                        <div class="card">
 
-                                                        <div class="image-wrapper">
-                                                            <img src="@php
+                                                            <div class="image-wrapper">
+                                                                <img src="@php
 if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
-                                        echo Storage::url($anuncio->imagen->url);
-                                        }else { 
-                                        echo "https://wpdirecto.com/wp-content/uploads/2017/08/alt-de-una-imagen.png";
-                                      
-                                    } @endphp"
-                                                                alt="{{ $anuncio->titulo }}"
-                                                                class="rounded mx-auto d-block" alt=""
-                                                                id="picture">
-                                                        </div>
-
-                                                        <div class="card-body">
-                                                            <h5 class="card-title"><strong>Título:</strong> <br>
-                                                                {{ $anuncio->titulo }}
-                                                            </h5>
-
-
-                                                            <p class="card-text">
-                                                                <strong> Descripción:</strong>
-                                                            <div>
-                                                                {!! nl2br($anuncio->descripcion) !!}
+                                                                                echo Storage::url($anuncio->imagen->url);
+                                                              }else { 
+                                                              echo "https://wpdirecto.com/wp-content/uploads/2017/08/alt-de-una-imagen.png";
+                                                            
+                                                          } @endphp"
+                                                                    alt="{{ $anuncio->titulo }}"
+                                                                    class="rounded mx-auto d-block" alt=""
+                                                                    id="picture">
                                                             </div>
-                                                            {{-- {{ $anuncio->descripcion }} --}}
-                                                            </p>
 
-                                                            <a {{-- href="" --}}
-                                                                class="btn btn-warning">{{ $anuncio->moneda->nombre }}.
-                                                                {{ $anuncio->precio }}</a>
-                                                            <a {{-- href="" --}} class="btn btn-warning">Visitas:
-                                                                {{ $anuncio->visitas }}</a>
-                                                        </div>
+                                                            <div class="card-body">
+                                                                <h5 class="card-title"><strong>Título:</strong> <br>
+                                                                    {{ $anuncio->titulo }}
+                                                                </h5>
 
-                                                        <div
-                                                            class="card-footer text-body-secondary"style="background-color: orange;">
-                                                            Fecha publicación: {{ $anuncio->fecha_publicacion }}
+
+                                                                <p class="card-text">
+                                                                    <strong> Descripción:</strong>
+                                                                <div>
+                                                                    {!! nl2br($anuncio->descripcion) !!}
+                                                                </div>
+                                                                {{-- {{ $anuncio->descripcion }} --}}
+                                                                </p>
+
+                                                                <a {{-- href="" --}}
+                                                                    class="btn btn-warning">{{ $anuncio->moneda->nombre }}.
+                                                                    {{ $anuncio->precio }}</a>
+                                                                <a {{-- href="" --}} class="btn btn-warning">Visitas:
+                                                                    {{ $anuncio->visitas }}</a>
+                                                            </div>
+
+                                                            <div
+                                                                class="card-footer text-body-secondary"style="background-color: orange;">
+                                                                Fecha publicación: {{ $anuncio->fecha_publicacion }}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
+
                                         </div>
+                                        {{-- ---------------------------------------------------------------------------------------------- --}}
+                                        <div class="b-example-divider"></div>
+
+                                        <div class="container">
+
+                                        </div>
+                                        <input type="text" name="id_anuncio"value="{{ $anuncio->id }}" hidden>
+
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-primary">Ir a pagar</button>
+                                        <a href="{{ route('anuncios.index') }}" class="btn btn-secondary">Cancelar</a>
 
 
                                     </div>
-                                    {{-- ---------------------------------------------------------------------------------------------- --}}
-                                    <div class="b-example-divider"></div>
-
-                                    <div class="container">
-
-                                    </div>
-                                    <input type="text" name="id_anuncio"value="{{ $anuncio->id }}" hidden>
-
-                                </div>
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Siguiente</button>
-                                    <a href="{{ route('anuncios.index') }}" class="btn btn-secondary">Cancelar</a>
-
-
-                                </div>
                             </form>
                         </div>
                     </div>

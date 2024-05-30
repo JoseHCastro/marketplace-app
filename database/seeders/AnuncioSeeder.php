@@ -27,7 +27,9 @@ class AnuncioSeeder extends Seeder
       'user_id' => 5,
       'disponible' => true,
       'habilitado' => true,
-
+      'descuento' => 0,
+      'posicion_principal' => 1,
+      'posicion_categoria' => 1
     ]);
 
     $anuncio2 = Anuncio::create([
@@ -43,7 +45,9 @@ class AnuncioSeeder extends Seeder
       'user_id' => 1,
       'disponible' => true,
       'habilitado' => true,
-
+      'descuento' => 0,
+      'posicion_principal' => 2,
+      'posicion_categoria' => 2
     ]);
 
     $anuncio3 = Anuncio::create([
@@ -59,7 +63,9 @@ class AnuncioSeeder extends Seeder
       'user_id' => 3,
       'disponible' => true,
       'habilitado' => true,
-
+      'descuento' => 0,
+      'posicion_principal' => 3,
+      'posicion_categoria' => 3
     ]);
 
     $anuncio4 = Anuncio::create([
@@ -77,7 +83,9 @@ class AnuncioSeeder extends Seeder
       'user_id' => 4,
       'disponible' => true,
       'habilitado' => true,
-
+      'descuento' => 0,
+      'posicion_principal' => 4,
+      'posicion_categoria' => 4
     ]);
 
     $anuncio5 = Anuncio::create([
@@ -105,6 +113,9 @@ class AnuncioSeeder extends Seeder
       'user_id' => 5,
       'disponible' => true,
       'habilitado' => true,
+      'descuento' => 0,
+      'posicion_principal' => 5,
+      'posicion_categoria' => 5
     ]);
 
     $anuncio6 = Anuncio::create([
@@ -124,7 +135,9 @@ class AnuncioSeeder extends Seeder
       'user_id' => 6,
       'disponible' => true,
       'habilitado' => true,
-
+      'descuento' => 0,
+      'posicion_principal' => 6,
+      'posicion_categoria' => 6
     ]);
 
     $anuncio7 = Anuncio::create([
@@ -144,7 +157,9 @@ class AnuncioSeeder extends Seeder
       'user_id' => 3,
       'disponible' => true,
       'habilitado' => true,
-
+      'descuento' => 0,
+      'posicion_principal' => 7,
+      'posicion_categoria' => 7
     ]);
 
 

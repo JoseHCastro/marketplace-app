@@ -27,6 +27,38 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
     <style>
+        /* para etiquetas */
+        .etiqueta {
+            /*  display: inline-block;
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-right: 5px; */
+            display: inline-block;
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 3px 8px;
+            /* Ajustar el padding para reducir el tamaño */
+            border-radius: 3px;
+            margin: 2px 2px;
+            /* Agregar margen de 2px arriba y abajo, y 2px a los lados */
+        }
+
+        /* para etiquetas */
+
+        .discount-badge {
+            position: absolute;
+            bottom: 5px;
+            /* Ajusta la distancia desde abajo */
+            left: 5px;
+            /* Ajusta la distancia desde la izquierda */
+            background-color: yellow;
+            color: black;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
         .card-thumbnail {
             margin-bottom: 20px;
             /* Espacio entre cada tarjeta */
@@ -418,14 +450,26 @@
 
                                         <div class="image-container">
                                             <img src="
-                @php
+                    @php
 if ($anuncio->imagen !== null && isset($anuncio->imagen->url)) {
                         echo Storage::url($anuncio->imagen->url);
                     } @endphp
-            "
+                "
                                                 alt="NFT_portfolio">
                                             @if ($anuncio->disponible === 0)
                                                 <div class="sold-overlay">Vendido</div>
+                                            @endif
+
+                                            @if ($anuncio->descuento > 0 )
+                                                <div class="discount-badge">{{ $anuncio->descuento }}% de descuento
+                                                    hasta
+                                                    @foreach ($anuncioServicios2 as $unAnuncioServicio2)
+                                                        @if ($anuncio->id === $unAnuncioServicio2->anuncio_id)
+                                                            {{ $unAnuncioServicio2->fecha_fin }}
+                                                        @endif
+                                                    @endforeach
+
+                                                </div>
                                             @endif
                                         </div>
 
@@ -437,10 +481,12 @@ if ($anuncio->imagen !== null && isset($anuncio->imagen->url)) {
                                     <div class="profile-share">
                                         <!-- Podrías tener que adaptar esta parte con datos reales -->
                                         <a class="avatar" data-tooltip="{{ $anuncio->usuario->name }}">
-                                            <img src="{{ $anuncio->usuario->adminlte_image() }}"
-                                                alt="Nft_Profile"></a>
+                                            <img src="{{ $anuncio->usuario->adminlte_image() }}" alt="Nft_Profile">
+                                        </a>
                                         {{-- <a class="more-author-text" href="#">12+ Place Bit.</a> --}}
                                     </div>
+
+
 
                                     {{-- <div>
                                         <a href="{{ route('anuncios.show', $anuncio) }}" class="btn btn-primary">Ver
@@ -456,6 +502,7 @@ if ($anuncio->imagen !== null && isset($anuncio->imagen->url)) {
                                             </svg>
                                         </button>
 
+
                                         <div class="share-btn-setting dropdown-menu dropdown-menu-end">
                                             <button type="button" class="btn-setting-text share-text"
                                                 data-bs-toggle="modal" data-bs-target="#shareModal">
@@ -468,9 +515,19 @@ if ($anuncio->imagen !== null && isset($anuncio->imagen->url)) {
                                         </div>
 
                                     </div>
+
+
                                 </div>
-                                <a href="product-details.html"><span
-                                        class="product-name">{{ $anuncio->titulo }}</span></a>
+
+                                <a href="product-details.html">
+                                    <span class="product-name">{{ $anuncio->titulo }}</span>
+                                </a>
+
+                                <div>
+                                    @foreach ($anuncio->etiquetas as $etiqueta)
+                                        <span class="etiqueta"> {{ $etiqueta->name }}</span>
+                                    @endforeach
+                                </div>
                                 <span class="latest-bid">{{-- {{ $anuncio->estado->nombre }} --}}</span>
                                 <div class="bid-react-area">
                                     <div class="last-bid">{{ $anuncio->precio }} {{ $anuncio->moneda->nombre }}</div>
