@@ -20,6 +20,7 @@ use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\RestoreController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\MembresiaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,7 +118,7 @@ Route::group(['middleware' => ['auth']], function () {
   Route::post('anuncios/vendido', [AnuncioController::class, 'vendido'])->name('anuncios.vendido');
   Route::post('anuncios/disponible', [AnuncioController::class, 'disponible'])->name('anuncios.disponible');
   Route::get('anuncios/mensaje/{anuncio}', [AnuncioController::class, 'mensaje'])->name('anuncios.mensaje');
-  
+
 
 
   // Rutas para categorías
@@ -137,6 +138,8 @@ Route::group(['middleware' => ['auth']], function () {
   Route::post('contenido_promocional', [PersonalizarAnuncioController::class, 'store'])->name('contenido_promocional.store');
   // Rutas para etiquetas
   Route::resource('etiquetas', EtiquetaController::class);
+  // Ruta para membresias
+  Route::resource('membresias', MembresiaController::class);
   // Rutas para controlador
   Route::post('/support/send', [SupportController::class, 'send'])->name('support.send');
 });
