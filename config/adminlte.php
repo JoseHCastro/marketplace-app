@@ -329,8 +329,9 @@ return [
         ],
         [
           'text' => 'Gestionar Membresías',
+          //'can' => 'ver listado de membresias',
           'icon' => 'fas fa-address-card',
-          'url' => '#',
+          'url' => '/membresias',
         ],
         [
             'text' => 'Gestionar Roles',
