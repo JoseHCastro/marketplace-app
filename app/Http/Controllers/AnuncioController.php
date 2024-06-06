@@ -22,354 +22,309 @@ use TCPDF;
 class AnuncioController extends Controller
 {
 
-  public function __invoke()
-  {
-  }
-  /**
-   * Display a listing of the resource.
-   */
-  public function index()
-  {
-    /* $anuncios = Anuncio::all(); */
-
-    if (auth()->user()->id === 7) {
-      $anuncios = Anuncio::all();
-    } else {
-      $anuncios = Anuncio::where('user_id', auth()->user()->id)->get();
+    public function __invoke()
+    {
     }
 
-    /* $colores = [
-      "1" => "Rojo",
-      "2" => "Azul",
-      "3" => "Verde",
-      "4" => "Amarillo",
-      "5" => "Naranja",
-      "6" => "Morado",
-      "7" => "Café",
-    ]; */
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+  {
+    $filtro = $request->filtro;
+    $categoria_id = $request->categoria_id;
 
+    $query = Anuncio::query();
+
+    if (auth()->user()->id !== 7) {
+        $query->where('user_id', auth()->user()->id);
+    }
+
+    if ($filtro) {
+        $query->whereHas('categoria', function ($query) use ($filtro) {
+            $query->where('nombre', 'like', '%' . $filtro . '%');
+        });
+    }
+
+    if ($categoria_id) {
+        $query->where('categoria_id', $categoria_id);
+    }
+
+    $anuncios = $query->get();
     $categorias = Categoria::all();
     $users = User::all();
-    return view('anuncios.index', compact('anuncios', 'categorias'/* ,'colores' */, 'users'));
+
+    return view('anuncios.index', compact('anuncios', 'categorias', 'users'));
   }
 
-  /**
-   * Show the form for creating a new resource.
-   */
-  public function create()
-  {
-    //$categorias = Categoria::all();
-    //$categorias = Categoria::pluck('descripcion','id'); esto reconoce laravel colective
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $monedas = Moneda::all();
+        $condiciones = Condicion::all();
+        $categorias = Categoria::where('padre_id', null)->get();
+        $subcategorias = Categoria::where('padre_id', '!=', null)->get();
 
-    /* $categorias = [
-      "1" => "Vehículo",
-      "2" => "Inmueble",
-    ]; */
-
-    /* $etiquetas = [
-      "1" => "En promocion",
-      "2" => "Negociable",
-      "3" => "Nuevo",
-      "4" => "Remato",
-      "5" => "En Oferta",
-      "6" => "Ocasión",
-      "7" => "Liquidación",
-      "8" => "Últimas Unidades",
-    ]; */
-
-    /* $categorias = Categoria::all(); */
-    $monedas = Moneda::all();
-    $condiciones = Condicion::all();
-    //$estados = Estado::all();
-
-    $categorias = Categoria::where('padre_id', null)->get();
-    $subcategorias = Categoria::where('padre_id', '!=', null)->get();
-
-
-    return view('anuncios.create', compact('categorias', 'subcategorias', 'monedas', 'condiciones'/* , 'estados' */));
-  }
-
-  /**
-   * Store a newly created resource in storage.
-   */
-  public function store(Request $request)
-  {
-
-    /* $request->validate([
-      'titulo' => 'required',
-      'descripcion' => 'required',
-      'precio' => 'required ',
-      'condicion_id' => 'required',
-      'categoria_id' => 'required',
-      'moneda_id' => 'required',
-      'formFile' => 'required',
-    ]); */
-    date_default_timezone_set("America/La_Paz");
-    /* return  $request->all(); */
-    /* return  $request->file('formFile'); */
-    /* $fileFormPath = $request->file('formFile')->store(); */
-
-    /* return Storage::put('public/images/anuncios', $request->file('formFile')); */
-    $anuncio = new Anuncio();
-
-    // Obtener el último valor de la posición
-    $ultimaPosicionPrincipal = Anuncio::max('posicion_principal');
-
-    // Asignar la nueva posición sumándole 1 al último valor
-    $nuevaPosicionPrincipal = $ultimaPosicionPrincipal + 1;
-
-    // Obtener el último valor de la posición
-    $ultimaPosicionCategoria = Anuncio::max('posicion_categoria');
-
-    // Asignar la nueva posición sumándole 1 al último valor
-    $nuevaPosicionCategoria = $ultimaPosicionCategoria + 1;
-
-    $anuncio->titulo = $request->titulo;
-    $anuncio->descripcion = $request->descripcion;
-    $anuncio->precio = $request->precio;
-    $anuncio->fecha_publicacion = Carbon::now(); //obtener fecha actual al crear el anuncio
-    $anuncio->fecha_expiracion = Carbon::now()->addDays(30); //obtener fecha actual al crear el anuncio + los dias de duracion del anuncio
-    $anuncio->visitas = 0;
-    $anuncio->condicion_id = $request->condicion;
-    $anuncio->categoria_id = $request->categoria;
-    $anuncio->disponible = 1;  //por defecto el anuncio estara en estado disponible o no vendido
-    $anuncio->habilitado = 1;  //por defecto el anuncio estara habilitado
-    $anuncio->descuento = 0;  //por defecto el anuncio estara con 0 de descuento
-    $anuncio->moneda_id = $request->moneda;
-    $anuncio->user_id = auth()->user()->id; //id de usuario autentificado actual
-
-    $anuncio->posicion_principal = $nuevaPosicionPrincipal;
-    $anuncio->posicion_categoria = $nuevaPosicionCategoria;
-
-    $anuncio->save();
-
-    if ($request->file('formFile')) {
-      /* $url = Storage::put('public/images/anuncios', $request->file('formFile')); */
-      $url1 = Storage::put('public/images/anuncios', $request->file('formFile'));
-      $anuncio->imagen()->create([
-        'url' => $url1, //guardar la url de la imagen en la base de datos
-      ]);
+        return view('anuncios.create', compact('categorias', 'subcategorias', 'monedas', 'condiciones'));
     }
 
-    $anuncio->save();
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        date_default_timezone_set("America/La_Paz");
+        $anuncio = new Anuncio();
 
+        $ultimaPosicionPrincipal = Anuncio::max('posicion_principal');
+        $nuevaPosicionPrincipal = $ultimaPosicionPrincipal + 1;
 
-    $bitacora = new Bitacora();
-    $bitacora->usuario = Auth::user()->name;
-    $bitacora->hora = now();
-    $bitacora->evento = 'Crear';
-    $bitacora->contexto = 'Anuncio';
-    $bitacora->descripcion = 'Creó el anuncio ' . $anuncio->titulo;
-    $bitacora->origen = 'Web';
-    $bitacora->ip = $request->ip();
-    $bitacora->save();
+        $ultimaPosicionCategoria = Anuncio::max('posicion_categoria');
+        $nuevaPosicionCategoria = $ultimaPosicionCategoria + 1;
 
-    return redirect()->route('anuncios.index');
-    //return redirect()->route('anuncios.show', $anuncio); para previsualizar el anuncio luego de que se haya creado
-  }
+        $anuncio->titulo = $request->titulo;
+        $anuncio->descripcion = $request->descripcion;
+        $anuncio->precio = $request->precio;
+        $anuncio->fecha_publicacion = Carbon::now();
+        $anuncio->fecha_expiracion = Carbon::now()->addDays(30);
+        $anuncio->visitas = 0;
+        $anuncio->condicion_id = $request->condicion;
+        $anuncio->categoria_id = $request->categoria;
+        $anuncio->disponible = 1;
+        $anuncio->habilitado = 1;
+        $anuncio->descuento = 0;
+        $anuncio->moneda_id = $request->moneda;
+        $anuncio->user_id = auth()->user()->id;
 
-  /**
-   * Display the specified resource.
-   */
-  public function show(Anuncio $anuncio, Request $request)
-  {
-    date_default_timezone_set("America/La_Paz");
-    $bitacora = new Bitacora();
-    $bitacora->usuario = Auth::user()->name;
-    $bitacora->hora = now();
-    $bitacora->evento = 'Crear';
-    $bitacora->contexto = 'Anuncio';
-    $bitacora->descripcion = 'Creó el anuncio: ' . $anuncio->titulo;
-    $bitacora->origen = 'Web';
-    $bitacora->ip = $request->ip();
-    $bitacora->save();
+        $anuncio->posicion_principal = $nuevaPosicionPrincipal;
+        $anuncio->posicion_categoria = $nuevaPosicionCategoria;
 
-    return view('anuncios.show', compact('anuncio'));
-  }
+        $anuncio->save();
 
+        if ($request->file('formFile')) {
+            $url1 = Storage::put('public/images/anuncios', $request->file('formFile'));
+            $anuncio->imagen()->create([
+                'url' => $url1,
+            ]);
+        }
 
-  /**
-   * Show the form for editing the specified resource.
-   */
-  public function edit(Anuncio $anuncio)
-  {
-    /* $categorias = Categoria::all(); */
-    $monedas = Moneda::all();
-    $condiciones = Condicion::all();
-    $imagen = $anuncio->imagen;
+        $anuncio->save();
 
-    $categorias = Categoria::where('padre_id', null)->get();
-    $subcategorias = Categoria::where('padre_id', '!=', null)->get();
+        $bitacora = new Bitacora();
+        $bitacora->usuario = Auth::user()->name;
+        $bitacora->hora = now();
+        $bitacora->evento = 'Crear';
+        $bitacora->contexto = 'Anuncio';
+        $bitacora->descripcion = 'Creó el anuncio ' . $anuncio->titulo;
+        $bitacora->origen = 'Web';
+        $bitacora->ip = $request->ip();
+        $bitacora->save();
 
-    return view('anuncios.edit', compact('anuncio', 'categorias', 'subcategorias', 'monedas', 'imagen', 'condiciones'));
-  }
-
-
-  /**
-   * Update the specified resource in storage.
-   */
-  public function update(Request $request, Anuncio  $anuncio)
-  {
-
-    $anuncio = Anuncio::find($anuncio->id);
-    $anuncio->update($request->all());
-
-    if ($request->file('formFile')) {
-      $url = Storage::put('public/images/anuncios', $request->file('formFile'));
-
-
-      if ($anuncio->imagen) {
-        Storage::delete($anuncio->imagen->url);
-        $anuncio->imagen()->update([
-          'url' => $url,
-        ]);
-      } else {
-        $anuncio->imagen()->create([
-          'url' => $url,
-        ]);
-      }
+        return redirect()->route('anuncios.index');
     }
 
-    $anuncioAux = Anuncio::find($anuncio->id);
-    date_default_timezone_set("America/La_Paz");
-    $bitacora = new Bitacora();
-    $bitacora->usuario = Auth::user()->name;
-    $bitacora->hora = now();
-    $bitacora->usuario_afectado = User::find($anuncio->user_id)->name;
-    $bitacora->evento = 'Actualizar';
-    $bitacora->contexto = 'Anuncio';
-    $bitacora->descripcion = 'Actualizó el anuncio: ' . $anuncioAux->id . ' ' . $anuncioAux->titulo . ' ' . $anuncioAux->precio . ' ' . $anuncioAux->fecha_expiracion;
-    $bitacora->origen = 'Web';
-    $bitacora->ip = $request->ip();
-    $bitacora->save();
+    /**
+     * Display the specified resource.
+     */
+    public function show(Anuncio $anuncio, Request $request)
+    {
+        date_default_timezone_set("America/La_Paz");
+        $bitacora = new Bitacora();
+        $bitacora->usuario = Auth::user()->name;
+        $bitacora->hora = now();
+        $bitacora->evento = 'Crear';
+        $bitacora->contexto = 'Anuncio';
+        $bitacora->descripcion = 'Creó el anuncio: ' . $anuncio->titulo;
+        $bitacora->origen = 'Web';
+        $bitacora->ip = $request->ip();
+        $bitacora->save();
 
-    return redirect()->route('anuncios.index');
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   */
-  public function destroy(Anuncio $anuncio, Request $request)
-  {
-    //
-    $anuncioAux = Anuncio::find($anuncio->id);
-
-    date_default_timezone_set("America/La_Paz");
-    //activity()->useLog('Usuarios')->log('Eliminó')->subject();
-    /* $lastActivity = Activity::all()->last();
-    $lastActivity->subject_id = auth()->user()->id;
-    $lastActivity->save(); */
-
-    $anuncio->delete();
-
-    date_default_timezone_set("America/La_Paz");
-    $bitacora = new Bitacora();
-    $bitacora->usuario = Auth::user()->name;
-    $bitacora->hora = now();
-    $bitacora->usuario_afectado = User::find($anuncio->user_id)->name;
-    $bitacora->evento = 'Eliminar';
-    $bitacora->contexto = 'Anuncio';
-    $bitacora->descripcion = 'Eliminó el anuncio: ' . $anuncioAux->id . ' ' . $anuncioAux->titulo . ' ' . $anuncioAux->descripcion . ' ' . $anuncioAux->precio . ' ' . $anuncioAux->fecha_expiracion;
-    $bitacora->origen = 'Web';
-    $bitacora->ip = $request->ip();
-    $bitacora->save();
-
-    return redirect()->route('anuncios.index');
-  }
-
-  public function habilitar(Request  $request)
-  {
-    $anuncio = Anuncio::find($request->unAnuncio);
-    $anuncio->habilitado = true;
-    $anuncio->save();
-
-    return redirect()->route('anuncios.index');
-  }
-
-  public function deshabilitar(Request $request)
-  {
-    $anuncio = Anuncio::find($request->unAnuncio);
-    $anuncio->habilitado = false;
-    $anuncio->save();
-
-    return redirect()->route('anuncios.index');
-  }
-
-  public function vendido(Request $request)
-  {
-    $anuncio = Anuncio::find($request->unAnuncio);
-    $anuncio->disponible = false;
-    $anuncio->save();
-
-    return redirect()->route('anuncios.index');
-  }
-
-  public function disponible(Request $request)
-  {
-    $anuncio = Anuncio::find($request->unAnuncio);
-    $anuncio->disponible = true;
-    $anuncio->save();
-
-    return redirect()->route('anuncios.index');
-  }
-
-  public function exportarPDF(Request $request)
-  {
-    $usuario = $request->input('user');
-    $categoria = $request->input('categoria');
-    $desde = $request->input('desde');
-    $hasta = $request->input('hasta');
-
-    $query = Anuncio::query();
-
-    // Aplicar filtros si se proporcionan valores
-    if ($usuario !== null) {
-      $query->where('user_id', $usuario);
-    }
-    if ($categoria !== null) {
-      $query->where('categoria_id', $categoria);
-    }
-    if ($desde !== null && $hasta !== null) {
-      $query->whereBetween('fecha_publicacion', [$desde, $hasta]);
+        return view('anuncios.show', compact('anuncio'));
     }
 
-    // Obtener las bitácoras según la consulta
-    $anuncios = $query->get();
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Anuncio $anuncio)
+    {
+        $monedas = Moneda::all();
+        $condiciones = Condicion::all();
+        $imagen = $anuncio->imagen;
 
-    // Generar el PDF
-    $pdf = new TCPDF();
-    $pdf->SetCreator('YourAppName');
-    $pdf->SetAuthor('YourName');
-    $pdf->SetTitle('Anuncios');
-    $pdf->SetSubject('Anuncios');
-    $pdf->SetKeywords('Anuncios, PDF');
-    $pdf->AddPage();
-    $html = view('anuncios.PDF', compact('anuncios'))->render();
-    $pdf->writeHTML($html, true, false, true, false, '');
-    $pdf->Output('anuncios.pdf', 'D');
-  }
+        $categorias = Categoria::where('padre_id', null)->get();
+        $subcategorias = Categoria::where('padre_id', '!=', null)->get();
 
-  public function exportarExcel(Request $request)
-  {
-    $usuario = $request->input('user');
-    $categoria = $request->input('categoria');
-    $desde = $request->input('desde');
-    $hasta = $request->input('hasta');
-
-    $query = Anuncio::query();
-
-    if ($usuario !== null) {
-      $query->where('user_id', $usuario);
-    }
-    if ($categoria !== null) {
-      $query->where('categoria_id', $categoria);
-    }
-    if ($desde !== null && $hasta !== null) {
-      $query->whereBetween('hora', [$desde, $hasta]);
+        return view('anuncios.edit', compact('anuncio', 'categorias', 'subcategorias', 'monedas', 'imagen', 'condiciones'));
     }
 
-    $anuncios = $query->get();
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Anuncio  $anuncio)
+    {
+        $anuncio->update($request->all());
 
-    return Excel::download(new AnuncioExport($anuncios), 'anuncios.xlsx');
-  }
+        if ($request->file('formFile')) {
+            $url = Storage::put('public/images/anuncios', $request->file('formFile'));
+
+            if ($anuncio->imagen) {
+                Storage::delete($anuncio->imagen->url);
+                $anuncio->imagen()->update([
+                    'url' => $url,
+                ]);
+            } else {
+                $anuncio->imagen()->create([
+                    'url' => $url,
+                ]);
+            }
+        }
+
+        $anuncioAux = Anuncio::find($anuncio->id);
+        date_default_timezone_set("America/La_Paz");
+        $bitacora = new Bitacora();
+        $bitacora->usuario = Auth::user()->name;
+        $bitacora->hora = now();
+        $bitacora->usuario_afectado = User::find($anuncio->user_id)->name;
+        $bitacora->evento = 'Actualizar';
+        $bitacora->contexto = 'Anuncio';
+        $bitacora->descripcion = 'Actualizó el anuncio: ' . $anuncioAux->id . ' ' . $anuncioAux->titulo . ' ' . $anuncioAux->precio . ' ' . $anuncioAux->fecha_expiracion;
+        $bitacora->origen = 'Web';
+        $bitacora->ip = $request->ip();
+        $bitacora->save();
+
+        return redirect()->route('anuncios.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Anuncio $anuncio, Request $request)
+    {
+        $anuncioAux = Anuncio::find($anuncio->id);
+
+        $anuncio->delete();
+
+        date_default_timezone_set("America/La_Paz");
+        $bitacora = new Bitacora();
+        $bitacora->usuario = Auth::user()->name;
+        $bitacora->hora = now();
+        $bitacora->usuario_afectado = User::find($anuncio->user_id)->name;
+        $bitacora->evento = 'Eliminar';
+        $bitacora->contexto = 'Anuncio';
+        $bitacora->descripcion = 'Eliminó el anuncio: ' . $anuncioAux->id . ' ' . $anuncioAux->titulo . ' ' . $anuncioAux->descripcion . ' ' . $anuncioAux->precio . ' ' . $anuncioAux->fecha_expiracion;
+        $bitacora->origen = 'Web';
+        $bitacora->ip = $request->ip();
+        $bitacora->save();
+
+        return redirect()->route('anuncios.index');
+    }
+
+    public function habilitar(Request  $request)
+    {
+        $anuncio = Anuncio::find($request->unAnuncio);
+        $anuncio->habilitado = true;
+        $anuncio->save();
+
+        return redirect()->route('anuncios.index');
+    }
+
+    public function deshabilitar(Request $request)
+    {
+        $anuncio = Anuncio::find($request->unAnuncio);
+        $anuncio->habilitado = false;
+        $anuncio->save();
+
+        return redirect()->route('anuncios.index');
+    }
+
+    public function vendido(Request $request)
+    {
+        $anuncio = Anuncio::find($request->unAnuncio);
+        $anuncio->disponible = false;
+        $anuncio->save();
+
+        return redirect()->route('anuncios.index');
+    }
+
+    public function disponible(Request $request)
+    {
+        $anuncio = Anuncio::find($request->unAnuncio);
+        $anuncio->disponible = true;
+        $anuncio->save();
+
+        return redirect()->route('anuncios.index');
+    }
+
+    public function exportarPDF(Request $request)
+    {
+        $usuario = $request->input('user');
+        $categoria = $request->input('categoria');
+        $desde = $request->input('desde');
+        $hasta = $request->input('hasta');
+
+        $query = Anuncio::query();
+
+        if ($usuario !== null) {
+            $query->where('user_id', $usuario);
+        }
+        if ($categoria !== null) {
+            $query->where('categoria_id', $categoria);
+        }
+        if ($desde !== null && $hasta !== null) {
+            $query->whereBetween('fecha_publicacion', [$desde, $hasta]);
+        }
+
+        $anuncios = $query->get();
+
+        $pdf = new TCPDF();
+        $pdf->SetCreator('YourAppName');
+        $pdf->SetAuthor('YourName');
+        $pdf->SetTitle('Anuncios');
+        $pdf->SetSubject('Anuncios');
+        $pdf->SetKeywords('Anuncios, PDF');
+        $pdf->AddPage();
+        $html = view('anuncios.PDF', compact('anuncios'))->render();
+        $pdf->writeHTML($html, true, false, true, false, '');
+        $pdf->Output('anuncios.pdf', 'D');
+    }
+
+    public function exportarExcel(Request $request)
+    {
+        $usuario = $request->input('user');
+        $categoria = $request->input('categoria');
+        $desde = $request->input('desde');
+        $hasta = $request->input('hasta');
+
+        $query = Anuncio::query();
+
+        if ($usuario !== null) {
+            $query->where('user_id', $usuario);
+        }
+        if ($categoria !== null) {
+            $query->where('categoria_id', $categoria);
+        }
+        if ($desde !== null && $hasta !== null) {
+            $query->whereBetween('hora', [$desde, $hasta]);
+        }
+
+        $anuncios = $query->get();
+
+        return Excel::download(new AnuncioExport($anuncios), 'anuncios.xlsx');
+    }
+    public function anunciosPorCategoria($categoriaId)
+    {
+        $anuncios = Anuncio::where('categoria_id', $categoriaId)->get();
+        $categorias = Categoria::all(); // Obtener todas las categorías
+        return view('anuncios.anunciosPorCategoria', compact('anuncios', 'categorias'));
+
+    }
+
+
+
+
+
+
+
 }

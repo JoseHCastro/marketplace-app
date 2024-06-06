@@ -35,6 +35,7 @@ use App\Http\Controllers\MembresiaController;
 
 // Ruta para la HomePage
 Route::get('/', [HomePageController::class, 'HomePage'])->name('HomePage');
+Route::post('/', [HomePageController::class, 'FiltroHomePage'])->name('FiltroHomePage');
 Route::get('/detalle/{id}', [HomePageController::class, 'details'])->name('detalle');
 
 
@@ -145,4 +146,4 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 // Ruta para contar visita
-Route::post('/contar-visita', [VisitaController::class, 'contarVisita'])->name('contar.visita');
+

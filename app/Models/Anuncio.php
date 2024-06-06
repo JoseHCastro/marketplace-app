@@ -4,77 +4,75 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Anuncio extends Model
 {
+    use HasFactory;
 
-  //protected $guarded = ['id','created_at','updated_at'];
-  /* protected $guarded = ['']; */
-  protected $table = 'anuncios';
-  protected $fillable = [
-    'titulo',
-    'descripcion',
-    'precio',
-    'fecha_publicacion',
-    'fecha_expiracion',
-    'visitas',
-    'condicion_id',
-    'categoria_id',
-    'moneda_id',
-    'user_id',
-    'disponible',
-    'habilitado',
-    'descuento',
-    'posicion_principal',
-    'posicion_categoria'
-  ];
+    protected $fillable = [
+        'titulo',
+        'descripcion',
+        'precio',
+        'fecha_publicacion',
+        'fecha_expiracion',
+        'visitas',
+        'condicion_id',
+        'categoria_id',
+        'moneda_id',
+        'user_id',
+        'disponible',
+        'habilitado',
+        'descuento',
+        'posicion_principal',
+        'posicion_categoria'
+    ];
 
-  use HasFactory;
+    // Relación con la categoría
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
+    }
 
-  //ok
-  public function categoria()
-  {
-    return $this->belongsTo(Categoria::class);
-  }
+    // Relación con la moneda
+    public function moneda()
+    {
+        return $this->belongsTo(Moneda::class);
+    }
 
-  public function estado()
-  {
-    return $this->belongsTo('App\Models\Estado', 'estado_id');
-  }
-  //ok
-  public function Moneda()
-  {
-    return $this->belongsTo(Moneda::class);
-  }
+    // Relación con la condición
+    public function condicion()
+    {
+        return $this->belongsTo(Condicion::class);
+    }
 
-  //ok
-  public function condicion()
-  {
-    return $this->belongsTo(Condicion::class);
-  }
+    // Relación con las etiquetas
+    public function etiquetas()
+    {
+        return $this->belongsToMany(Etiqueta::class);
+    }
 
-  public function etiquetas()
-  {
-    return $this->belongsToMany(Etiqueta::class);
-  }
+    // Relación con los servicios
+    public function servicios()
+    {
+        return $this->belongsToMany(Servicio::class, 'anuncio_servicios')->withPivot('fecha_inicio', 'fecha_fin');
+    }
 
-  public function servicios()
-  {
-    return $this->
-    belongsToMany(Servicios::class, 'anuncio_servicios', 'anuncio_id', 'servicios_id')->withPivot('fecha_inicio', 'fecha_fin');
-  }
+    // Relación con la imagen
+    public function imagen()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
 
-  //ok
-  public function imagen()
-  {
-    return  $this->morphOne('App\Models\Image', 'imageable');
-  }
+    // Relación con el usuario
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
-
-  //user
-  public function usuario()
-  {
-
-    return $this->belongsTo(User::class, 'user_id');
-  }
+    // Método para obtener la URL de la imagen del anuncio
+    public function getImageUrlAttribute()
+    {
+        return $this->imagen ? Storage::url($this->imagen->url) : null;
+    }
 }
