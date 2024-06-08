@@ -21,7 +21,7 @@
             position: absolute;
             object-fit: cover;
             /* width: 100%;
-                                                                                                                                                                                                                                                                                                                                                                                                                                            height: 100%; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                height: 100%; */
         }
     </style>
 @endsection
@@ -31,50 +31,58 @@
 @stop
 
 @section('content')
-    {{-- REPORTE INICIO --}}
-    <div class="card">
-        <div class="card-body">
-            <h2>Reportes</h2>
-            <div class="row">
-                <div class="col-md-3 mb-3">
-                    <label for="user">Usuario:</label>
-                    <select name="user" id="user" class="form-control">
-                        <option value="">Seleccionar usuario...</option>
-                        @foreach ($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="categoria">Categoría:</label>
-                    <select name="categoria" id="categoria" class="form-control">
-                        <option value="">Seleccionar Categoría...</option>
-                        @foreach ($categorias as $categoria)
-                            <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="desde">Desde:</label>
-                    <input type="datetime-local" name="desde" id="desde" class="form-control" placeholder="Desde">
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="hasta">Hasta:</label>
-                    <input type="datetime-local" name="hasta" id="hasta" class="form-control" placeholder="Hasta">
-                </div>
+    @canany(['reporte anuncio pdf', 'reporte anuncio excel'])
+        {{-- REPORTE INICIO --}}
+        <div class="card">
+            <div class="card-body">
+                <h2>Reportes</h2>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="user">Usuario:</label>
+                        <select name="user" id="user" class="form-control">
+                            <option value="">Seleccionar usuario...</option>
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="categoria">Categoría:</label>
+                        <select name="categoria" id="categoria" class="form-control">
+                            <option value="">Seleccionar Categoría...</option>
+                            @foreach ($categorias as $categoria)
+                                <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="desde">Desde:</label>
+                        <input type="datetime-local" name="desde" id="desde" class="form-control" placeholder="Desde">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="hasta">Hasta:</label>
+                        <input type="datetime-local" name="hasta" id="hasta" class="form-control" placeholder="Hasta">
+                    </div>
 
-                <div class="col-md-3">
-                    <button class="btn btn-dark ml-auto mb-3" onclick="exportarPDF()">PDF</button>
-                    <button class="btn btn-dark ml-auto mb-3" onclick="exportarExcel()">Excel</button>
+                    <div class="col-md-3">
+                        @can('reporte anuncio pdf')
+                            <button class="btn btn-dark ml-auto mb-3" onclick="exportarPDF()">PDF</button>
+                        @endcan
+                        @can('reporte anuncio excel')
+                            <button class="btn btn-dark ml-auto mb-3" onclick="exportarExcel()">Excel</button>
+                        @endcan
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    {{-- REPORTE FINAL --}}
+        {{-- REPORTE FINAL --}}
+    @endcanany
 
     {{-- ------------------------------------------------------------------- --}}
+    @can('crear anuncio')
+        <a class="btn btn-dark ml-auto" href="{{ route('anuncios.create') }}">Nuevo anuncio</a>
+    @endcan
 
-    <a class="btn btn-dark ml-auto" href="{{ route('anuncios.create') }}">Nuevo anuncio</a>
 
     {{-- <a class="btn btn-dark ml-auto" id="btnVisitar">un boton</a> --}}
 
@@ -111,12 +119,12 @@
                             <td>{{ $anuncio->id }}</td>
                             <td>
                                 <div>
-                                    <img src=" 
+                                    <img src="
                                     @php
 if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
                                         echo Storage::url($anuncio->imagen->url);
                                         /* echo $anuncio->imagen->url; */
-                                    } else { 
+                                    } else {
                                         echo "https://wpdirecto.com/wp-content/uploads/2017/08/alt-de-una-imagen.png";
                                       } @endphp"
                                         style="width: 100px; height: 100px;" class="rounded mx-auto d-block">
@@ -160,24 +168,28 @@ if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
                                 {{-- <form action="{{ route('anuncios.edit', $anuncio) }}">
                                     <button type="submit" class="btn btn-primary">Editar</button>
                                 </form> --}}
-                                <a class="btn btn-warning" href="{{ route('anuncios.edit', $anuncio->id) }}">Editar</a>
+                                @can('editar anuncio')
+                                    <a class="btn btn-warning" href="{{ route('anuncios.edit', $anuncio->id) }}">Editar</a>
+                                @endcan
 
                                 {!! Form::open([
                                     'method' => 'DELETE',
                                     'route' => ['anuncios.destroy', $anuncio->id],
                                     'style' => 'display:inline',
                                 ]) !!}
-                                {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
+                                @can('eliminar anuncio')
+                                    {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
+                                @endcan
                                 {!! Form::close() !!}
-
 
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-primary dropdown-toggle"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            Más acciones
-                                        </button>
-
+                                        @can('mas acciones anuncio')
+                                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                Más acciones
+                                            </button>
+                                        @endcan
                                         <ul class="dropdown-menu">
 
                                             <form action="{{ route('anuncios.habilitar') }}" method="post">

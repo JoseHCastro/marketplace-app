@@ -34,7 +34,9 @@
                             <td>{{ $user->email }}</td>
 
                             <td class="text-right"> <!-- Alineamos los botones a la derecha -->
-                                <a class="btn btn-warning" href="{{ route('asignar.edit', $user) }}">Ver Roles</a>
+                                @can('ver roles')
+                                    <a class="btn btn-warning" href="{{ route('asignar.edit', $user) }}">Ver Roles</a>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

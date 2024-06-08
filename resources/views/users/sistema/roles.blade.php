@@ -16,7 +16,10 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <x-adminlte-button label="Nuevo" theme="primary" icon="fas fa-key" class="float-right bg-purple" data-toggle="modal" data-target="#modalPurple" />
+            @can('crear rol')
+                <x-adminlte-button label="Nuevo" theme="primary" icon="fas fa-key" class="float-right bg-purple"
+                    data-toggle="modal" data-target="#modalPurple" />
+            @endcan
         </div>
         <div class="card-body">
             <table class="table table-striped" id="usersTable">
@@ -33,12 +36,18 @@
                             <td>{{ $role->id }}</td>
                             <td>{{ $role->name }}</td>
                             <td class="text-right"> <!-- Alineamos los botones a la derecha -->
-                                <a class="btn btn-warning" href="{{ route('roles.edit', $role) }}">Editar</a>
-                                <a class="btn btn-primary" href="#" onclick="event.preventDefault(); document.getElementById('delete-role-{{ $role->id }}').submit();">Eliminar</a>
-                                   <form id="delete-role-{{ $role->id }}" action="{{ route('roles.destroy', $role) }}" method="POST" style="display: none;">
-                                     @csrf
-                                     @method('DELETE')
-                                   </form>
+                                @can('editar rol')
+                                    <a class="btn btn-warning" href="{{ route('roles.edit', $role) }}">Editar</a>
+                                @endcan
+                                @can('eliminar rol')
+                                    <a class="btn btn-primary" href="#"
+                                        onclick="event.preventDefault(); document.getElementById('delete-role-{{ $role->id }}').submit();">Eliminar</a>
+                                @endcan
+                                <form id="delete-role-{{ $role->id }}" action="{{ route('roles.destroy', $role) }}"
+                                    method="POST" style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                             </td>
                         </tr>
                     @endforeach
@@ -48,7 +57,8 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="modalPurple" tabindex="-1" role="dialog" aria-labelledby="modalPurpleLabel" aria-hidden="true">
+    <div class="modal fade" id="modalPurple" tabindex="-1" role="dialog" aria-labelledby="modalPurpleLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -62,9 +72,10 @@
 
                         @csrf
                         <div class="row">
-                            <x-adminlte-input name="nombre" label="Nombre" placeholder="Aqui su rol..." fgroup-class="col-md-6" disable-feedback/>
+                            <x-adminlte-input name="nombre" label="Nombre" placeholder="Aqui su rol..."
+                                fgroup-class="col-md-6" disable-feedback />
                         </div>
-                        <x-adminlte-button type="submit" label="Guardar" theme="primary" icon="fas fa-key"/>
+                        <x-adminlte-button type="submit" label="Guardar" theme="primary" icon="fas fa-key" />
                     </form>
                 </div>
                 <div class="modal-footer">

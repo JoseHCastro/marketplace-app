@@ -9,7 +9,9 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <a class="btn btn-dark ml-auto" href="{{ route('etiquetas.create') }}">Nuevo</a>
+            @can('crear etiqueta')
+                <a class="btn btn-dark ml-auto" href="{{ route('etiquetas.create') }}">Nuevo</a>
+            @endcan
             <div class="card">
                 @php
                     $heads = [
@@ -66,4 +68,3 @@
         </div>
     </div>
 @stop
-

@@ -8,6 +8,7 @@ use App\Models\Categoria;
 use App\Models\Servicios;
 use Illuminate\Http\Request;
 use App\Models\AnuncioServicio;
+use App\Models\Comentario;
 use Illuminate\Support\Facades\Auth;
 
 class HomePageController extends Controller
@@ -58,6 +59,8 @@ class HomePageController extends Controller
     $bitacora->ip = $request->ip();
     $bitacora->save();
 
-    return view('details', compact('anuncio'));
+    $comentarios=Comentario::where('anuncio_id',$id)->get();
+
+    return view('details', compact('anuncio'), compact('comentarios'));
   }
 }

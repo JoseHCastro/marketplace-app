@@ -219,12 +219,14 @@
                                             <span><a href="#">{{ auth()->user()->rol }}</a></span>
                                         </div>
                                         <ul class="list-inner">
+                                            @auth
+                                                @if (auth()->user()->hasRole('administrador'))
+                                                    <li><a href="home">Panel admin</a></li>
+                                                @else
+                                                    <li><a href="anuncios">Mis publicaciones</a></li>
+                                                @endif
+                                            @endauth
 
-                                            @if (auth()->user()->id == '7')
-                                                <li><a href="home">Panel admin</a></li>
-                                            @else
-                                                <li><a href="anuncios">Mis publicaciones</a></li>
-                                            @endif
 
                                             <li><a href="profiles">Mi perfil</a></li>
                                             <li><a href="{{ route('logout') }}"
@@ -522,7 +524,7 @@ if ($anuncio->imagen !== null && isset($anuncio->imagen->url)) {
 
                                 </div>
 
-                                <a href="product-details.html">
+                                <a href="{{ route('detalle', ['id' => $anuncio->id]) }}">
                                     <span class="product-name">{{ $anuncio->titulo }}</span>
                                 </a>
 
@@ -625,6 +627,7 @@ if ($anuncio->imagen !== null && isset($anuncio->imagen->url)) {
                 <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
             </svg>
         </div>
+        @include('layouts.footer')
         <!-- End Top To Bottom Area  -->
         <!-- JS ============================================ -->
         <script src="{{ asset('assets/js/vendor/jquery.js') }}"></script>

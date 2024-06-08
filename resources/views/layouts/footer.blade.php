@@ -2,16 +2,16 @@
 <div class="copy-right-one ptb--20 bg-color--1">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="copyright-left">
-                    <span>©2024 Marketplace,  All rights reserved.</span>
+                    <span>©2024 Marketplace, Reservados todos los derechos.</span>
                     <ul class="privacy">
                         <li><a href="#">Terms</a></li>
                         <li><a href="#">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="copyright-right">
                     <ul class="social-copyright">
                         <li><a href="#"><i data-feather="facebook"></i></a></li>

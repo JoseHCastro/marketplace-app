@@ -148,6 +148,101 @@ if ($anuncio->imagen !== null && isset($anuncio->imagen->url)) {
         </div>
     </div>
     <!-- End product details area -->
+
+
+    <!-- COMENTARIOS -->
+
+    <div class="comments-wrapper pt--40 centered-content">
+        <div class="comments-area">
+            <div class="trydo-blog-comment">
+                <h5 class="comment-title mb--40">Comentarios:</h5>
+                <!-- Start Coment List  -->
+                    <ul class="comment-list">
+                        @foreach ($comentarios as $comentario)
+                            <li class="comment parent">
+                                <div class="single-comment">
+                                    <div class="comment-author comment-img">
+                                        <img class="comment-avatar" src="{{ $comentario->usuario->adminlte_image() }} "
+                                            style="width: 50px; height: 50px;" alt="Comment Image">
+                                        <div class="m-b-20">
+                                            <div class="commenter">{{ $comentario->usuario->name }}</div>
+                                            <div class="time-spent"> {{ $comentario->fecha }}, a las {{ $comentario->hora }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="comment-text">
+                                        <p>{{ $comentario->contenido }}</p>
+                                    </div>
+                                    @auth
+                                        @can('eliminar comentario')
+                                            @if ($comentario->user_id == auth()->user()->id || auth()->user()->hasRole('administrador'))
+                                                <div class="reply-edit">
+                                                    <div class="reply">
+                                                        <form method="POST"
+                                                            action="{{ route('comentarios.destroy', $comentario->id) }}"
+                                                            onsubmit="return confirm('¿Estás seguro de que deseas eliminar este comentario?');">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                style="background: none; border: none; padding: 0; cursor: pointer; color: rgb(39, 83, 206);">
+                                                                <i class="rbt feather-x"></i> Eliminar
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endcan
+                                    @endauth
+                                </div>
+                            </li>
+                        @endforeach
+
+                    </ul>
+                    <!-- End Coment List  -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Start Contact Form Area  -->
+    <div class="rn-comment-form pt--60 centered-content">
+        <div class="inner">
+            <div class="section-title">
+                <span class="subtitle">¿Tienes un comentario?</span>
+                <h2 class="title">Deja una respuesta</h2>
+            </div>
+            <form id="comment-form" class="mt--40" method="POST"
+                action="{{ auth()->check() ? route('comentarios.store') : route('login') }}"
+                enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-12">
+                        <div class="rnform-group">
+                            <textarea id="comment-content" name="contenido" placeholder="Comentario"></textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" name="anuncio_id" value="{{ $anuncio->id }}">
+                    <div class="col-lg-12">
+                        <div class="blog-btn">
+                            @auth
+                                @can('comentar')
+                                    <button type="submit" id="submit-comment" class="btn btn-primary-alta btn-large w-50">
+                                        <span>ENVIAR COMENTARIO</span>
+                                    </button>
+                                @endcan
+                            @else
+                                <a href="{{ route('login') }}" class="btn btn-primary-alta btn-large w-50">
+                                    <span>Iniciar sesión para comentar</span>
+                                </a>
+                            @endauth
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- End Contact Form Area  -->
+    <!-- FINAL COMENTARIOS -->
 @endsection
+
 @section('js')
 @endsection

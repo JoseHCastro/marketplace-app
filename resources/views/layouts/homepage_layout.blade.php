@@ -13,6 +13,8 @@
     @include('layouts.top_nav')
     @yield('content')
 
+    @include('layouts.footer')
+
 
     <!-- JS ============================================ -->
     <script src="{{ asset('assets/js/vendor/jquery.js') }}"></script>

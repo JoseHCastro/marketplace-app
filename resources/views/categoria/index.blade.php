@@ -10,7 +10,10 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <a class="btn btn-dark ml-auto mb-3" href="{{ route('categoria.create') }}">Crear Nueva Categoría</a>
+            @can('crear categoria')
+                <a class="btn btn-dark ml-auto mb-3" href="{{ route('categoria.create') }}">Crear Nueva Categoría</a>
+            @endcan
+
             @if (session('success'))
                 <div class="alert alert-success" id="success-alert">
                     {{ session('success') }}

@@ -14,44 +14,50 @@
     <h1 class="m-0 text-dark">Bitácora</h1>
 @stop
 @section('content')
+    @canany(['reporte bitacora pdf', 'reporte bitacora excel'])
+        <div class="card">
+            <div class="card-body">
+                <h2>Reportes</h2>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="user">Usuario:</label>
+                        <select name="user" id="user" class="form-control">
+                            <option value="">Seleccionar usuario...</option>
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="plataforma">Plataforma:</label>
+                        <select name="plataforma" id="plataforma" class="form-control">
+                            <option value="">Seleccionar Plataforma...</option>
+                            <option value="Web">Web</option>
+                            <option value="Movil">Movil</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="desde">Desde:</label>
+                        <input type="datetime-local" name="desde" id="desde" class="form-control" placeholder="Desde">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="hasta">Hasta:</label>
+                        <input type="datetime-local" name="hasta" id="hasta" class="form-control" placeholder="Hasta">
+                    </div>
 
-    <div class="card">
-        <div class="card-body">
-            <h2>Reportes</h2>
-            <div class="row">
-                <div class="col-md-3 mb-3">
-                    <label for="user">Usuario:</label>
-                    <select name="user" id="user" class="form-control">
-                        <option value="">Seleccionar usuario...</option>
-                        @foreach ($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="plataforma">Plataforma:</label>
-                    <select name="plataforma" id="plataforma" class="form-control">
-                        <option value="">Seleccionar Plataforma...</option>
-                        <option value="Web">Web</option>
-                        <option value="Movil">Movil</option>
-                    </select>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="desde">Desde:</label>
-                    <input type="datetime-local" name="desde" id="desde" class="form-control" placeholder="Desde">
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="hasta">Hasta:</label>
-                    <input type="datetime-local" name="hasta" id="hasta" class="form-control" placeholder="Hasta">
-                </div>
-                
-                <div class="col-md-3">
-                    <button class="btn btn-dark ml-auto mb-3" onclick="exportarPDF()">PDF</button>
-                    <button class="btn btn-dark ml-auto mb-3" onclick="exportarExcel()">Excel</button>
+                    <div class="col-md-3">
+                        @can('reporte bitacora pdf')
+                            <button class="btn btn-dark ml-auto mb-3" onclick="exportarPDF()">PDF</button>
+                        @endcan
+                        @can('reporte bitacora excel')
+                            <button class="btn btn-dark ml-auto mb-3" onclick="exportarExcel()">Excel</button>
+                        @endcan
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endcanany
+
 
 
 
