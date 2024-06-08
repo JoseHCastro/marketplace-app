@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('anuncio_id');
             $table->unsignedBigInteger('user_id');
+            $table->string('stripe_payment_id');
 
             $table->foreign('anuncio_id')
                 ->references('id')

@@ -418,11 +418,6 @@ return [
           'text' => 'Gestionar Banners',
           'icon' => 'fas fa-server',
           'url' => '#',
-        ],
-        [
-          'text' => 'Gestionar Pagos',
-          'icon' => 'fas fa-credit-card',
-          'url' => '#',
         ]
       ],
     ],
@@ -430,6 +425,11 @@ return [
       'text' => 'Ir al Marketplace',
       'icon' => 'fas fa-shopping-basket',
       'url'  => '/'
+    ],
+    [
+      'text' => 'Gestionar Pagos',
+      'icon' => 'fas fa-credit-card',
+      'url' => '/pago',
     ],
 
     ['header' => 'account_settings'],

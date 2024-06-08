@@ -20,6 +20,7 @@ use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\RestoreController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\PagoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +36,6 @@ use App\Http\Controllers\SupportController;
 // Ruta para la HomePage
 Route::get('/', [HomePageController::class, 'HomePage'])->name('HomePage');
 Route::get('/detalle/{id}', [HomePageController::class, 'details'])->name('detalle');
-
 
 // Ruta prueba
 Route::get('/prueba', function () {
@@ -139,6 +139,15 @@ Route::group(['middleware' => ['auth']], function () {
   Route::resource('etiquetas', EtiquetaController::class);
   // Rutas para controlador
   Route::post('/support/send', [SupportController::class, 'send'])->name('support.send');
+  // Rutas para Pago
+  Route::middleware(['auth'])->group(function () {
+    Route::get('/pago', [PagoController::class, 'index'])->name('pago.index');
+    Route::get('/pago/form', [PagoController::class, 'showPaymentForm'])->name('pago.form');
+    Route::post('/pago/process', [PagoController::class, 'processPayment'])->name('pago.process');
+    Route::get('/pago/success', [PagoController::class, 'paymentSuccess'])->name('pago.success');
+  });
+
+
 });
 
 // Ruta para contar visita
