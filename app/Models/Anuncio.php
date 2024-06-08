@@ -55,7 +55,7 @@ class Anuncio extends Model
     // Relación con los servicios
     public function servicios()
     {
-        return $this->belongsToMany(Servicio::class, 'anuncio_servicios')->withPivot('fecha_inicio', 'fecha_fin');
+        return $this->belongsToMany(Servicios::class, 'anuncio_servicios')->withPivot('fecha_inicio', 'fecha_fin');
     }
 
     // Relación con la imagen
