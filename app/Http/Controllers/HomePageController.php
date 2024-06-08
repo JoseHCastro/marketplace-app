@@ -15,7 +15,7 @@ class HomePageController extends Controller
 {
     public function HomePage()
     {
-        $categorias = Categoria::all();
+        $categorias = Categoria::where('padre_id', null)->get();
         $anuncios = Anuncio::all();
         return view('homepage', compact('categorias', 'anuncios'));
     }
