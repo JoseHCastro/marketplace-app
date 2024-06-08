@@ -3,20 +3,21 @@
 @section('title', 'Index')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Gestionar Etiquetas</h1>
+    <h1 class="m-0 text-dark">Gestionar Membresias</h1>
 @stop
 
 @section('content')
     <div class="row">
         <div class="col-12">
-            @can('crear etiqueta')
-                <a class="btn btn-dark ml-auto" href="{{ route('etiquetas.create') }}">Nuevo</a>
+            @can('crear membresia')
+                <a class="btn btn-dark ml-auto" href="{{ route('membresias.create') }}">Nuevo</a>
             @endcan
             <div class="card">
                 @php
                     $heads = [
                         'ID',
-                        'Name',
+                        'Titulo',
+                        'Descripcion',
                         'Precio (Bolivianos)',
                         ['label' => 'Actions', 'no-export' => true, 'width' => 5],
                     ];
@@ -27,16 +28,16 @@
                         'columns' => [null, null, null, ['orderable' => false]],
                     ];
 
-                    foreach ($etiquetas as $etiqueta) {
+                    foreach ($membresias as $membresia) {
                         $btnEdit =
                             '<a href="' .
-                            route('etiquetas.edit', ['etiqueta' => $etiqueta->id]) .
+                            route('membresias.edit', ['membresia' => $membresia->id]) .
                             '" class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a>';
                         $btnDelete =
                             '<form action="' .
-                            route('etiquetas.destroy', ['etiqueta' => $etiqueta->id]) .
+                            route('membresias.destroy', ['membresia' => $membresia->id]) .
                             '" method="POST" class="d-inline">' .
                             csrf_field() .
                             method_field('DELETE') .
@@ -46,9 +47,10 @@
                             </form>';
 
                         $config['data'][] = [
-                            $etiqueta->id,
-                            $etiqueta->name,
-                            $etiqueta->precio,
+                            $membresia->id,
+                            $membresia->titulo,
+                            $membresia->descripcion,
+                            $membresia->precio,
                             '<nobr>' . $btnEdit . $btnDelete . '</nobr>',
                         ];
                     }

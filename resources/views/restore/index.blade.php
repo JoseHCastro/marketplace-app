@@ -31,7 +31,9 @@
                     <label for="backup_file">Archivo de Backup:</label>
                     <input type="file" class="form-control" name="backup_file" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Subir y Restaurar</button>
+                @can('restore')
+                    <button type="submit" class="btn btn-primary">Subir y Restaurar</button>
+                @endcan
             </form>
         </div>
     </div>
@@ -48,11 +50,17 @@
                         <div>
                             <h5>{{ $backup['file_name'] }}</h5>
                             <p><small>Tamaño: {{ number_format($backup['file_size'] / 1024 / 1024, 2) }} MB</small></p>
-                            <p><small>Modificado: {{ \Carbon\Carbon::createFromTimestamp($backup['last_modified'])->toDateTimeString() }}</small></p>
+                            <p><small>Modificado:
+                                    {{ \Carbon\Carbon::createFromTimestamp($backup['last_modified'])->toDateTimeString() }}</small>
+                            </p>
                         </div>
-                        <a href="{{ route('restore.perform', ['file_name' => $backup['file_name']]) }}" class="btn btn-warning btn-sm" onclick="return confirm('¿Está seguro de que desea restaurar este archivo?')">
-                            Restaurar
-                        </a>
+                        @can('restore')
+                            <a href="{{ route('restore.perform', ['file_name' => $backup['file_name']]) }}"
+                                class="btn btn-warning btn-sm"
+                                onclick="return confirm('¿Está seguro de que desea restaurar este archivo?')">
+                                Restaurar
+                            </a>
+                        @endcan
                     </li>
                 @endforeach
             </ul>

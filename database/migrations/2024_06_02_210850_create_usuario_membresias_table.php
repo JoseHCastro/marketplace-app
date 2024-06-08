@@ -11,25 +11,26 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comentarios', function (Blueprint $table) {
+        Schema::create('usuario_membresias', function (Blueprint $table) {
             $table->id();
-            $table->string('contenido');
-            $table->date('fecha_comentario');
 
-            $table->unsignedBigInteger('anuncio_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('usuario_id');
+            $table->unsignedBigInteger('membresia_id');
+            $table->date('fecha_inicio');
+            $table->date('fecha_final');
 
-            $table->foreign('anuncio_id')
-                ->references('id')
-                ->on('anuncios')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
-            $table->foreign('user_id')
+            $table->foreign('usuario_id')
                 ->references('id')
                 ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+
+            $table->foreign('membresia_id')
+                ->references('id')
+                ->on('membresias')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -39,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comentarios');
+        Schema::dropIfExists('usuario_membresias');
     }
 };

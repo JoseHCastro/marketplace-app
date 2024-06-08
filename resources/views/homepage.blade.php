@@ -219,12 +219,14 @@
                                             <span><a href="#">{{ auth()->user()->rol }}</a></span>
                                         </div>
                                         <ul class="list-inner">
+                                            @auth
+                                                @if (auth()->user()->hasRole('administrador'))
+                                                    <li><a href="home">Panel admin</a></li>
+                                                @else
+                                                    <li><a href="anuncios">Mis publicaciones</a></li>
+                                                @endif
+                                            @endauth
 
-                                            @if (auth()->user()->id == '7')
-                                                <li><a href="home">Panel admin</a></li>
-                                            @else
-                                                <li><a href="anuncios">Mis publicaciones</a></li>
-                                            @endif
 
                                             <li><a href="profiles">Mi perfil</a></li>
                                             <li><a href="{{ route('logout') }}"
@@ -398,42 +400,45 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-12 mt_mobile--15">
                     <div class="view-more-btn text-start text-sm-end" data-sal-delay="150" data-sal="slide-up"
                         data-sal-duration="800">
-                        <button class="discover-filter-button discover-filter-activation btn btn-primary">Filter<i
+                        <button class="discover-filter-button discover-filter-activation btn btn-primary">Filtro<i
                                 class="feather-filter"></i></button>
                     </div>
                 </div>
             </div>
             <div class="default-exp-wrapper default-exp-expand">
                 <div class="inner">
-
-                    <div class="filter-select-option">
-                        <label class="filter-leble">Category</label>
-                        <select>
-                            <option data-display="Category">Category</option>
-                            <option value="1">Categoria 1</option>
-                            <option value="1">Categoria 2</option>
-                            <option value="2">Categoria 3</option>
-
-                        </select>
-                    </div>
-                    <div class="filter-select-option">
-                        <label class="filter-leble">Price Range</label>
-                        <div class="price_filter s-filter clear">
-                            <form action="#" method="GET">
-                                <div id="slider-range"></div>
+                    <form action="{{ route('FiltroHomePage') }}" method="POST">
+                        @csrf
+                        <div class="filter-select-option">
+                            <label class="filter-leble">Category</label>
+                            <select name="categoria">
+                                <option data-display="Category">Category</option>
+                                @foreach ($categorias as $categoria)
+                                    <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="filter-select-option">
+                            <label class="filter-leble">Rango de Precio</label>
+                            <div class="price_filter s-filter clear" id="filtroid">
                                 <div class="slider__range--output">
                                     <div class="price__output--wrap">
                                         <div class="price--output">
-                                            <span>Price :</span><input type="text" id="amount" readonly>
+                                            <span>Precio Mínimo:</span>
+                                            <input type="text" id="precio_min" name="precio_min">
+                                        </div>
+                                        <div class="price--output">
+                                            <span>Precio Máximo:</span>
+                                            <input type="text" id="precio_max" name="precio_max">
                                         </div>
                                         <div class="price--filter">
-                                            <a class="btn btn-primary btn-small" href="#">Filter</a>
+                                            <button type="submit" class="btn btn-primary btn-small">Filtrar</button>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
 
@@ -460,7 +465,7 @@ if ($anuncio->imagen !== null && isset($anuncio->imagen->url)) {
                                                 <div class="sold-overlay">Vendido</div>
                                             @endif
 
-                                            @if ($anuncio->descuento > 0 )
+                                            @if ($anuncio->descuento > 0)
                                                 <div class="discount-badge">{{ $anuncio->descuento }}% de descuento
                                                     hasta
                                                     @foreach ($anuncioServicios2 as $unAnuncioServicio2)
@@ -519,7 +524,7 @@ if ($anuncio->imagen !== null && isset($anuncio->imagen->url)) {
 
                                 </div>
 
-                                <a href="product-details.html">
+                                <a href="{{ route('detalle', ['id' => $anuncio->id]) }}">
                                     <span class="product-name">{{ $anuncio->titulo }}</span>
                                 </a>
 
@@ -622,6 +627,7 @@ if ($anuncio->imagen !== null && isset($anuncio->imagen->url)) {
                 <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
             </svg>
         </div>
+        @include('layouts.footer')
         <!-- End Top To Bottom Area  -->
         <!-- JS ============================================ -->
         <script src="{{ asset('assets/js/vendor/jquery.js') }}"></script>
