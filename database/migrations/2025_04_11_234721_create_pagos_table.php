@@ -16,9 +16,9 @@ return new class extends Migration
             $table->date('fecha_pago');
             $table->double('monto');
 
-            $table->unsignedBigInteger('anuncio_id');
+            $table->unsignedBigInteger('anuncio_id')->nullable();
             $table->unsignedBigInteger('user_id');
-
+            $table->unsignedBigInteger('membresia_id')->nullable();
             $table->foreign('anuncio_id')
                 ->references('id')
                 ->on('anuncios')
@@ -28,6 +28,12 @@ return new class extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('membresia_id')
+                ->references('id')
+                ->on('membresias')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 

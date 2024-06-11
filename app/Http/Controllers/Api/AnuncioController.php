@@ -14,8 +14,8 @@ class AnuncioController extends Controller{
 
     public function index()
     {
-        // No se coloco servicios por un error
-        $anuncios = Anuncio::with(['categoria', 'condicion', 'estado', 'Moneda', 'usuario', 'imagen', 'etiquetas'])->get();
+        // No se coloco servicios y estado por un error
+        $anuncios = Anuncio::with(['categoria', 'condicion', 'Moneda', 'usuario', 'imagen', 'etiquetas'])->get();
 
         // Devuelve los anuncios en formato JSON
         return response()->json($anuncios);

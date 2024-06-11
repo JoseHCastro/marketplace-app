@@ -14,4 +14,9 @@ class Membresia extends Model
         'descripcion',
         'precio',
     ];
+
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class);
+    }
 }

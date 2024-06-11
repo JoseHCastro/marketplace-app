@@ -1,4 +1,5 @@
-<?php
+
+<?php 
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,6 +18,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('user1_id');
             $table->unsignedBigInteger('user2_id');
+            $table->unsignedBigInteger('anuncio_id'); // Nueva referencia al anuncio
 
             $table->foreign('user1_id')
                 ->references('id')
@@ -27,6 +29,12 @@ return new class extends Migration
             $table->foreign('user2_id')
                 ->references('id')
                 ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');    
+
+            $table->foreign('anuncio_id')
+                ->references('id')
+                ->on('anuncios')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');    
 

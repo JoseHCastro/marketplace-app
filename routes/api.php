@@ -6,6 +6,10 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AnuncioController;
 use App\Http\Controllers\Api\UsuarioController;
 use App\Http\Controllers\Api\CategoriaApi;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MensajeController;
+use App\Http\Controllers\StripeApiController;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,20 +74,28 @@ Route::group([
   Route::delete('usuarios/{usuario}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy'); //listo
   /* ---------------------------------------------anuncios------------------------------------------------ */
 
-  /* ----------------------------------------------------------------------------------------------------- */
+  /* ---------------------------------------------Mensajes Privados------------------------------------------------- */
+
+  Route::apiResource('mensajes', MensajeController::class);
+  Route::get('/chats', [ChatController::class, 'getUserChats']);
+  
+
+
 });
 /* -------------colocar aqui rutas ignoradas por el midleware, quitar el prefijo auth de la url en insomnia o postman ya q no esta en el grupo de ruta----------------- */
 // RUTA PARA OBTENER LOS ANUNCIOS
 
 Route::get('/anuncios', [AnuncioController::class, 'index']);
 
-
+Route::post('/handle-payment', [StripeApiController::class, 'handlePayment']);
 //RUTA PARA OBTENES CATEGORIAS
 
 Route::get('/categorias', [CategoriaApi::class, 'index']);
 
 
-use Illuminate\Support\Facades\Storage;
+
+
+
 
 Route::get('/imagenes/{nombreImagen}', function ($nombreImagen) {
   $rutaImagen = 'public/images/anuncios/' . $nombreImagen;

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use id;
+use App\Models\User;
 use App\Models\Bitacora;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -77,20 +78,22 @@ class AuthController extends Controller
     }
 
     //BITACORA
-    $user = Auth::user();
-    date_default_timezone_set("America/La_Paz");
-    $bitacora = new Bitacora();
-    $bitacora->usuario = $user->name;
-    $bitacora->hora = now();
-    $bitacora->evento = 'Login';
-    $bitacora->contexto = 'Sesion';
-    $bitacora->descripcion = 'El usuario ha iniciado sesión';
-    $bitacora->origen = 'API';
-    $bitacora->ip = $request->ip();
-    $bitacora->save();
+    // $user = Auth::user();
+    // date_default_timezone_set("America/La_Paz");
+    // $bitacora = new Bitacora();
+    // $bitacora->usuario = $user->name;
+    // $bitacora->hora = now();
+    // $bitacora->evento = 'Login';
+    // $bitacora->contexto = 'Sesion';
+    // $bitacora->descripcion = 'El usuario ha iniciado sesión';
+    // $bitacora->origen = 'API';
+    // $bitacora->ip = $request->ip();
+    // $bitacora->save();
 
     return $this->respondWithToken($token);
   }
+
+
 
   /**
    * Get the authenticated User.
@@ -154,8 +157,10 @@ class AuthController extends Controller
       'token_type' => 'bearer',
       //'expires_in' => auth('api')->factory()->getTTL() * 60
       "user" => [
+        "id" => auth('api')->user()->id,
         "name" => auth('api')->user()->name,
         "email" => auth('api')->user()->email,
+        
       ]
     ]);
   }
