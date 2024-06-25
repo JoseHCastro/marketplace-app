@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('titulo', 100);
             $table->string('descripcion');
             $table->decimal('precio', 10, 2);
-
+            $table->integer('duracion');
+            $table->boolean('etiqueta')->default(1);
             $table->timestamps();
         });
     }

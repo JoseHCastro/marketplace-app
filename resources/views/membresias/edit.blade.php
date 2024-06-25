@@ -28,15 +28,32 @@
                         @method('PATCH')
                         <div class="form-group">
                             <label for="titulo">Titulo</label>
-                            <input type="text" class="form-control" id="titulo" name="titulo" value="{{ $membresia->titulo }}" placeholder="Titulo">
+                            <input type="text" class="form-control" id="titulo" name="titulo"
+                                value="{{ $membresia->titulo }}" placeholder="Titulo">
                         </div>
                         <div class="form-group">
                             <label for="descripcion ">Descripcion</label>
-                            <input type="text" class="form-control" id="titulo" name="descripcion" value="{{ $membresia->descripcion }}" placeholder="Descripcion">
+                            <input type="text" class="form-control" id="titulo" name="descripcion"
+                                value="{{ $membresia->descripcion }}" placeholder="Descripcion">
                         </div>
                         <div class="form-group">
                             <label for="precio">Precio (Bolivianos)</label>
-                            <input type="text" class="form-control" id="precio" name="precio" value="{{ $membresia->precio }}" placeholder="Precio">
+                            <input type="text" class="form-control" id="precio" name="precio"
+                                value="{{ $membresia->precio }}" placeholder="Precio">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="duracion">Duracion (Dias)</label>
+                            <input type="text" class="form-control" id="duracion" name="duracion"
+                                value="{{ $membresia->duracion }}" placeholder="Precio">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="etiqueta">Etiquetas</label>
+                            <select class="form-control" id="etiqueta" name="etiqueta">
+                                <option value="1" {{ $membresia->etiqueta ? 'selected' : '' }}>Sí</option>
+                                <option value="0" {{ !$membresia->etiqueta ? 'selected' : '' }}>No</option>
+                            </select>
                         </div>
 
                         <button type="submit" class="btn btn-primary mr-2">Guardar</button>
@@ -48,5 +65,3 @@
         </div>
     </div>
 @stop
-
-

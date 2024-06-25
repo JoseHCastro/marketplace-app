@@ -36,15 +36,19 @@ class MembresiaController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'titulo' => 'required',
-            'descripcion' => 'required',
-            'precio' => 'required', 'double',
+            'titulo' => 'required|string',
+            'descripcion' => 'required|string',
+            'precio' => 'required|numeric',
+            'duracion' => 'required|integer',
+            'etiqueta' => 'required|boolean',
         ]);
 
         $membresia = new Membresia();
         $membresia->titulo = $request->titulo;
         $membresia->descripcion = $request->descripcion;
         $membresia->precio = $request->precio;
+        $membresia->duracion = $request->duracion;
+        $membresia->etiqueta = $request->etiqueta;
         $membresia->save();
 
         // Bitacora
@@ -86,9 +90,11 @@ class MembresiaController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'titulo' => 'required',
-            'descripcion' => 'required',
-            'precio' => 'required', 'double',
+            'titulo' => 'required|string',
+            'descripcion' => 'required|string',
+            'precio' => 'required|numeric',
+            'duracion' => 'required|integer',
+            'etiqueta' => 'required|boolean',
         ]);
 
         $membresia = Membresia::find($id);
@@ -96,6 +102,8 @@ class MembresiaController extends Controller
         $membresia->titulo = $request->titulo;
         $membresia->descripcion = $request->descripcion;
         $membresia->precio = $request->precio;
+        $membresia->duracion = $request->duracion;
+        $membresia->etiqueta = $request->etiqueta;
         $membresia->save();
 
         // bitacora

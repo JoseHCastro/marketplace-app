@@ -85,6 +85,7 @@
                                         @endif
 
                                         <li><a href="{{ route('profiles.index') }}">Mi perfil</a></li>
+                                        <li><a href="{{ route('planes') }}">Membresías </a></li>
                                         <li><a href="{{ route('logout') }}"
                                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar
                                                 sesión</a></li>
