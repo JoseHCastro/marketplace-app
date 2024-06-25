@@ -160,6 +160,8 @@
                         <div class="setting-option">
                             <a href="{{ route('login') }}" class="btn btn-primary">Iniciar sesión</a>
                         </div>
+
+
                     @endguest
                     <div class="setting-option d-none d-lg-block">
                         <form class="search-form-wrapper" action="#">
@@ -229,6 +231,7 @@
 
 
                                             <li><a href="profiles">Mi perfil</a></li>
+                                            <li><a href="{{ route('planes') }}">Membresías </a></li>
                                             <li><a href="{{ route('logout') }}"
                                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar
                                                     sesión</a></li>

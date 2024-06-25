@@ -75,4 +75,15 @@ class Anuncio extends Model
     {
         return $this->imagen ? Storage::url($this->imagen->url) : null;
     }
+
+    //relacion con pagos 
+
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class);
+    }
+    public function mensajes()
+    {
+        return $this->hasMany(Mensaje::class);
+    }
 }

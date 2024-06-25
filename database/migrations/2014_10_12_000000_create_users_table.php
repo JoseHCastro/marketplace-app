@@ -21,6 +21,12 @@ return new class extends Migration
       $table->rememberToken();
       $table->timestamps();
       $table->string('rol_id')/* ->default('2') */->nullable();
+      $table->unsignedBigInteger('membresia_id')->default(1);
+
+      $table->foreign('membresia_id')
+      ->references('id')->on('membresias')
+      ->onDelete('cascade')
+      ->onUpdate('cascade');
     });
   }
 

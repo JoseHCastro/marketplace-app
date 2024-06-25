@@ -20,7 +20,11 @@
         "spatie/laravel-backup": "8.8",
         "spatie/laravel-html": "^3.9",
         "spatie/laravel-permission": "^6.7",
+<<<<<<< HEAD
         "stripe/stripe-php": "^13.18",
+=======
+        "stripe/stripe-php": "^14.9",
+>>>>>>> 1030e5dc037168be58a3777e3e148ea2e814a528
         "tecnickcom/tcpdf": "^6.7",
         "tymon/jwt-auth": "^2.1"
     },

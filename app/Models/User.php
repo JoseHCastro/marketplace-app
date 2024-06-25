@@ -55,6 +55,11 @@ class User extends Authenticatable implements JWTSubject
         return asset('assets/images/user.png');
     }
 
+    public function membresia()
+    {
+        return $this->belongsTo(Membresia::class, 'membresia_id');
+    }
+
     public function adminlte_desc()
     {
         return 'Administrador';
@@ -88,7 +93,28 @@ class User extends Authenticatable implements JWTSubject
 
     public function anuncios()
     {
-       
+
         return $this->hasMany(Anuncio::class, 'user_id');
+    }
+
+    //relacion con pagos
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class, 'user_id');
+    }
+
+    //mensajes privados
+
+    public function sentMessages()
+    {
+        return $this->hasMany(Mensaje::class, 'user1_id');
+    }
+
+    /**
+     * Get the messages received by the user.
+     */
+    public function receivedMessages()
+    {
+        return $this->hasMany(Mensaje::class, 'user2_id');
     }
 }

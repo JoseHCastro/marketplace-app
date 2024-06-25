@@ -39,6 +39,7 @@ use App\Http\Controllers\MembresiaController;
 Route::get('/', [HomePageController::class, 'HomePage'])->name('HomePage');
 Route::post('/', [HomePageController::class, 'FiltroHomePage'])->name('FiltroHomePage');
 Route::get('/detalle/{id}', [HomePageController::class, 'details'])->name('detalle');
+Route::get('/planes-membresia', [HomePageController::class, 'planes'])->name('planes');
 
 // Ruta prueba
 Route::get('/prueba', function () {

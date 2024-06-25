@@ -114,7 +114,7 @@ class PersonalizarAnuncioController extends Controller
 
     date_default_timezone_set("America/La_Paz");
     $etiquetas = Etiqueta::all();
-    $servicios = servicios::all();
+    $servicios = Servicios::all();
 
 
     /* $fecha_actual = Carbon::now(); */

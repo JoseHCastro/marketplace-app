@@ -19,6 +19,7 @@
                         'Titulo',
                         'Descripcion',
                         'Precio (Bolivianos)',
+                        'Duracion (Dias)',
                         ['label' => 'Actions', 'no-export' => true, 'width' => 5],
                     ];
 
@@ -51,6 +52,7 @@
                             $membresia->titulo,
                             $membresia->descripcion,
                             $membresia->precio,
+                            $membresia->duracion,
                             '<nobr>' . $btnEdit . $btnDelete . '</nobr>',
                         ];
                     }

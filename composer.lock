@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "f4f5dd63d9b5af78cebb32de8e8b87cf",
+=======
+    "content-hash": "2b56863f1ac9627e9e4503eeefe8ba52",
+>>>>>>> 1030e5dc037168be58a3777e3e148ea2e814a528
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -4927,6 +4931,7 @@
             "time": "2023-12-25T11:46:58+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "stella-maris/clock",
             "version": "0.1.7",
             "source": {
@@ -4985,6 +4990,19 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/stripe/stripe-php/zipball/02abb043b103766f4ed920642ae56ffdc58c7467",
                 "reference": "02abb043b103766f4ed920642ae56ffdc58c7467",
+=======
+            "name": "stripe/stripe-php",
+            "version": "v14.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "7165f64ec1b19cb0ce288d553909cd68d8e6a3b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/7165f64ec1b19cb0ce288d553909cd68d8e6a3b1",
+                "reference": "7165f64ec1b19cb0ce288d553909cd68d8e6a3b1",
+>>>>>>> 1030e5dc037168be58a3777e3e148ea2e814a528
                 "shasum": ""
             },
             "require": {
@@ -5028,6 +5046,7 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/stripe/stripe-php/tree/v13.18.0"
             },
             "time": "2024-04-09T21:08:04+00:00"
@@ -5042,6 +5061,13 @@
             },
             "dist": {
                 "type": "zip",
+=======
+                "source": "https://github.com/stripe/stripe-php/tree/v14.9.0"
+            },
+            "time": "2024-05-30T20:12:41+00:00"
+        },
+        {
+>>>>>>> 1030e5dc037168be58a3777e3e148ea2e814a528
             "name": "symfony/console",
             "version": "v6.4.8",
             "source": {
