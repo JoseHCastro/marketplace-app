@@ -9,6 +9,7 @@ use App\Models\Servicios;
 use Illuminate\Http\Request;
 use App\Models\AnuncioServicio;
 use App\Models\Comentario;
+use App\Models\Membresia;
 use Illuminate\Support\Facades\Auth;
 
 class HomePageController extends Controller
@@ -103,5 +104,27 @@ class HomePageController extends Controller
     $comentarios = Comentario::where('anuncio_id', $id)->get();
 
     return view('details', compact('anuncio'), compact('comentarios'));
+  }
+
+  public function planes(Request $request)
+  {
+    $membresias= Membresia::all();
+
+    date_default_timezone_set("America/La_Paz");
+    $bitacora = new Bitacora();
+    if (Auth::check()) {
+      $bitacora->usuario = Auth::user()->name;
+    } else {
+      $bitacora->usuario = 'Invitado';
+    }
+    $bitacora->hora = now();
+    $bitacora->evento = 'Mostrar';
+    $bitacora->contexto = 'Membresías';
+    $bitacora->descripcion = 'Visualizó los planes de membresía';
+    $bitacora->origen = 'Web';
+    $bitacora->ip = $request->ip();
+    $bitacora->save();
+
+    return view('planes', compact('membresias'));
   }
 }

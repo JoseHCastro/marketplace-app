@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
 
     $this->call([
       RoleSeeder::class,
+      MembresiaSeeder::class,
       UserSeeder::class,
       EtiquetaSeeder::class,
       MonedaSeeder::class,
@@ -40,7 +41,7 @@ class DatabaseSeeder extends Seeder
       AnuncioSeeder::class,
       ImagenAnuncioSeeder::class,
       BitacoraSeeder::class,
-      MembresiaSeeder::class,
+
     ]);
   }
 }
