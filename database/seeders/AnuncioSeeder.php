@@ -96,7 +96,7 @@ class AnuncioSeeder extends Seeder
       . 1 baño.
       . Cocina.
       . Living comedor.
-      
+
       PLANTA ALTA CONSTA DE:
       . 2 dormitorios.
       . 1 baño.

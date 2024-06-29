@@ -120,6 +120,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('anuncios/vendido', [AnuncioController::class, 'vendido'])->name('anuncios.vendido');
     Route::post('anuncios/disponible', [AnuncioController::class, 'disponible'])->name('anuncios.disponible');
     Route::get('anuncios/mensaje/{anuncio}', [AnuncioController::class, 'mensaje'])->name('anuncios.mensaje');
+    Route::get('anuncios/buscar-anuncios', [AnuncioController::class, 'buscar'])->name('buscar.anuncios');
+
 
 
 
@@ -147,6 +149,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Ruta para dejar Comentario en un Anuncio
     Route::resource('comentarios', ComentarioController::class);
+    Route::post('/filtro-search', [HomePageController::class, 'filtroSearch'])->name('filtro.search');
+
+
 });
 
 // Ruta para contar visita
