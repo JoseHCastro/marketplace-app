@@ -21,7 +21,7 @@
             position: absolute;
             object-fit: cover;
             /* width: 100%;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                height: 100%; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                    height: 100%; */
         }
     </style>
 @endsection
@@ -39,12 +39,17 @@
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <label for="user">Usuario:</label>
-                        <select name="user" id="user" class="form-control">
-                            <option value="">Seleccionar usuario...</option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
+                        @role('administrador')
+                            <select name="user" id="user" class="form-control">
+                                <option value="">Seleccionar usuario...</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                        @endrole
+                        @role('usuario')
+                            <p>{{ auth()->user()->name }}</p>
+                        @endrole
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="categoria">Categoría:</label>
@@ -84,15 +89,7 @@
     @endcan
 
 
-    {{-- <a class="btn btn-dark ml-auto" id="btnVisitar">un boton</a> --}}
 
-    {{-- <div class="card"> --}}
-
-    {{-- <div class="card-header">
-            <input wire:model="search" class="form-control" placeholder="Buscar anuncio por título">
-        </div> --}}
-
-    {{--   @if ($anuncios->count()) --}}
 
     <div class="card{{-- -header --}}">
         <div class="card-body">
@@ -326,27 +323,28 @@ if(($anuncio->imagen !== null) && isset($anuncio->imagen->url)){
         });
     </script>
 
-    <script>
-        function exportarPDF() {
-            var user = document.getElementById('user').value || '';
-            var categoria = document.getElementById('categoria').value || '';
-            var desde = document.getElementById('desde').value || '';
-            var hasta = document.getElementById('hasta').value || '';
+<script>
+    function exportarPDF() {
+        var userElement = document.getElementById('user');
+        var user = userElement ? userElement.value : '{{ auth()->user()->id }}';
+        var categoria = document.getElementById('categoria').value || '';
+        var desde = document.getElementById('desde').value || '';
+        var hasta = document.getElementById('hasta').value || '';
 
-            window.location = '/anuncios/exportar-pdf?user=' + user + '&categoria=' + categoria + '&desde=' + desde +
-                '&hasta=' + hasta;
-        }
+        window.location = '/anuncios/exportar-pdf?user=' + user + '&categoria=' + categoria + '&desde=' + desde + '&hasta=' + hasta;
+    }
 
-        function exportarExcel() {
-            var user = document.getElementById('user').value || '';
-            var categoria = document.getElementById('categoria').value || '';
-            var desde = document.getElementById('desde').value || '';
-            var hasta = document.getElementById('hasta').value || '';
+    function exportarExcel() {
+        var userElement = document.getElementById('user');
+        var user = userElement ? userElement.value : '{{ auth()->user()->id }}';
+        var categoria = document.getElementById('categoria').value || '';
+        var desde = document.getElementById('desde').value || '';
+        var hasta = document.getElementById('hasta').value || '';
 
-            window.location = '/anuncios/exportar-excel?user=' + user + '&categoria=' + categoria + '&desde=' + desde +
-                '&hasta=' + hasta;
-        }
-    </script>
+        window.location = '/anuncios/exportar-excel?user=' + user + '&categoria=' + categoria + '&desde=' + desde + '&hasta=' + hasta;
+    }
+</script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>

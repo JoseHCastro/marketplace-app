@@ -30,32 +30,50 @@ class AnuncioController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-  {
-    $filtro = $request->filtro;
-    $categoria_id = $request->categoria_id;
+    {
+        $filtro = $request->filtro;
+        $categoria_id = $request->categoria_id;
 
-    $query = Anuncio::query();
+    // Obtener el usuario autenticado
+        $currentUser = auth()->user();
 
-    if (auth()->user()->id !== 7) {
-        $query->where('user_id', auth()->user()->id);
+    // Crear la consulta base para los anuncios
+        $query = Anuncio::query();
+
+    // Filtrar anuncios por el usuario autenticado si no es administrador
+        if (!$currentUser->hasRole('administrador')) {
+            $query->where('user_id', $currentUser->id);
+        }
+
+    // Aplicar filtro por nombre de categoría si existe
+        if ($filtro) {
+            $query->whereHas('categoria', function ($query) use ($filtro) {
+                $query->where('nombre', 'like', '%' . $filtro . '%');
+            });
+        }
+
+    // Filtrar por ID de categoría si existe
+        if ($categoria_id) {
+            $query->where('categoria_id', $categoria_id);
+        }
+
+    // Obtener los anuncios filtrados
+        $anuncios = $query->get();
+
+    // Obtener las categorías y los usuarios
+        $categorias = Categoria::where('padre_id', '!=', null)->get();
+
+    // Filtrar usuarios según el rol
+        if ($currentUser->hasRole('administrador')) {
+            $users = User::all();
+        } else {
+            $users = User::where('id', $currentUser->id)->get();
+        }
+
+    // Pasar los datos a la vista
+        return view('anuncios.index', compact('anuncios', 'categorias', 'users'));
     }
 
-    if ($filtro) {
-        $query->whereHas('categoria', function ($query) use ($filtro) {
-            $query->where('nombre', 'like', '%' . $filtro . '%');
-        });
-    }
-
-    if ($categoria_id) {
-        $query->where('categoria_id', $categoria_id);
-    }
-
-    $anuncios = $query->get();
-    $categorias = Categoria::all();
-    $users = User::all();
-
-    return view('anuncios.index', compact('anuncios', 'categorias', 'users'));
-  }
 
     /**
      * Show the form for creating a new resource.
@@ -320,6 +338,17 @@ class AnuncioController extends Controller
         return view('anuncios.anunciosPorCategoria', compact('anuncios', 'categorias'));
 
     }
+    public function buscar(Request $request)
+    {
+    $query = $request->input('search_query');
+
+    $anuncios = Anuncio::where('titulo', 'like', '%' . $query . '%')
+                        ->orWhere('descripcion', 'like', '%' . $query . '%')
+                        ->get();
+
+    return view('anuncios.resultados', compact('anuncios', 'query'));
+    }
+
 
 
 

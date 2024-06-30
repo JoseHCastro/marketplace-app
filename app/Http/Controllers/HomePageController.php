@@ -61,6 +61,23 @@ class HomePageController extends Controller
     $anuncios = $anunciosQuery->get();
     return view('homepage', compact('categorias', 'anuncios'));
   }
+  public function FiltroSearch(Request $request)
+  {
+      $query = $request->input('search_query'); // Obtener el parámetro 'search_query' del formulario
+
+      $categorias = Categoria::where('padre_id', '!=', null)->get(); // Obtener todas las categorías
+
+      $anuncios = Anuncio::where('titulo', 'like', '%' . $query . '%')
+                          ->orWhere('descripcion', 'like', '%' . $query . '%')
+                          ->get(); // Consulta para buscar por título o descripción
+
+      $mostrarBanner = false; // Variable para controlar si mostrar el banner o no
+
+      return view('homepage', compact('anuncios', 'query', 'categorias', 'mostrarBanner'));
+  }
+
+
+
 
 
   public function details($id, Request $request)
