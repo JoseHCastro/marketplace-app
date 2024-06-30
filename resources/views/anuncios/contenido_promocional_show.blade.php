@@ -41,7 +41,7 @@
         }
 
         // Calcular monto total y redirigir al formulario de pago
-        function calcularMontoTotal() {
+        function calcularMontoTotal(id_anuncio) {
             let totalAmount = 0;
 
             // Calcular el monto total basado en las opciones seleccionadas
@@ -61,15 +61,28 @@
 
             // Redirigir al formulario de pago con el monto total
             const form = document.createElement('form');
-            form.method = 'GET';
+            form.method = 'POST';
             form.action = "{{ route('pago.form') }}";
 
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'total_amount';
-            input.value = totalAmount;
+            const token = document.createElement('input');
+            token.type = 'hidden';
+            token.name = '_token';
+            token.value = "{{ csrf_token() }}"; 
 
-            form.appendChild(input);
+            const inputTotalAmount = document.createElement('input');
+            inputTotalAmount.type = 'hidden';
+            inputTotalAmount.name = 'total_amount';
+            inputTotalAmount.value = totalAmount;
+
+            const inputIdAnuncio = document.createElement('input');
+            inputIdAnuncio.type = 'hidden';
+            inputIdAnuncio.name = 'id_anuncio';
+            inputIdAnuncio.value = id_anuncio;
+
+            form.appendChild(token); 
+            form.appendChild(inputTotalAmount);
+            form.appendChild(inputIdAnuncio);
+           
             document.body.appendChild(form);
             form.submit();
         }
@@ -197,7 +210,7 @@
                                                                 <img src="{{ isset($anuncio->imagen->url) ? Storage::url($anuncio->imagen->url) : 'https://wpdirecto.com/wp-content/uploads/2017/08/alt-de-una-imagen.png' }}" alt="{{ $anuncio->titulo }}" class="rounded mx-auto d-block" id="picture">
                                                             </div>
                                                             <div class="card-body">
-                                                                <h5 class="card-title"><strong>Título:</strong><br>{{ $anuncio->titulo }}</h5>
+                                                                <h5 class="card-title"><strong>Título:</strong><br>{{ $anuncio->titulo }} </h5>
                                                                 <p class="card-text">
                                                                     <strong>Descripción:</strong>
                                                                     <div>{!! nl2br($anuncio->descripcion) !!}</div>
@@ -216,7 +229,7 @@
                                         <input type="text" name="id_anuncio" value="{{ $anuncio->id }}" hidden>
                                     </div>
                                     <div class="card-footer">
-                                        <button type="button" class="btn btn-primary" onclick="calcularMontoTotal()">Ir a pagar</button>
+                                        <button type="button" class="btn btn-primary" onclick="calcularMontoTotal({{ $anuncio->id }})">Ir a pagar</button>
                                         <a href="{{ route('anuncios.index') }}" class="btn btn-secondary">Cancelar</a>
                                     </div>
                             </form>

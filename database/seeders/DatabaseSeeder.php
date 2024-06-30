@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
       AnuncioSeeder::class,
       ImagenAnuncioSeeder::class,
       BitacoraSeeder::class,
-
+      PagoSeeder::class,
     ]);
   }
 }

@@ -364,6 +364,11 @@ return [
           'url' => '#',
         ],
         [
+            'text' => 'Pagos',
+            'icon' => 'fas fa-file-archive',
+            'url' => '/pago',
+        ],
+        [
           'text' => 'Gestionar Backups/Restore',
           'icon' => 'fas fa-desktop',
           'submenu' => [

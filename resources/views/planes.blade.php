@@ -1,6 +1,45 @@
 @extends('layouts.homepage_layout')
 @section('styles')
 @endsection
+
+@section('js')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        
+        function enviarPedido(precio, membresia_id) {      
+
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = "{{ route('pago.form') }}";
+
+
+            const token = document.createElement('input');
+            token.type = 'hidden';
+            token.name = '_token';
+            token.value = "{{ csrf_token() }}";
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'total_amount';
+            input.value = precio;
+
+            
+            const membresia = document.createElement('input');
+            membresia.type = 'hidden';
+            membresia.name = 'membresia_id';
+            membresia.value = membresia_id;
+
+            form.appendChild(token); 
+            form.appendChild(input);
+            form.appendChild(membresia);
+            document.body.appendChild(form);
+            form.submit();
+        }
+      
+    </script>
+@stop
+
+
 @section('content')
     <!-- start page title area -->
     <div class="rn-breadcrumb-inner ptb--30">
@@ -42,7 +81,7 @@
                                 <div class="content">
                                     <h4 class="title"><a href="#">{{ $membresia->titulo }}</a></h4>
                                     <p class="description">Descripción: {{ $membresia->descripcion }}</p>
-                                    <p class="description">Precio: {{ $membresia->precio }}</p>
+                                    <p class="description">Precio: {{ $membresia->precio }} </p>
                                     @if ($membresia->etiqueta)
                                         <p class="description">Etiquetas: Si</p>
                                     @else
@@ -51,7 +90,9 @@
                                     <a class="read-more-button" href="#"><i class="feather-arrow-right"></i></a>
                                 </div>
                             </div>
-                            <a class="over-link" href="#"></a>
+
+                          
+                            <a class="over-link" type="button" onclick="enviarPedido({{ $membresia->precio }}, {{ $membresia->id }})"></a>
                         </div>
                     </div>
                 @endforeach

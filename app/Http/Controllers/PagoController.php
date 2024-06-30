@@ -11,21 +11,47 @@ use App\Models\Pago;
 
 class PagoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pagos = Pago::with(['anuncio', 'user'])->get();
+        $userId = $request->input('user');
+        $fechaDesde = $request->input('fecha_desde');
+        $fechaHasta = $request->input('fecha_hasta');
+        $query = Pago::with(['anuncio', 'user', 'membresia']);
+
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
+
+        if ($fechaDesde) {
+            $query->whereDate('fecha_pago', '>=', $fechaDesde);
+        }
+
+        if ($fechaHasta) {
+            $query->whereDate('fecha_pago', '<=', $fechaHasta);
+        }
+
+        $pagos = $query->get();
         $users = User::all();
+
         return view('pago.index', compact('pagos', 'users'));
+       /* $pagos = Pago::with(['anuncio', 'user','membresia'])->get();
+        
+        $users = User::all();
+        return view('pago.index', compact('pagos', 'users'));*/
     }
 
     public function showPaymentForm(Request $request)
     {
-        $totalAmount = $request->query('total_amount');
-        return view('pago.form', compact('totalAmount'));
+        
+        $id_anuncio = $request->id_anuncio;
+        $membresia_id = $request->membresia_id;
+        $totalAmount = $request->total_amount;
+        return view('pago.form', compact('totalAmount','id_anuncio','membresia_id'));
     }
 
     public function processPayment(Request $request)
     {
+        
         Stripe::setApiKey(config('services.stripe.secret'));
         $paymentMethod = $request->input('payment_method');
         $amount = $request->input('total_amount') * 100; // Convertir a centavos
@@ -40,7 +66,32 @@ class PagoController extends Controller
                 //'return_url' => route('pago.success'),
                 'return_url' => route('pago.success', ['total_amount' => $request->input('total_amount')]), // Pasar el monto total como parámetro
             ]);
-            return redirect()->route('pago.success', ['total_amount' => $request->input('total_amount')]);
+            
+            // Verifica que el request contiene el parámetro total_amount
+            $user = Auth::user();
+           // $amount = $amount * 100; // Multiplicar por 100 para obtener el valor en centavos
+        
+         
+          //  if ($user->hasDefaultPaymentMethod()) {
+            //    $user->charge($amount, $user->defaultPaymentMethod()->id);
+            //} else {
+           //     return back()->withErrors(['message' => 'No se pudo completar el pago porque no se encontró un método de pago predeterminado.']);
+           // }
+            $datos = [
+                'fecha_pago' => now(),
+                'monto' => $amount / 100, 
+                'anuncio_id' => $request->id_anuncio, 
+                'user_id' => $user->id,
+                'membresia_id' => $request->membresia_id,
+                'stripe_payment_id' => $paymentIntent->id, 
+            ];
+        
+            Pago::create($datos);
+        
+       
+            return view('pago.success', ['total_amount' => $amount / 100]); 
+            
+            //return redirect()->route('pago.success', ['total_amount' => $request->input('total_amount')]);
             //return redirect()->route('pago.success')->with('total_amount', $request->input('total_amount'));
         } catch (\Exception $e) {
             return back()->withErrors(['message' => 'Hubo un error con el pago: ' . $e->getMessage()]);
@@ -49,7 +100,7 @@ class PagoController extends Controller
 
     public function paymentSuccess(Request $request)
     {
-        dd($request->all());
+        dd($request);
         // Verifica que el request contiene el parámetro total_amount
         $user = Auth::user();
         $amount = $request->query('total_amount') * 100; // Multiplicar por 100 para obtener el valor en centavos

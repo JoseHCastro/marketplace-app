@@ -145,7 +145,7 @@ Route::group(['middleware' => ['auth']], function () {
   // Rutas para Pago
   Route::middleware(['auth'])->group(function () {
     Route::get('/pago', [PagoController::class, 'index'])->name('pago.index');
-    Route::get('/pago/form', [PagoController::class, 'showPaymentForm'])->name('pago.form');
+    Route::post('/pago/form', [PagoController::class, 'showPaymentForm'])->name('pago.form');
     Route::post('/pago/process', [PagoController::class, 'processPayment'])->name('pago.process');
     Route::get('/pago/success', [PagoController::class, 'paymentSuccess'])->name('pago.success');
   });

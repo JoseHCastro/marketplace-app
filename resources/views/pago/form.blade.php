@@ -44,14 +44,16 @@
                             <input type="text" name="cardholder_name" id="cardholder-name" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="card-element">Detalles de la tarjeta</label>
+                            <label for="card-element">Detalles de la tarjeta </label>
                             <div id="card-element" class="form-control">
                                 <!-- A Stripe Element will be inserted here. -->
                             </div>
                             <!-- Used to display form errors. -->
                             <div id="card-errors" role="alert" class="text-danger"></div>
                         </div>
-                        <input type="hidden" name="total_amount" value="{{ $totalAmount }}">
+                        <input type="hidden" name="total_amount" value="{{ $totalAmount }} ">
+                        <input type="hidden" name="id_anuncio" value="{{ $id_anuncio }} ">
+                        <input type="hidden" name="membresia_id" value="{{ $membresia_id }} ">
                         <button type="submit" class="btn btn-primary mt-3">Pagar Bs. {{ $totalAmount }}</button>
                     </form>
                 </div>

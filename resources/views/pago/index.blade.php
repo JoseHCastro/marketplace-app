@@ -13,13 +13,13 @@
 @endsection
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Listado de Pagos</h1>
+    <h1 class="m-0 text-dark">Lista de Pagos</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h2>Filtros</h2>
+            <h3>Filtros</h3>
             <div class="row">
                 <div class="col-md-3 mb-3">
                     <label for="user">Usuario:</label>
@@ -53,7 +53,7 @@
                         <th>ID</th>
                         <th>Fecha de Pago</th>
                         <th>Monto</th>
-                        <th>Anuncio</th>
+                        <th>Concepto</th>
                         <th>Usuario</th>
                         <th>Email</th>
                         <th>ID de Stripe</th>
@@ -66,7 +66,7 @@
                             <td>{{ $pago->id }}</td>
                             <td>{{ $pago->fecha_pago }}</td>
                             <td>{{ $pago->monto }}</td>
-                            <td>{{ $pago->anuncio->titulo }}</td>
+                            <td>{{ optional($pago->anuncio)->titulo ?? $pago->membresia->titulo }}</td>
                             <td>{{ $pago->user->name }}</td>
                             <td>{{ $pago->user->email }}</td>
                             <td>{{ $pago->stripe_payment_id }}</td>
@@ -105,7 +105,7 @@
                         extend: 'colvis',
                         collectionLayout: 'fixed columns',
                         popoverTitle: 'Column visibility control'
-                    }, 'copy', 'csv', 'excel', 'pdf', 'print']
+                    }, 'excel', 'pdf', 'print']
                 }
             },
             responsive: true,
