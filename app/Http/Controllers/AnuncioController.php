@@ -331,13 +331,7 @@ class AnuncioController extends Controller
 
         return Excel::download(new AnuncioExport($anuncios), 'anuncios.xlsx');
     }
-    public function anunciosPorCategoria($categoriaId)
-    {
-        $anuncios = Anuncio::where('categoria_id', $categoriaId)->get();
-        $categorias = Categoria::all(); // Obtener todas las categorías
-        return view('anuncios.anunciosPorCategoria', compact('anuncios', 'categorias'));
 
-    }
     public function buscar(Request $request)
     {
     $query = $request->input('search_query');

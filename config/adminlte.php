@@ -359,16 +359,6 @@ return [
           'url' => '/bitacora',
         ],
         [
-          'text' => 'Gestionar Reportes',
-          'icon' => 'fas fa-file-archive',
-          'url' => '#',
-        ],
-        [
-            'text' => 'Pagos',
-            'icon' => 'fas fa-file-archive',
-            'url' => '/pago',
-        ],
-        [
           'text' => 'Gestionar Backups/Restore',
           'icon' => 'fas fa-desktop',
           'submenu' => [
@@ -428,10 +418,10 @@ return [
           'url' => '#',
         ],
         [
-          'text' => 'Gestionar Pagos',
-          'icon' => 'fas fa-credit-card',
-          'url' => '#',
-        ]
+            'text' => 'Gestionar Pagos',
+            'icon' => 'fas fa-file-archive',
+            'url' => '/pago',
+        ],
       ],
     ],
     [

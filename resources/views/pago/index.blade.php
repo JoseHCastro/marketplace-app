@@ -23,12 +23,17 @@
             <div class="row">
                 <div class="col-md-3 mb-3">
                     <label for="user">Usuario:</label>
-                    <select name="user" id="user" class="form-control">
-                        <option value="">Seleccionar usuario...</option>
-                        @foreach ($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                        @endforeach
-                    </select>
+                    @role('administrador')
+                        <select name="user" id="user" class="form-control">
+                            <option value="">Seleccionar usuario...</option>
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endforeach
+                        </select>
+                    @endrole
+                    @role('usuario')
+                        <p>{{ auth()->user()->name }}</p>
+                    @endrole
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="fecha_desde">Desde:</label>
@@ -126,7 +131,8 @@
         });
 
         function filtrarPagos() {
-            var user = document.getElementById('user').value || '';
+            var userElement = document.getElementById('user');
+            var user = userElement ? userElement.value : '{{ auth()->user()->id }}';
             var fechaDesde = document.getElementById('fecha_desde').value || '';
             var fechaHasta = document.getElementById('fecha_hasta').value || '';
 
