@@ -2,15 +2,17 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\ChatController;
+
+use App\Http\Controllers\Api\CategoriaApi;
+use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\StripeApiController;
 use App\Http\Controllers\Api\AnuncioController;
 use App\Http\Controllers\Api\UsuarioController;
-use App\Http\Controllers\Api\CategoriaApi;
-use App\Http\Controllers\ChatController;
-use App\Http\Controllers\MensajeController;
-use App\Http\Controllers\StripeApiController;
-use Illuminate\Support\Facades\Storage;
-
+use App\Http\Controllers\Api\MembreciaController;
+use App\Http\Controllers\Api\PagoController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -76,17 +78,18 @@ Route::group([
 
   /* ---------------------------------------------Mensajes Privados------------------------------------------------- */
 
-  Route::apiResource('mensajes', MensajeController::class);
+  Route::apiResource('/mensajes', MensajeController::class);
   Route::get('/chats', [ChatController::class, 'getUserChats']);
   
-
-
+ 
+  Route::post('/pagos', [PagoController::class, 'store']);
 });
 /* -------------colocar aqui rutas ignoradas por el midleware, quitar el prefijo auth de la url en insomnia o postman ya q no esta en el grupo de ruta----------------- */
 // RUTA PARA OBTENER LOS ANUNCIOS
 
 Route::get('/anuncios', [AnuncioController::class, 'index']);
 
+Route::get('/membrecias', [MembreciaController::class, 'index']);
 Route::post('/handle-payment', [StripeApiController::class, 'handlePayment']);
 //RUTA PARA OBTENES CATEGORIAS
 

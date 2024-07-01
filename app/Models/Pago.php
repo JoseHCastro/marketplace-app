@@ -10,7 +10,7 @@ class Pago extends Model
     use HasFactory;
     
     protected $fillable = [
-        'fecha_pago', 'monto', 'anuncio_id', 'user_id','stripe_payment_id','membresia_id'
+        'fecha_pago', 'monto', 'anuncio_id', 'user_id','stripe_payment_id','membresia_id','paypal_payment_id'
     ];
 
     public function anuncio()

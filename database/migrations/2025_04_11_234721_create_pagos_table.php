@@ -18,7 +18,8 @@ return new class extends Migration
 
             $table->unsignedBigInteger('anuncio_id')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->string('stripe_payment_id');
+            $table->string('stripe_payment_id')->nullable();
+            $table->string('paypal_payment_id')->nullable();
             $table->unsignedBigInteger('membresia_id')->nullable();
             $table->foreign('anuncio_id')
                 ->references('id')
