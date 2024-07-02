@@ -14,18 +14,19 @@ return new class extends Migration
         Schema::create('categorias', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string('descripcion')->nullable();
+            $table->unsignedBigInteger('padre_id')->nullable();
 
-            $table->unsignedBigInteger('id_padre')->nullable();
-
-            $table->foreign('id_padre')
+            $table->foreign('padre_id')
                 ->references('id')
-                ->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('set null');
+                ->on('categorias')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });
     }
+
+
 
     /**
      * Reverse the migrations.
