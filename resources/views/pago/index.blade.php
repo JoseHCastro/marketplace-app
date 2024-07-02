@@ -62,6 +62,7 @@
                         <th>Usuario</th>
                         <th>Email</th>
                         <th>ID de Stripe</th>
+                        <th>ID de Paypal</th>
                     </tr>
                 </thead>
 
@@ -75,6 +76,7 @@
                             <td>{{ $pago->user->name }}</td>
                             <td>{{ $pago->user->email }}</td>
                             <td>{{ $pago->stripe_payment_id }}</td>
+                            <td>{{ $pago->paypal_payment_id }}</td>
                         </tr>
                     @endforeach
                 </tbody>
