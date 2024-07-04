@@ -74,6 +74,7 @@ class PagoController extends Controller
 
             // Verifica que el request contiene el parámetro total_amount
             $user = Auth::user();
+            $usuario = User::find($user->id);
            // $amount = $amount * 100; // Multiplicar por 100 para obtener el valor en centavos
 
 
@@ -90,6 +91,11 @@ class PagoController extends Controller
                 'membresia_id' => $request->membresia_id,
                 'stripe_payment_id' => $paymentIntent->id,
             ];
+            if ($request->membresia_id != null){
+                $usuario->membresia_id=$request->membresia_id;
+                $usuario->save();
+            }
+
 
             Pago::create($datos);
 
@@ -125,7 +131,7 @@ class PagoController extends Controller
             'user_id' => $user->id,
             'stripe_payment_id' => $request->query('payment_intent'), // Asegúrate de que estás obteniendo el ID correcto del intento de pago
         ]);
-
+        //AQUI
         // Redirigir al usuario a la página de éxito
         return view('pago.success', ['total_amount' => $amount / 100]);
     }

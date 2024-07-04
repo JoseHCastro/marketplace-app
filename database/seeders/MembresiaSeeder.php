@@ -25,16 +25,16 @@ class MembresiaSeeder extends Seeder
         //2
         $membresia = Membresia::create([
             'titulo'=>'MEMBRESIA ESTANDAR',
-            'descripcion'=>'DURACION DE 2 MESES',
+            'descripcion'=>'DURACION DE 1 MES',
             'precio'=> 10.00,
-            'duracion'=>60,
+            'duracion'=>30,
             'etiqueta'=>'1',
         ]);
         //3
         $membresia = Membresia::create([
             'titulo'=>'MEMBRESIA EMPRESARIAL',
             'descripcion'=>'DURACION DE 1 AÑO',
-            'precio'=> 100.00,
+            'precio'=> 90.00,
             'duracion'=>365,
             'etiqueta'=>'1',
         ]);

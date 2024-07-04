@@ -5,8 +5,7 @@
 @section('js')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        
-        function enviarPedido(precio, membresia_id) {      
+        function enviarPedido(precio, membresia_id) {
 
             const form = document.createElement('form');
             form.method = 'POST';
@@ -23,19 +22,18 @@
             input.name = 'total_amount';
             input.value = precio;
 
-            
+
             const membresia = document.createElement('input');
             membresia.type = 'hidden';
             membresia.name = 'membresia_id';
             membresia.value = membresia_id;
 
-            form.appendChild(token); 
+            form.appendChild(token);
             form.appendChild(input);
             form.appendChild(membresia);
             document.body.appendChild(form);
             form.submit();
         }
-      
     </script>
 @stop
 
@@ -75,7 +73,14 @@
                             class="rn-service-one color-shape-7">
                             <div class="inner">
                                 <div class="icon">
-                                    <img src="assets/images/icons/shape-7.png" alt="Shape">
+
+                                    @if (auth()->user()->membresia->id == $membresia->id)
+                                        <img src="assets/images/icons/shape-7.png" alt="Shape">
+                                    @else
+                                        <img src="assets/images/icons/shape-6.png" alt="Shape">
+                                    @endif
+
+
                                 </div>
                                 {{-- <div class="subtitle">Step-01</div> --}}
                                 <div class="content">
@@ -91,8 +96,15 @@
                                 </div>
                             </div>
 
-                          
-                            <a class="over-link" type="button" onclick="enviarPedido({{ $membresia->precio }}, {{ $membresia->id }})"></a>
+
+                            @if (auth()->user()->membresia->id == $membresia->id)
+                                <h4 class="title"><a href="#">Ya cuentas con la {{ $membresia->titulo }}</a></h4>
+                            @else
+                                <a class="over-link" type="button"
+                                    onclick="enviarPedido({{ $membresia->precio }}, {{ $membresia->id }})"></a>
+                            @endif
+
+
                         </div>
                     </div>
                 @endforeach

@@ -13,12 +13,14 @@
             position: relative;
             padding-bottom: 56.25%;
         }
+
         .image-wrapper img {
             position: absolute;
             object-fit: cover;
             width: 100%;
             height: 100%;
         }
+
         .text-body-secondary {
             background-color: orange;
         }
@@ -45,9 +47,15 @@
             let totalAmount = 0;
 
             // Calcular el monto total basado en las opciones seleccionadas
-            document.querySelectorAll('input[name="etiquetas[]"]:checked').forEach(el => {
-                totalAmount += 10; // Precio por etiqueta
-            });
+
+
+
+            @if (!auth()->user()->membresia->etiqueta)
+                document.querySelectorAll('input[name="etiquetas[]"]:checked').forEach(el => {
+                    totalAmount += 10; // Precio por etiqueta
+                });
+            @endif
+
 
             const oferta1 = parseInt(document.querySelector('input[name="oferta1"]').value) || 0;
             if (oferta1 >= 1 && oferta1 <= 4) {
@@ -67,7 +75,7 @@
             const token = document.createElement('input');
             token.type = 'hidden';
             token.name = '_token';
-            token.value = "{{ csrf_token() }}"; 
+            token.value = "{{ csrf_token() }}";
 
             const inputTotalAmount = document.createElement('input');
             inputTotalAmount.type = 'hidden';
@@ -79,10 +87,10 @@
             inputIdAnuncio.name = 'id_anuncio';
             inputIdAnuncio.value = id_anuncio;
 
-            form.appendChild(token); 
+            form.appendChild(token);
             form.appendChild(inputTotalAmount);
             form.appendChild(inputIdAnuncio);
-           
+
             document.body.appendChild(form);
             form.submit();
         }
@@ -123,19 +131,26 @@
                                                         <p>Para captar la atención de posibles compradores, selecciona los
                                                             iconos a continuación.</p>
                                                         <p>Bs. 10 por etiqueta. Cada uno tiene una duración de 30 días.</p>
-                                                        <input type="checkbox" name="etiquetas[]" value="{{ $etiquetas[0]->id }}">
+                                                        <input type="checkbox" name="etiquetas[]"
+                                                            value="{{ $etiquetas[0]->id }}">
                                                         <span class="badge text-bg-secondary rounded-pill">Negociable</span>
-                                                        <input type="checkbox" name="etiquetas[]" value="{{ $etiquetas[1]->id }}">
+                                                        <input type="checkbox" name="etiquetas[]"
+                                                            value="{{ $etiquetas[1]->id }}">
                                                         <span class="badge text-bg-secondary rounded-pill">En oferta</span>
-                                                        <input type="checkbox" name="etiquetas[]" value="{{ $etiquetas[2]->id }}">
+                                                        <input type="checkbox" name="etiquetas[]"
+                                                            value="{{ $etiquetas[2]->id }}">
                                                         <span class="badge text-bg-success rounded-pill">Nuevo</span>
-                                                        <input type="checkbox" name="etiquetas[]" value="{{ $etiquetas[3]->id }}">
+                                                        <input type="checkbox" name="etiquetas[]"
+                                                            value="{{ $etiquetas[3]->id }}">
                                                         <span class="badge text-bg-danger rounded-pill">Promoción</span>
-                                                        <input type="checkbox" name="etiquetas[]" value="{{ $etiquetas[4]->id }}">
+                                                        <input type="checkbox" name="etiquetas[]"
+                                                            value="{{ $etiquetas[4]->id }}">
                                                         <span class="badge text-bg-warning rounded-pill">De ocasión</span>
-                                                        <input type="checkbox" name="etiquetas[]" value="{{ $etiquetas[5]->id }}">
+                                                        <input type="checkbox" name="etiquetas[]"
+                                                            value="{{ $etiquetas[5]->id }}">
                                                         <span class="badge text-bg-info rounded-pill">Remato</span>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -165,11 +180,16 @@
                                                                     <ul class="dropdown-menu">
                                                                         <li>
                                                                             <p>Ingrese el número de semanas: <br></p>
-                                                                            <input type="number" name="oferta1" id="opcion1" min="1" max="4" placeholder="0">
+                                                                            <input type="number" name="oferta1"
+                                                                                id="opcion1" min="1" max="4"
+                                                                                placeholder="0">
                                                                             <h6 class="dropdown-header">Semanas</h6>
                                                                         </li>
-                                                                        <li><hr class="dropdown-divider" /></li>
-                                                                        <li><a class="dropdown-item" href="#">Fecha actual: {{ $fecha_actual }}</a></li>
+                                                                        <li>
+                                                                            <hr class="dropdown-divider" />
+                                                                        </li>
+                                                                        <li><a class="dropdown-item" href="#">Fecha
+                                                                                actual: {{ $fecha_actual }}</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -183,7 +203,8 @@
                                                             <div class="card-body">
                                                                 <h5 class="card-title">{{ $servicios[1]->titulo }}</h5>
                                                                 <p class="card-text">{{ $servicios[1]->descripcion }}</p>
-                                                                <input type="text" value="" name="descuento" class="form-control" placeholder="0.0%">
+                                                                <input type="text" value="" name="descuento"
+                                                                    class="form-control" placeholder="0.0%">
                                                                 <br>
                                                                 <div class="dropdown">
                                                                     <button class="btn btn-danger dropdown-toggle"
@@ -194,11 +215,16 @@
                                                                     <ul class="dropdown-menu">
                                                                         <li>
                                                                             <p>Ingrese el número de semanas: <br></p>
-                                                                            <input type="number" name="oferta2" id="opcion2" min="1" max="4" placeholder="0">
+                                                                            <input type="number" name="oferta2"
+                                                                                id="opcion2" min="1" max="4"
+                                                                                placeholder="0">
                                                                             <h6 class="dropdown-header">Semanas</h6>
                                                                         </li>
-                                                                        <li><hr class="dropdown-divider" /></li>
-                                                                        <li><a class="dropdown-item" href="#">Fecha actual: {{ $fecha_actual }}</a></li>
+                                                                        <li>
+                                                                            <hr class="dropdown-divider" />
+                                                                        </li>
+                                                                        <li><a class="dropdown-item" href="#">Fecha
+                                                                                actual: {{ $fecha_actual }}</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -207,18 +233,25 @@
                                                     <div class="col">
                                                         <div class="card">
                                                             <div class="image-wrapper">
-                                                                <img src="{{ isset($anuncio->imagen->url) ? Storage::url($anuncio->imagen->url) : 'https://wpdirecto.com/wp-content/uploads/2017/08/alt-de-una-imagen.png' }}" alt="{{ $anuncio->titulo }}" class="rounded mx-auto d-block" id="picture">
+                                                                <img src="{{ isset($anuncio->imagen->url) ? Storage::url($anuncio->imagen->url) : 'https://wpdirecto.com/wp-content/uploads/2017/08/alt-de-una-imagen.png' }}"
+                                                                    alt="{{ $anuncio->titulo }}"
+                                                                    class="rounded mx-auto d-block" id="picture">
                                                             </div>
                                                             <div class="card-body">
-                                                                <h5 class="card-title"><strong>Título:</strong><br>{{ $anuncio->titulo }} </h5>
+                                                                <h5 class="card-title">
+                                                                    <strong>Título:</strong><br>{{ $anuncio->titulo }}
+                                                                </h5>
                                                                 <p class="card-text">
                                                                     <strong>Descripción:</strong>
-                                                                    <div>{!! nl2br($anuncio->descripcion) !!}</div>
+                                                                <div>{!! nl2br($anuncio->descripcion) !!}</div>
                                                                 </p>
-                                                                <a class="btn btn-warning">{{ $anuncio->moneda->nombre }}. {{ $anuncio->precio }}</a>
-                                                                <a class="btn btn-warning">Visitas: {{ $anuncio->visitas }}</a>
+                                                                <a class="btn btn-warning">{{ $anuncio->moneda->nombre }}.
+                                                                    {{ $anuncio->precio }}</a>
+                                                                <a class="btn btn-warning">Visitas:
+                                                                    {{ $anuncio->visitas }}</a>
                                                             </div>
-                                                            <div class="card-footer text-body-secondary" style="background-color: orange;">
+                                                            <div class="card-footer text-body-secondary"
+                                                                style="background-color: orange;">
                                                                 Fecha publicación: {{ $anuncio->fecha_publicacion }}
                                                             </div>
                                                         </div>
@@ -229,7 +262,8 @@
                                         <input type="text" name="id_anuncio" value="{{ $anuncio->id }}" hidden>
                                     </div>
                                     <div class="card-footer">
-                                        <button type="button" class="btn btn-primary" onclick="calcularMontoTotal({{ $anuncio->id }})">Ir a pagar</button>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="calcularMontoTotal({{ $anuncio->id }})">Ir a pagar</button>
                                         <a href="{{ route('anuncios.index') }}" class="btn btn-secondary">Cancelar</a>
                                     </div>
                             </form>
