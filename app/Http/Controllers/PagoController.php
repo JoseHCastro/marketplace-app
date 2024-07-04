@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anuncio;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Stripe\Stripe;
@@ -47,8 +48,12 @@ class PagoController extends Controller
 
     public function showPaymentForm(Request $request)
     {
-
         $id_anuncio = $request->id_anuncio;
+        $anuncio= Anuncio::find($id_anuncio);
+
+        $etiquetas = json_decode($request->etiquetas, true);
+        $anuncio->etiquetas()->sync($etiquetas);
+
         $membresia_id = $request->membresia_id;
         $totalAmount = $request->total_amount;
         return view('pago.form', compact('totalAmount','id_anuncio','membresia_id'));

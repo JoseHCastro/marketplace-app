@@ -45,6 +45,7 @@
         // Calcular monto total y redirigir al formulario de pago
         function calcularMontoTotal(id_anuncio) {
             let totalAmount = 0;
+            let etiquetasSeleccionadas = [];
 
             // Calcular el monto total basado en las opciones seleccionadas
 
@@ -53,6 +54,8 @@
             @if (!auth()->user()->membresia->etiqueta)
                 document.querySelectorAll('input[name="etiquetas[]"]:checked').forEach(el => {
                     totalAmount += 10; // Precio por etiqueta
+                    etiquetasSeleccionadas.push(el.value);
+
                 });
             @endif
 
@@ -87,9 +90,15 @@
             inputIdAnuncio.name = 'id_anuncio';
             inputIdAnuncio.value = id_anuncio;
 
+            const inputEtiquetas = document.createElement('input');
+            inputEtiquetas.type = 'hidden';
+            inputEtiquetas.name = 'etiquetas';
+            inputEtiquetas.value = JSON.stringify(etiquetasSeleccionadas);
+
             form.appendChild(token);
             form.appendChild(inputTotalAmount);
             form.appendChild(inputIdAnuncio);
+            form.appendChild(inputEtiquetas);
 
             document.body.appendChild(form);
             form.submit();
@@ -118,6 +127,8 @@
                     <div class="col-md-6">
                         <div class="card card-primary">
                             <form id="anuncio-form" enctype="multipart/form-data">
+                                {{-- <form action="{{ route('contenido_promocional.store') }}" method="POST"
+                                enctype="multipart/form-data"> --}}
                                 @csrf
                                 <div class="card-body">
                                     <div class="container">

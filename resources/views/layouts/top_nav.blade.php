@@ -81,7 +81,7 @@
                                         @if (auth()->user()->id == '7')
                                             <li><a href="{{ route('home') }}">Panel admin</a></li>
                                         @else
-                                            <li><a href="anuncios">Mis publicaciones</a></li>
+                                            <li><a href="{{ route('anuncios.index') }}">Mis publicaciones</a></li>
                                         @endif
 
                                         <li><a href="{{ route('profiles.index') }}">Mi perfil</a></li>
