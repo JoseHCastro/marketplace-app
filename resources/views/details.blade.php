@@ -1,5 +1,24 @@
 @extends('layouts.homepage_layout')
 @section('styles')
+    <style>
+        .sold-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 0, 0, 0.7);
+            color: white;
+            padding: 40px 70px;
+            border-radius: 5px;
+            font-size: 40px;
+            width: 90%; /* Asegura que la superposición ocupe todo el ancho de la imagen */
+            text-align: center; /* Centra el texto horizontalmente */
+        }
+
+        .rn-pd-thumbnail {
+            position: relative; /* Asegura que el contenedor de la imagen sea el punto de referencia para la superposición */
+        }
+    </style>
 @endsection
 @section('content')
     <!-- start page title area -->
@@ -62,6 +81,9 @@ if ($anuncio->imagen !== null && isset($anuncio->imagen->url)) {
                                                                 echo Storage::url($anuncio->imagen->url);
                                                             } @endphp"
                                             alt="Nft_Profile4">
+                                            @if ($anuncio->disponible === 0)
+                                            <div class="sold-overlay">Vendido</div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
@@ -157,48 +179,48 @@ if ($anuncio->imagen !== null && isset($anuncio->imagen->url)) {
             <div class="trydo-blog-comment">
                 <h5 class="comment-title mb--40">Comentarios:</h5>
                 <!-- Start Coment List  -->
-                    <ul class="comment-list">
-                        @foreach ($comentarios as $comentario)
-                            <li class="comment parent">
-                                <div class="single-comment">
-                                    <div class="comment-author comment-img">
-                                        <img class="comment-avatar" src="{{ $comentario->usuario->adminlte_image() }} "
-                                            style="width: 50px; height: 50px;" alt="Comment Image">
-                                        <div class="m-b-20">
-                                            <div class="commenter">{{ $comentario->usuario->name }}</div>
-                                            <div class="time-spent"> {{ $comentario->fecha }}, a las {{ $comentario->hora }}
-                                            </div>
+                <ul class="comment-list">
+                    @foreach ($comentarios as $comentario)
+                        <li class="comment parent">
+                            <div class="single-comment">
+                                <div class="comment-author comment-img">
+                                    <img class="comment-avatar" src="{{ $comentario->usuario->adminlte_image() }} "
+                                        style="width: 50px; height: 50px;" alt="Comment Image">
+                                    <div class="m-b-20">
+                                        <div class="commenter">{{ $comentario->usuario->name }}</div>
+                                        <div class="time-spent"> {{ $comentario->fecha }}, a las {{ $comentario->hora }}
                                         </div>
                                     </div>
-                                    <div class="comment-text">
-                                        <p>{{ $comentario->contenido }}</p>
-                                    </div>
-                                    @auth
-                                        @can('eliminar comentario')
-                                            @if ($comentario->user_id == auth()->user()->id || auth()->user()->hasRole('administrador'))
-                                                <div class="reply-edit">
-                                                    <div class="reply">
-                                                        <form method="POST"
-                                                            action="{{ route('comentarios.destroy', $comentario->id) }}"
-                                                            onsubmit="return confirm('¿Estás seguro de que deseas eliminar este comentario?');">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit"
-                                                                style="background: none; border: none; padding: 0; cursor: pointer; color: rgb(39, 83, 206);">
-                                                                <i class="rbt feather-x"></i> Eliminar
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        @endcan
-                                    @endauth
                                 </div>
-                            </li>
-                        @endforeach
+                                <div class="comment-text">
+                                    <p>{{ $comentario->contenido }}</p>
+                                </div>
+                                @auth
+                                    @can('eliminar comentario')
+                                        @if ($comentario->user_id == auth()->user()->id || auth()->user()->hasRole('administrador'))
+                                            <div class="reply-edit">
+                                                <div class="reply">
+                                                    <form method="POST"
+                                                        action="{{ route('comentarios.destroy', $comentario->id) }}"
+                                                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar este comentario?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            style="background: none; border: none; padding: 0; cursor: pointer; color: rgb(39, 83, 206);">
+                                                            <i class="rbt feather-x"></i> Eliminar
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endcan
+                                @endauth
+                            </div>
+                        </li>
+                    @endforeach
 
-                    </ul>
-                    <!-- End Coment List  -->
+                </ul>
+                <!-- End Coment List  -->
             </div>
         </div>
     </div>
